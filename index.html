@@ -3,139 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tests Unitaires Angular - Menu</title>
+    <title>Formation Angular - Dashboard</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
+            padding: 40px 20px;
         }
+
         .container {
-            background: white;
-            padding: 3rem;
-            border-radius: 1rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 800px;
-            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .logos {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid #e5e7eb;
-        }
-        .logo-ipi {
-            height: 80px;
-            width: auto;
-        }
-        .logo-carcassonne {
-            height: 80px;
-            width: auto;
-        }
-        h1 {
-            color: #1e3a8a;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
-        .subtitle {
-            color: #6b7280;
-            margin-bottom: 3rem;
-            font-size: 1.2rem;
-        }
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .menu-item {
-            display: block;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        header {
+            text-align: center;
             color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 60px;
         }
-        .menu-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .menu-item .number {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.25rem;
-            margin-right: 1rem;
-        }
-        .menu-item .description {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: normal;
-            margin-top: 0.5rem;
+
+        header p {
+            font-size: 1.4em;
             opacity: 0.9;
         }
-        .footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px solid #e5e7eb;
+
+        .sequences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .sequence-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sequence-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .sequence-card h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sequence-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .sequence-card p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .topics-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .topics-list li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topics-list li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .parts-count {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .view-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
             text-align: center;
-            color: #6b7280;
-            font-size: 0.9rem;
+        }
+
+        .view-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .sequences-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logos">
-            <img src="images/logo-ipi.png" alt="IPI Logo" class="logo-ipi">
-            <img src="images/logo-carcassonne.png" alt="Carcassonne Web Logo" class="logo-carcassonne">
-        </div>
-        
-        <h1>🎓 Tests Unitaires Angular</h1>
-        <p class="subtitle">Formation IPI - Séquence 4 • Date : 17/12/2025</p>
-        
-        <div class="menu">
-            <a href="partie1-fondamentaux.html" class="menu-item">
-                <span class="number">Partie 1</span>
-                Fondamentaux des Tests
-                <span class="description">Pourquoi tester ? Types de tests, Pattern AAA, Pyramide (Slides 1-8)</span>
-            </a>
-            
-            <a href="partie2-outils.html" class="menu-item">
-                <span class="number">Partie 2</span>
-                Outils et Syntaxe
-                <span class="description">Jasmine, Karma, TestBed, Matchers (Slides 9-20)</span>
-            </a>
-            
-            <a href="partie3-pratique.html" class="menu-item">
-                <span class="number">Partie 3</span>
-                Pratique Guidée
-                <span class="description">Exercices, Mocks, Spies, Tests de composants (Slides 21-32)</span>
-            </a>
-            
-            <a href="partie4-synthese.html" class="menu-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                <span class="number">Partie 4</span>
-                Synthèse et Ressources
-                <span class="description">Récap, Bonnes pratiques, Erreurs courantes (Slides 33-36)</span>
-            </a>
-        </div>
-        
-        <div class="footer">
-            <p><strong>Durée totale :</strong> 3h30 • <strong>36 slides</strong></p>
-         
+        <header>
+            <h1>🎓 Formation Angular</h1>
+            <p>Modules de formation progressifs</p>
+        </header>
+
+        <div class="sequences-grid">
+            <!-- Séquence 3 -->
+            <div class="sequence-card">
+                <h2>
+                    <span class="sequence-number">3</span>
+                    Séquence 3
+                </h2>
+                <p>Architecture modulaire & Lazy Loading</p>
+                <div class="parts-count">📚 1 présentation complète (30 slides)</div>
+                <ul class="topics-list">
+                    <li>Modularisation Angular</li>
+                    <li>Lazy Loading avec loadChildren()</li>
+                    <li>Composants dynamiques</li>
+                    <li>Opérateurs RxJS</li>
+                </ul>
+                <a href="sequence3/sequence3.html" class="view-button">Voir la séquence 3</a>
+            </div>
+
+            <!-- Séquence 4 -->
+            <div class="sequence-card">
+                <h2>
+                    <span class="sequence-number">4</span>
+                    Séquence 4
+                </h2>
+                <p>Concepts avancés Angular</p>
+                <div class="parts-count">📚 4 parties</div>
+                <ul class="topics-list">
+                    <li>Partie 1: Introduction</li>
+                    <li>Partie 2: Services & Injection</li>
+                    <li>Partie 3: Routing avancé</li>
+                    <li>Partie 4: Optimisation</li>
+                </ul>
+                <a href="sequence4/index.html" class="view-button">Voir la séquence 4</a>
+            </div>
         </div>
     </div>
 </body>
