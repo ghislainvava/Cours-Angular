@@ -29,7 +29,7 @@
             display: none;
             width: 90%;
             max-width: 1200px;
-            margin: auto;
+            margin:  30px auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -244,7 +244,7 @@
         }
 
         .folder-tree .file {
-            color: #17a2b8;
+            color: black;
         }
 
         table {
@@ -307,14 +307,58 @@
         strong {
             color: #667eea;
         }
+        /* Code sur fond clair - plus lisible */
+        pre.code-light {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        pre.code-light code {
+            background: transparent;
+            color: #333;
+            padding: 0;
+            font-weight: 700;
+        }
+           .container {
+       
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .back-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: white;
+                color: #667eea;
+                padding: 12px 25px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
     </style>
 </head>
 <body>
     <div class="presentation-container">
-        <a href="../index.html" class="back-button">← Retour au dashboard</a>
-        <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">30</span>
+
+        <div class="container">
+            <a href="../index.html" class="back-button">← Retour au dashboard</a>
+            <div class="slide-counter">
+                <span id="current-slide">1</span> / <span id="total-slides">30</span>
+            </div>
+
         </div>
+        
 
         <!-- Slide 1 -->
         <div class="slide active">
@@ -404,7 +448,53 @@
             </div>
         </div>
 
-        <!-- Slide 6 -->
+      <!-- Slide 6 - Injection de Dépendances -->
+        <div class="slide">
+            <h1>💉 Injection de Dépendances (DI)</h1>
+            
+            <div class="info-box">
+                <h3>Qu'est-ce que l'injection de dépendances ?</h3>
+                <p>Angular fournit automatiquement les services dont un composant a besoin. Pas besoin de créer les instances manuellement !</p>
+            </div>
+
+            <h2>Syntaxe classique : Constructor</h2>
+            <pre class="code-light"><code>import { Component } from '@angular/core';
+import { TaskService } from '../services/task.service';
+
+export class TasksPageComponent {
+tasks$ = this.taskService.tasks$;
+
+constructor(private taskService: TaskService) {}
+
+addTask(title: string) {
+    this.taskService.addTask(title);
+}
+}</code></pre>
+
+            <h2>Syntaxe moderne : inject() <span style="color: #28a745;"></span></h2>
+            <pre class="code-light"><code>import { Component, inject } from '@angular/core';
+import { TaskService } from '../services/task.service';
+
+export class TasksPageComponent {
+private taskService = inject(TaskService);
+tasks$ = this.taskService.tasks$;
+
+addTask(title: string) {
+    this.taskService.addTask(title);
+}
+}</code></pre>
+
+            <div class="highlight">
+                <h3>💡 Quelle syntaxe choisir ?</h3>
+                <ul>
+                    <li><strong>inject()</strong> : Plus moderne, plus concis, recommandé pour les nouveaux projets</li>
+                    <li><strong>constructor</strong> : Toujours valide, plus courant dans les anciens projets</li>
+                    <li>Les deux font exactement la même chose !</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
         <div class="slide">
             <h1>Une application modulaire permet :</h1>
             
@@ -436,7 +526,7 @@
             </div>
         </div>
 
-        <!-- Slide 7 -->
+        <!-- Slide 8 -->
         <div class="slide">
             <h1>Qu'est-ce que le Lazy Loading ?</h1>
             
@@ -454,8 +544,63 @@
                 </ul>
             </div>
         </div>
+<!-- Nouveau Slide 9 - Impact concret du Lazy Loading -->
+<div class="slide">
+    <h1>📊 Impact concret du Lazy Loading</h1>
+    
+    <h2>Exemple : Application TaskBoard Pro</h2>
+    
+    <div class="comparison">
+        <div class="comparison-item comparison-before">
+            <h3>❌ Sans Lazy Loading</h3>
+            <ul>
+                <li><strong>Bundle initial :</strong> 850 KB</li>
+                <li><strong>Temps de chargement :</strong> 3.2s</li>
+                <li><strong>Modules chargés :</strong> Tous (Home, Tasks, Admin, Auth)</li>
+            </ul>
+            <p style="margin-top: 20px; font-size: 1em; color: #dc3545;">
+                ⚠️ L'utilisateur télécharge du code qu'il n'utilisera peut-être jamais
+            </p>
+        </div>
+        
+        <div class="comparison-item comparison-after">
+            <h3>✅ Avec Lazy Loading</h3>
+            <ul>
+                <li><strong>Bundle initial :</strong> 320 KB</li>
+                <li><strong>Temps de chargement :</strong> 1.1s</li>
+                <li><strong>Modules chargés :</strong> Home uniquement</li>
+            </ul>
+            <p style="margin-top: 20px; font-size: 1em; color: #28a745;">
+                ✅ Gain de <strong>62%</strong> sur le bundle initial !
+            </p>
+        </div>
+    </div>
 
-        <!-- Slide 8 -->
+    <div class="success-box">
+        <h3>🚀 Chargement progressif</h3>
+        <p>Quand l'utilisateur navigue vers <code>/tasks</code> :</p>
+        <ul>
+            <li>Angular charge uniquement le module <code>tasks</code> (~180 KB)</li>
+            <li>Temps de chargement additionnel : ~0.5s</li>
+            <li>Navigation fluide et instantanée après le premier chargement</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3>📈 Résultat pour l'utilisateur</h3>
+        <ul>
+            <li><strong>Page d'accueil :</strong> Affichage 2x plus rapide</li>
+            <li><strong>Expérience mobile :</strong> Économie de données significative</li>
+            <li><strong>SEO :</strong> Meilleur score de performance Google</li>
+        </ul>
+    </div>
+
+    <div class="highlight">
+        <p><strong>💡 Règle d'or :</strong> Plus votre application est grande, plus le Lazy Loading est indispensable !</p>
+    </div>
+</div>
+
+        <!-- Slide 10 -->
         <div class="slide">
             <h1>Avantages du Lazy Loading</h1>
             
@@ -470,7 +615,7 @@
             </div>
         </div>
 
-        <!-- Slide 9 -->
+        <!-- Slide 11 -->
         <div class="slide">
             <h1>Activer le Lazy Loading</h1>
             
@@ -489,6 +634,7 @@
           <span class="file">tasks-page.component.ts</span>
           <span class="file">tasks-page.component.html</span>
         <span class="file">routes.ts</span>
+        <hr>
     <span class="folder">core/</span>
       <span class="folder">services/</span>
         <span class="file">task.service.ts</span>
@@ -497,11 +643,11 @@
 
             <div class="highlight">
                 <p><strong>Créons le composant tasks-page :</strong></p>
-                <pre><code>ng g c features/tasks/tasks-page</code></pre>
+                <pre class="code-light"><code>ng g c features/tasks/tasks-page</code></pre>
             </div>
         </div>
 
-        <!-- Slide 10 -->
+        <!-- Slide 12 -->
         <div class="slide">
             <h1>Adapter app.routes.ts au Lazy Loading</h1>
             
@@ -520,7 +666,7 @@
             </div>
         </div>
 
-        <!-- Slide 11 -->
+        <!-- Slide 13 -->
         <div class="slide">
             <h1>Création de routes.ts dans tasks-page</h1>
             
@@ -529,7 +675,7 @@
                 <p>Ce fichier correspond au <strong>"mini-routing"</strong> interne à la fonctionnalité</p>
             </div>
 
-            <pre><code>// features/tasks/routes.ts
+            <pre class="code-light"><code>// features/tasks/routes.ts
 import { Routes } from '@angular/router';
 import { TasksPageComponent } from './tasks-page/tasks-page.component';
 
@@ -538,7 +684,7 @@ export const TASKS_ROUTES: Routes = [
 ];</code></pre>
         </div>
 
-        <!-- Slide 12 -->
+        <!-- Slide 14 -->
         <div class="slide">
             <h1>Exemple de routes.ts avec Lazy Loading</h1>
             
@@ -547,7 +693,7 @@ export const TASKS_ROUTES: Routes = [
                 <p>Au lieu d'afficher directement un composant, Angular charge un fichier de routes, puis le composant associé.</p>
             </div>
 
-            <pre><code>// app.routes.ts
+            <pre class="code-light"><code>// app.routes.ts
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -565,7 +711,7 @@ export const routes: Routes = [
 ];</code></pre>
         </div>
 
-        <!-- Slide 13 -->
+        <!-- Slide 15 -->
         <div class="slide">
             <h1>On transfère le contenu de home.ts dans tasks-page</h1>
             
@@ -573,7 +719,7 @@ export const routes: Routes = [
                 <p>Toute la logique de gestion des tâches est déplacée dans le composant dédié <code>tasks-page.component.ts</code></p>
             </div>
 
-            <pre><code>// features/tasks/tasks-page/tasks-page.component.ts
+            <pre class="code-light"><code>// features/tasks/tasks-page/tasks-page.component.ts
 import { Component } from '@angular/core';
 import { TaskService } from '../../../core/services/task.service';
 import { CommonModule } from '@angular/common';
@@ -595,7 +741,7 @@ export class TasksPageComponent {
 }</code></pre>
         </div>
 
-        <!-- Slide 14 -->
+        <!-- Slide 16 -->
         <div class="slide">
             <h1>On allège home.ts et modifie la navigation</h1>
             
@@ -604,7 +750,7 @@ export class TasksPageComponent {
                 <p>Il n'affiche plus les tâches directement, mais propose un lien vers <code>/tasks</code></p>
             </div>
 
-            <pre><code>// home.component.html
+            <pre class="code-light"><code>// home.component.html
 &lt;div class="welcome"&gt;
   &lt;h1&gt;Bienvenue sur TaskBoard Pro&lt;/h1&gt;
   &lt;p&gt;Gérez vos tâches efficacement&lt;/p&gt;
@@ -616,13 +762,13 @@ export class TasksPageComponent {
             </div>
         </div>
 
-        <!-- Slide 15 -->
+        <!-- Slide 17 -->
         <div class="slide">
             <h1>Introduction aux composants dynamiques</h1>
             
             <div class="info-box">
                 <h3>Par défaut, Angular affiche des composants déclarés dans le template :</h3>
-                <pre><code>&lt;app-header&gt;&lt;/app-header&gt;
+                <pre class="code-light"><code>&lt;app-header&gt;&lt;/app-header&gt;
 &lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
             </div>
 
@@ -632,7 +778,7 @@ export class TasksPageComponent {
             </div>
         </div>
 
-        <!-- Slide 16 -->
+        <!-- Slide 18 -->
         <div class="slide">
             <h1>Pourquoi afficher des composants dynamiquement ?</h1>
             
@@ -666,7 +812,7 @@ export class TasksPageComponent {
             </div>
         </div>
 
-        <!-- Slide 17 -->
+        <!-- Slide 19 -->
         <div class="slide">
             <h1>Comment Angular crée un composant à la demande ?</h1>
             
@@ -676,7 +822,7 @@ export class TasksPageComponent {
                 <h3><span class="emoji">🔹</span> 1. Une zone d'injection (un "conteneur")</h3>
                 <p>C'est un emplacement dans la page où Angular peut insérer le composant.</p>
                 <p><strong>Dans le template :</strong></p>
-                <pre><code>&lt;div #container&gt;&lt;/div&gt;</code></pre>
+                <pre class="code-light"><code>&lt;div #container&gt;&lt;/div&gt;</code></pre>
             </div>
 
             <div class="success-box">
@@ -684,12 +830,12 @@ export class TasksPageComponent {
                 <p>C'est une référence vers ce conteneur.</p>
                 <p>Elle permet à Angular d'ajouter un composant dans cette zone.</p>
                 <p><strong>Fichier .ts :</strong></p>
-                <pre><code>@ViewChild('container', { read: ViewContainerRef })
+                <pre class="code-light"><code>@ViewChild('container', { read: ViewContainerRef })
 container!: ViewContainerRef;</code></pre>
             </div>
         </div>
 
-        <!-- Slide 18 -->
+        <!-- Slide 20 -->
         <div class="slide">
             <h1>createComponent()</h1>
             
@@ -697,7 +843,7 @@ container!: ViewContainerRef;</code></pre>
                 <h3><span class="emoji">🔹</span> 3. createComponent()</h3>
                 <p>C'est la méthode qui <strong>crée et insère</strong> le composant dynamique.</p>
                 <p><strong>Fichier .ts :</strong></p>
-                <pre><code>this.container.createComponent(AlertComponent);</code></pre>
+                <pre class="code-light"><code>this.container.createComponent(AlertComponent);</code></pre>
             </div>
 
             <div class="success-box">
@@ -705,21 +851,21 @@ container!: ViewContainerRef;</code></pre>
                 <ul>
                     <li><strong>ViewContainerRef</strong> = l'endroit où afficher le composant</li>
                     <li><strong>createComponent()</strong> = l'action qui l'affiche</li>
-                    <li>Tout est natif, simple et compatible Angular 20 (standalone)</li>
+                    <li>Tout est natif, simple et compatible Angular Standalone</li>
                 </ul>
             </div>
         </div>
 
-        <!-- Slide 19 -->
+        <!-- Slide 21 -->
         <div class="slide">
             <h1>Exemple: panneau « Tâche importante »</h1>
             
             <div class="info-box">
                 <p><strong>Créer un composant qui affichera une tâche "mise en avant":</strong></p>
-                <pre><code>ng g c features/tasks/task-highlight</code></pre>
+                <pre class="code-light"><code>ng g c features/tasks/task-highlight</code></pre>
             </div>
 
-            <pre><code>import { Component, Input } from '@angular/core';
+            <pre class="code-light"><code>import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-task-highlight',
@@ -737,7 +883,7 @@ export class TaskHighlight {
 }</code></pre>
         </div>
 
-        <!-- Slide 20 -->
+        <!-- Slide 22 -->
         <div class="slide">
             <h1>Exemple 2/3</h1>
             
@@ -745,27 +891,45 @@ export class TaskHighlight {
                 <p>Le bouton "Mettre en avant" appelle la méthode <code>highlight(t)</code> avec la tâche cliquée.</p>
             </div>
 
-            <pre><code>// tasks-page.component.html
-&lt;div class="tasks-container"&gt;
-  &lt;div *ngFor="let task of tasks$ | async"&gt;
-    &lt;h3&gt;{{ task.title }}&lt;/h3&gt;
-    &lt;button (click)="highlight(task)"&gt;Mettre en avant&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+          
+        <pre class="code-light"><code>// tasks-page.component.html
+        &lt;h2&gt;Liste des tâches&lt;/h2&gt;
+        @if (tasks$ | async; as tasks) {
+        &lt;ul&gt;
+            @for (t of tasks; track t.id) {
+            &lt;li&gt;
+                {{ t.title }}
+                &lt;button type="button" (click)="highlight(t)"&gt;
+                Mettre en avant
+                &lt;/button&gt;
+            &lt;/li&gt;
+            }
+        &lt;/ul&gt;
+        } @else {
+        &lt;p&gt;Chargement des tâches...&lt;/p&gt;
+        }
 
-&lt;!-- Zone d'injection du composant dynamique --&gt;
-&lt;div #highlightContainer&gt;&lt;/div&gt;</code></pre>
+        &lt;hr /&gt;
+
+        &lt;h3&gt;Actions&lt;/h3&gt;
+        &lt;button (click)="addTask('Nouvelle tâche')"&gt;Ajouter une tâche&lt;/button&gt;
+
+        &lt;!-- Zone d'injection du composant dynamique --&gt;
+        &lt;div #highlightContainer&gt;&lt;/div&gt;</code></pre>
 
             <div class="highlight">
                 <p><code>&lt;div #highlightContainer&gt;</code> → c'est la <strong>zone d'injection</strong> du composant dynamique.</p>
             </div>
         </div>
 
-        <!-- Slide 21 -->
+        <!-- Slide 23 -->
         <div class="slide">
             <h1>Exemple 3/3</h1>
             
-            <pre><code>import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+            <pre class="code-light"><code>
+// tasks-page.ts
+
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { TaskHighlight } from '../task-highlight/task-highlight.component';
 
 @Component({ ... })
@@ -791,7 +955,7 @@ export class TasksPageComponent {
             </div>
         </div>
 
-        <!-- Slide 22 -->
+        <!-- Slide 24 -->
         <div class="slide">
             <h1>Les opérateurs RxJS</h1>
             
@@ -802,6 +966,7 @@ export class TasksPageComponent {
                 <ul>
                     <li><strong>transformer</strong> ces valeurs → <code>map()</code></li>
                     <li><strong>filtrer</strong> certaines valeurs → <code>filter()</code></li>
+                    <li><strong>observer</strong> sans modifier → <code>tap()</code></li>
                     <li><strong>attendre</strong> un délai → <code>delay()</code></li>
                     <li><strong>enchaîner</strong> des actions → <code>concatMap()</code></li>
                     <li><strong>annuler</strong> l'ancienne valeur pour en garder une nouvelle → <code>switchMap()</code></li>
@@ -814,231 +979,257 @@ export class TasksPageComponent {
             </div>
         </div>
 
-        <!-- Slide 23 -->
+        <!-- Slide 25 -->
         <div class="slide">
             <h1>Utilisation des opérateurs</h1>
+
+  <div class="info-box">
+    <h3>📌 Rappel : of() crée un Observable</h3>
+    <p><code>of()</code> est une fonction RxJS qui crée un Observable qui émet les valeurs passées en paramètres, puis se termine.</p>
+    <pre class="code-light"><code>import { of } from 'rxjs';
+
+// Émet 3 valeurs : "Bonjour", "à", "tous" puis se termine
+messageAccueil$ = of("Bonjour", "à", "tous");
+
+// Dans le template avec async pipe
+&lt;p&gt;{{ messageAccueil$ | async }}&lt;/p&gt;
+// Affiche : "tous" (la dernière valeur émise)</code></pre>
+    <p><strong>Note :</strong> Le pipe <code>async</code> s'abonne automatiquement et affiche la dernière valeur.</p>
+</div>
             
-            <pre><code>// delay() - met 1 seconde avant d'émettre TOUT le flux
-// les 3 mots arrivent d'un seul coup
-of("Bonjour", "à", "tous").pipe(
-  delay(1000)
+   </div>   
+
+   <!-- Slide 26 -->
+<div class="slide">
+    <h1>Opérateurs essentiels : map() et filter()</h1>
+    
+    <div class="success-box">
+        <h3><span class="emoji">🔄</span> map() - Transformer les valeurs</h3>
+        <p>Transforme chaque valeur émise par l'Observable</p>
+        <pre class="code-light"><code>import { map, of } from 'rxjs';
+
+// Exemple 1 : Transformer des nombres
+of(1, 2, 3).pipe(
+  map(x => x * 10)
 );
+// Résultat : 10, 20, 30
 
-// concatMap() - traite chaque mot l'un après l'autre
-// attendre 500ms, ordre garanti
-of("Bonjour", "à", "tous").pipe(
-  concatMap(x => of(x).pipe(delay(500)))
+// Exemple 2 : Transformer des tâches
+tasks$ = this.tasksSubject.asObservable().pipe(
+  map(tasks => tasks.filter(t => !t.completed))
 );
+// Retourne uniquement les tâches non terminées</code></pre>
+    </div>
 
-// switchMap() - chaque nouvelle valeur annule la précédente
-// seule la DERNIÈRE survit : "tous"
-of("Bonjour", "à", "tous").pipe(
-  switchMap(x => of(x).pipe(delay(500)))
+    <div class="info-box">
+        <h3><span class="emoji">🔍</span> filter() - Filtrer les valeurs</h3>
+        <p>Ne garde que les valeurs qui respectent une condition</p>
+        <pre class="code-light"><code>import { filter, of } from 'rxjs';
+
+// Exemple 1 : Filtrer des nombres
+of(1, 2, 3, 4, 5, 6).pipe(
+  filter(x => x % 2 === 0)
 );
+// Résultat : 2, 4, 6 (uniquement les pairs)
 
-// mergeMap() - lance TOUT en parallèle
-// les valeurs arrivent presque en même temps
-// mais l'ordre n'est pas garanti
-of("Bonjour", "à", "tous").pipe(
-  mergeMap(x => of(x).pipe(delay(500)))
-);</code></pre>
-        </div>
-
-        <!-- Slide 24 -->
-        <div class="slide">
-            <h1>Exemple d'opérateurs RxJS dans TaskBoard Pro</h1>
-            
-            <div class="info-box">
-                <h3><span class="emoji">👁️</span> tap() - Observer les valeurs</h3>
-                <pre><code>// task.service.ts (tap doit être importé)
+// Exemple 2 : Filtrer des valeurs non nulles
+of('Angular', null, 'RxJS', undefined, 'TypeScript').pipe(
+  filter(value => value !== null && value !== undefined)
+);
+// Résultat : 'Angular', 'RxJS', 'TypeScript'</code></pre>
+</div>
+</div>
+<!-- Slide 27 -->
+<div class="slide">
+    <h1>Exemple avec tap() et delay()</h1>
+    
+    <div class="info-box">
+        <h3><span class="emoji">👁️</span> tap() - Observer les valeurs</h3>
+        <pre class="code-light"><code>// task.service.ts (tap doit être importé)
 tasks$ = this.tasksSubject.asObservable().pipe(
   tap(tasks => console.log('Nouvelle liste :', tasks))
 );
 
 // tap() permet de regarder les valeurs qui passent dans l'observable
 // Console.log doit passer par cet opérateur sinon il n'est pas appelé</code></pre>
-            </div>
+    </div>
 
-            <div class="success-box">
-                <h3><span class="emoji">⏱️</span> delay() - Différer l'émission</h3>
-                <pre><code>import { AsyncPipe } from '@angular/common';
+    <div class="success-box">
+        <h3><span class="emoji">⏱️</span> delay() - Différer l'émission</h3>
+        <pre class="code-light"><code>import { AsyncPipe } from '@angular/common';
 import { delay, of } from 'rxjs';
 
 messageAccueil$ = of("Bonjour", "à", "tous").pipe(
   delay(1000)
 );
+// delay() met 1 seconde avant d'émettre TOUT le flux
+// les 3 mots arrivent d'un seul coup
 
 // Dans le template
 &lt;p&gt;{{ messageAccueil$ | async }}&lt;/p&gt;</code></pre>
-            </div>
-        </div>
+    </div>
+</div>
 
-        <!-- Slide 25 -->
-        <div class="slide">
-            <h1>Principaux opérateurs à retenir</h1>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Opérateur</th>
-                        <th>Usage</th>
-                        <th>Exemple</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>map()</code></td>
-                        <td>Transformer les valeurs</td>
-                        <td>Convertir des données</td>
-                    </tr>
-                    <tr>
-                        <td><code>filter()</code></td>
-                        <td>Filtrer les valeurs</td>
-                        <td>Ne garder que certaines données</td>
-                    </tr>
-                    <tr>
-                        <td><code>tap()</code></td>
-                        <td>Observer sans modifier</td>
-                        <td>Console.log, debug</td>
-                    </tr>
-                    <tr>
-                        <td><code>delay()</code></td>
-                        <td>Retarder l'émission</td>
-                        <td>Animation, délai</td>
-                    </tr>
-                    <tr>
-                        <td><code>switchMap()</code></td>
-                        <td>Annuler et remplacer</td>
-                        <td>Recherche avec autocomplétion</td>
-                    </tr>
-                    <tr>
-                        <td><code>concatMap()</code></td>
-                        <td>Traiter séquentiellement</td>
-                        <td>File d'attente ordonnée</td>
-                    </tr>
-                    <tr>
-                        <td><code>mergeMap()</code></td>
-                        <td>Traiter en parallèle</td>
-                        <td>Requêtes simultanées</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<!-- Slide 28 -->
+<div class="slide">
+    <h1>Opérateurs de transformation du flux</h1>
+    
+    <div class="success-box">
+        <h3><span class="emoji">🔗</span> concatMap() - Traitement séquentiel</h3>
+        <pre class="code-light"><code>of("Bonjour", "à", "tous").pipe(
+  concatMap(x => of(x).pipe(delay(500)))
+);
 
-        <!-- Slide 26 -->
-        <div class="slide">
-            <h1>Récapitulatif visuel</h1>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h4>🏗️ Architecture modulaire</h4>
-                    <p>Organisation par <code>features/</code></p>
-                    <p>Code clair et évolutif</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h4>📦 Lazy Loading</h4>
-                    <p>Chargement à la demande</p>
-                    <p>Performance optimisée</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h4>🎨 Composants dynamiques</h4>
-                    <p>Création à la volée</p>
-                    <p>UI flexible et réactive</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h4>🔄 RxJS Opérateurs</h4>
-                    <p>Manipulation des flux</p>
-                    <p>Programmation réactive</p>
-                </div>
-            </div>
-        </div>
+// Traite chaque mot l'un après l'autre
+// Attend 500ms entre chaque émission
+// ✅ Ordre garanti : "Bonjour" → "à" → "tous"</code></pre>
+    </div>
 
-        <!-- Slide 27 -->
-        <div class="slide">
-            <h1>Bénéfices de cette architecture</h1>
-            
-            <div class="success-box">
-                <h3><span class="emoji">✅</span> Pour le développement</h3>
-                <ul>
-                    <li>Code mieux organisé et plus lisible</li>
-                    <li>Évolutivité facilitée</li>
-                    <li>Collaboration en équipe simplifiée</li>
-                    <li>Maintenance réduite</li>
-                </ul>
-            </div>
+    <div class="info-box">
+        <h3><span class="emoji">🔄</span> switchMap() - Annulation et remplacement</h3>
+        <pre class="code-light"><code>of("Bonjour", "à", "tous").pipe(
+  switchMap(x => of(x).pipe(delay(500)))
+);
 
-            <div class="info-box">
-                <h3><span class="emoji">🚀</span> Pour la performance</h3>
-                <ul>
-                    <li>Démarrage plus rapide de l'application</li>
-                    <li>Chargement optimisé des ressources</li>
-                    <li>Meilleure expérience utilisateur</li>
-                    <li>Bundle JavaScript réduit</li>
-                </ul>
-            </div>
-        </div>
+// Chaque nouvelle valeur annule la précédente
+// Seule la DERNIÈRE survit après 500ms
+// 🎯 Résultat : "tous" uniquement</code></pre>
+    </div>
 
-        <!-- Slide 28 -->
-        <div class="slide">
-            <h1>Conclusion de la séquence 3 (1/2)</h1>
-            
-            <h2>Ce que vous avez appris dans cette séance</h2>
-            
-            <div class="success-box">
-                <h3><span class="step-number">1</span> Structurer une application Angular de manière modulaire</h3>
-                <ul>
-                    <li>Création du dossier <code>features/</code></li>
-                    <li>Séparation claire : Home, About, Tasks, etc.</li>
-                    <li>Code plus lisible, plus organisé, plus évolutif</li>
-                    <li>Professionnalisant pour un vrai projet</li>
-                </ul>
-            </div>
+    <div class="highlight">
+        <h3><span class="emoji">⚡</span> mergeMap() - Traitement parallèle</h3>
+        <pre class="code-light"><code>of("Bonjour", "à", "tous").pipe(
+  mergeMap(x => of(x).pipe(delay(500)))
+);
 
-            <div class="info-box">
-                <h3><span class="step-number">2</span> Mettre en place le Lazy Loading</h3>
-                <ul>
-                    <li><code>loadChildren()</code> pour charger une fonctionnalité à la demande</li>
-                    <li>Routes dédiées dans <code>features/.../routes.ts</code></li>
-                    <li>Amélioration des performances (bundle plus léger)</li>
-                    <li>Concept clé pour les vraies applications Angular modernes</li>
-                </ul>
-            </div>
-        </div>
+// Lance TOUT en parallèle
+// Les valeurs arrivent presque en même temps (après ~500ms)
+// ⚠️ Ordre NON garanti</code></pre>
+    </div>
+</div>
+<!-- Slide 29 - Autres opérateurs RxJS utiles -->
+<div class="slide">
+    <h1>Autres opérateurs RxJS utiles</h1>
+    
+    <div class="info-box">
+        <h3>📦 Opérateurs de création</h3>
+        <ul>
+            <li><code>from()</code> - Transforme un tableau/promesse en Observable</li>
+            <li><code>interval()</code> - Émet un nombre toutes les X ms (chronomètre)</li>
+            <li><code>timer()</code> - Attend X ms puis émet</li>
+            <li><code>startWith()</code> - Commence avec une valeur initiale</li>
+        </ul>
+    </div>
 
-        <!-- Slide 29 -->
-        <div class="slide">
-            <h1>Conclusion de la séquence 3 (2/2)</h1>
-            
-            <div class="highlight">
-                <h3><span class="step-number">3</span> Créer et afficher un composant dynamique</h3>
-                <ul>
-                    <li>Utilisation de <code>ViewContainerRef</code></li>
-                    <li>Création d'un composant à la demande via <code>createComponent()</code></li>
-                    <li>Passage de données via <code>ref.instance.title</code></li>
-                </ul>
-            </div>
+    <div class="warning-box">
+        <h3>⚠️ Gestion d'erreurs</h3>
+        <ul>
+            <li><code>catchError()</code> - Intercepte et gère les erreurs</li>
+            <li><code>retry()</code> - Réessaye automatiquement en cas d'échec</li>
+            <li><code>finalize()</code> - Exécute du code à la fin (succès OU erreur)</li>
+        </ul>
+        <pre class="code-light"><code>this.http.get('/api/tasks').pipe(
+  retry(3),                    // Réessaye 3 fois
+  catchError(error => {
+    console.error('Erreur:', error);
+    return of([]);             // Retourne tableau vide
+  }),
+  finalize(() => console.log('Requête terminée'))
+);</code></pre>
+    </div>
 
-            <div class="success-box">
-                <h3><span class="emoji">📚</span> En résumé</h3>
-                <p>Grâce à cette séance, vous savez maintenant :</p>
-                <ul>
-                    <li><strong>Charger</strong> des fonctionnalités seulement quand l'utilisateur en a besoin</li>
-                    <li><strong>Afficher</strong> des composants Angular de manière totalement dynamique</li>
-                </ul>
-                <p><strong>Deux fonctionnalités essentielles pour construire des apps Angular modernes, performantes et professionnelles.</strong></p>
-            </div>
-        </div>
+    <div class="success-box">
+        <h3>🔗 Opérateurs de combinaison</h3>
+        <ul>
+            <li><code>combineLatest()</code> - Combine plusieurs Observables (prend les dernières valeurs)</li>
+            <li><code>forkJoin()</code> - Attend que tous les Observables soient terminés</li>
+            <li><code>withLatestFrom()</code> - Combine un flux principal avec un flux secondaire</li>
+        </ul>
+    </div>
+
+    <div class="highlight">
+        <h3>🎯 Opérateurs utilitaires</h3>
+        <ul>
+            <li><code>take()</code> - Prend seulement les N premières valeurs</li>
+            <li><code>takeUntil()</code> - Émet jusqu'à un signal d'arrêt (nettoyage)</li>
+            <li><code>debounceTime()</code> - Ignore les valeurs trop rapprochées (auto-complétion)</li>
+            <li><code>distinctUntilChanged()</code> - Ignore les doublons consécutifs</li>
+        </ul>
+    </div>
+</div>
+
+    
+
 
         <!-- Slide 30 -->
+<div class="slide">
+    <h1>Conclusion de la séquence 3 (1/2)</h1>
+    
+    <h2>Ce que vous avez appris dans cette séance</h2>
+    
+    <div class="success-box">
+        <h3><span class="step-number">1</span> Structurer une application Angular de manière modulaire</h3>
+        <ul>
+            <li>Création du dossier <code>features/</code></li>
+            <li>Séparation claire : Home, About, Tasks, etc.</li>
+            <li>Code plus lisible, plus organisé, plus évolutif</li>
+            <li>Professionnalisant pour un vrai projet</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3><span class="step-number">2</span> Mettre en place le Lazy Loading</h3>
+        <ul>
+            <li><code>loadChildren()</code> pour charger une fonctionnalité à la demande</li>
+            <li>Routes dédiées dans <code>features/.../routes.ts</code></li>
+            <li>Amélioration des performances (bundle plus léger)</li>
+            <li>Concept clé pour les vraies applications Angular modernes</li>
+        </ul>
+    </div>
+</div>
+
+       <!-- Slide 31 -->
+<div class="slide">
+    <h1>Conclusion de la séquence 3 (2/2)</h1>
+    
+    <div class="highlight">
+        <h3><span class="step-number">3</span> Créer et afficher un composant dynamique</h3>
+        <ul>
+            <li>Utilisation de <code>ViewContainerRef</code></li>
+            <li>Création d'un composant à la demande via <code>createComponent()</code></li>
+            <li>Passage de données via <code>ref.instance.title</code></li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3><span class="step-number">4</span> Maîtriser les opérateurs RxJS essentiels</h3>
+        <ul>
+            <li>Transformation : <code>map()</code>, <code>concatMap()</code>, <code>switchMap()</code>, <code>mergeMap()</code></li>
+            <li>Filtrage : <code>filter()</code></li>
+            <li>Observation : <code>tap()</code></li>
+            <li>Temporisation : <code>delay()</code></li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3><span class="emoji">📚</span> En résumé</h3>
+        <p>Grâce à cette séance, vous savez maintenant :</p>
+        <ul>
+            <li><strong>Structurer</strong> une application Angular professionnelle et modulaire</li>
+            <li><strong>Optimiser</strong> le chargement avec le Lazy Loading</li>
+            <li><strong>Créer</strong> des composants dynamiques à la volée</li>
+            <li><strong>Manipuler</strong> des flux de données avec RxJS</li>
+        </ul>
+    </div>
+</div>
+
+        <!-- Slide 32 -->
         <div class="slide">
             <h1>TP — Séquence 3</h1>
             
             <div class="info-box">
                 <h3><span class="step-number">1</span> Crée une nouvelle branche Git</h3>
-                <pre><code>git checkout -b Lazy-Highlight</code></pre>
+                <pre class="code-light"><code>git checkout -b Lazy-Highlight</code></pre>
             </div>
 
             <div class="success-box">
