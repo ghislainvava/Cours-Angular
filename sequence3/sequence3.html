@@ -1223,41 +1223,614 @@ messageAccueil$ = of("Bonjour", "à", "tous").pipe(
     </div>
 </div>
 
-        <!-- Slide 32 -->
-        <div class="slide">
-            <h1>TP — Séquence 3</h1>
+   <!-- Slide 32 - TP Complet -->
+<div class="slide">
+    <h1>🎯 TP — Séquence 3</h1>
+    
+    <h2>Partie Obligatoire (2h)</h2>
+    
+    <div class="info-box">
+        <h3><span class="step-number">1</span> Créer une nouvelle branche Git</h3>
+        <pre class="code-light"><code>git checkout -b Lazy-Highlight</code></pre>
+    </div>
+
+    <div class="success-box">
+        <h3><span class="step-number">2</span> Mettre en place le Lazy Loading</h3>
+        <p>Ajouter le Lazy Loading pour <code>/tasks</code> et <code>/about</code></p>
+    </div>
+
+    <div class="warning-box">
+        <h3><span class="step-number">3</span> Ajouter un formulaire de saisie</h3>
+        <p><strong>Actuellement</strong>, on ne peut pas choisir le nom de la tâche ajoutée.</p>
+        <p><strong>Objectif :</strong> Créer un input pour saisir le titre de la tâche</p>
+        <ul>
+            <li>Ajouter un <code>&lt;input&gt;</code> avec une variable template <code>#taskInput</code></li>
+            <li>Passer <code>taskInput.value</code> à la méthode <code>addTask()</code></li>
+            <li>Vider l'input après ajout : <code>taskInput.value = ''</code></li>
+        </ul>
+        <p><strong>Bonus :</strong> Permettre d'ajouter avec la touche Enter</p>
+    </div>
+
+    <div class="highlight">
+        <h3><span class="step-number">4</span> Ajouter un bouton Supprimer</h3>
+        <p><strong>Objectif :</strong> Permettre de supprimer une tâche</p>
+        <ul>
+            <li>Dans <code>task.service.ts</code> : Créer une méthode <code>deleteTask(id: number)</code></li>
+            <li>Dans <code>tasks-page.component.html</code> : Ajouter un bouton "Supprimer" à côté de chaque tâche</li>
+            <li>Dans <code>tasks-page.component.ts</code> : Créer la méthode pour appeler le service</li>
+        </ul>
+        <p><strong>Indice :</strong> Utiliser <code>filter()</code> pour retirer la tâche du tableau</p>
+    </div>
+
+    <div class="success-box">
+        <h3><span class="step-number">5</span> Ajouter la fonctionnalité Highlight</h3>
+        <ul>
+            <li>Créer un composant dynamique <code>TaskHighlight</code></li>
+            <li>Ajouter un bouton "Mettre en avant" dans la liste des tâches</li>
+            <li>Injecter dynamiquement le composant avec <code>ViewContainerRef</code></li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3><span class="step-number">6</span> Mettre à jour le README.md</h3>
+        <p>Créer une section : <strong>## Séquence 3 — Lazy Loading & Composants dynamiques</strong></p>
+        <p>Elle doit contenir une explication simple de ce que vous avez compris :</p>
+        <ul>
+            <li>Ce qu'est le Lazy Loading</li>
+            <li>Comment on structure une app avec <code>features/</code></li>
+            <li>Ce qu'est un composant dynamique</li>
+            <li>Comment fonctionne <code>ViewContainerRef + createComponent()</code></li>
+        </ul>
+    </div>
+
+    <h2 style="margin-top: 40px; color: #764ba2;">🚀 Exercices Optionnels (Bonus)</h2>
+
+    <div class="highlight">
+        <h3><span class="step-number">7</span> Marquer comme terminée</h3>
+        <ul>
+            <li>Ajouter une propriété <code>completed: boolean</code> dans le modèle Task</li>
+            <li>Créer un bouton "Terminer" qui bascule l'état</li>
+            <li>Afficher les tâches terminées avec un style différent (barrées)</li>
+        </ul>
+        <p><strong>Bonus :</strong> Utiliser l'opérateur <code>map()</code> pour filtrer les tâches actives/terminées</p>
+    </div>
+
+    <div class="info-box">
+        <h3><span class="step-number">8</span> Édition de tâches (Composant dynamique avancé)</h3>
+        <ul>
+            <li>Créer un composant <code>TaskEdit</code> en dynamique</li>
+            <li>Ajouter un bouton "Éditer" qui ouvre ce composant</li>
+            <li>Le composant doit permettre de modifier le titre de la tâche</li>
+        </ul>
+        <p><strong>Indice :</strong> Utiliser <code>ViewContainerRef</code> comme pour TaskHighlight</p>
+    </div>
+
+    <div class="success-box">
+        <h3><span class="step-number">9</span> Statistiques avec map()</h3>
+        <ul>
+            <li>Créer un composant <code>task-stats</code></li>
+            <li>Utiliser <code>map()</code> pour combiner les observables</li>
+            <li>Afficher : nombre total, nombre terminées, nombre en cours</li>
+        </ul>
+        <p><strong>Bonus :</strong> Calculer le pourcentage de tâches terminées</p>
+    </div>
+
+    <div class="warning-box">
+        <h3><span class="step-number">10</span> Notifications avec tap()</h3>
+        <p><strong>Objectif :</strong> Afficher des notifications à chaque ajout/suppression</p>
+        <ul>
+            <li><strong>1.</strong> Créer un service <code>NotificationService</code></li>
+            <li><strong>2.</strong> Utiliser <code>tap()</code> dans le service Task pour logger les actions</li>
+            <li><strong>3.</strong> Afficher une notification visuelle (alert ou div temporaire)</li>
+            <li><strong>4.</strong> Le flux ne doit pas être modifié, juste observé</li>
+        </ul>
+        <p><strong>Commande :</strong> <code>ng g s core/services/notification</code></p>
+    </div>
+</div>
+
+<!-- Slide 33 - Corrections complètes -->
+<div class="slide">
+    <h1>✅ Corrections des exercices</h1>
+    
+    <!-- Zone de déverrouillage -->
+    <div id="solution-locked-33" style="text-align: center; padding: 40px;">
+        <p style="font-size: 1.3em; margin-bottom: 20px;">
+            🔒 Les corrections sont verrouillées
+        </p>
+        <p style="color: #666; margin-bottom: 20px;">
+            Demandez le mot de passe à votre formateur
+        </p>
+        <input 
+            type="password" 
+            id="password-input-33" 
+            placeholder="Entrez le mot de passe"
+            style="padding: 12px; font-size: 1.1em; margin-right: 10px; border: 2px solid #667eea; border-radius: 8px; width: 250px;"
+        />
+        <button onclick="unlockSolution33()" 
+                style="padding: 12px 25px; font-size: 1.1em; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+            🔓 Déverrouiller
+        </button>
+        <p id="error-message-33" style="color: #dc3545; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <!-- Solutions cachées -->
+    <div id="solution-content-33" style="display: none;">
+        
+        <h2>Exercices Obligatoires</h2>
+
+        <!-- Correction Exercice 3 : Formulaire -->
+        <div class="success-box">
+            <h3><span class="step-number">3</span> Correction : Formulaire d'ajout</h3>
             
-            <div class="info-box">
-                <h3><span class="step-number">1</span> Crée une nouvelle branche Git</h3>
-                <pre class="code-light"><code>git checkout -b Lazy-Highlight</code></pre>
-            </div>
+            <h4>📄 tasks-page.component.html</h4>
+            <pre class="code-light"><code>&lt;h3&gt;Ajouter une tâche&lt;/h3&gt;
+&lt;div class="add-task-form"&gt;
+  &lt;input 
+    type="text" 
+    #taskInput
+    placeholder="Entrez le titre de la tâche"
+    (keyup.enter)="addTask(taskInput.value); taskInput.value = ''"
+  /&gt;
+  &lt;button (click)="addTask(taskInput.value); taskInput.value = ''"&gt;
+    Ajouter
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
 
-            <div class="success-box">
-                <h3><span class="step-number">2</span> Mettre en place le Lazy Loading</h3>
-                <p>Ajouter le Lazy Loading pour <code>/tasks</code> et <code>/about</code></p>
-            </div>
+            <h4>📄 tasks-page.component.ts</h4>
+            <pre class="code-light"><code>addTask(title: string): void {
+  if (title.trim()) {
+    this.taskService.addTask(title);
+  }
+}</code></pre>
+        </div>
 
-            <div class="highlight">
-                <h3><span class="step-number">3</span> Ajouter la fonctionnalité Highlight</h3>
-                <ul>
-                    <li>Créer un composant dynamique <code>TaskHighlight</code></li>
-                    <li>Ajouter un bouton "Mettre en avant" dans la liste des tâches</li>
-                    <li>Injecter dynamiquement le composant avec <code>ViewContainerRef</code></li>
-                </ul>
-            </div>
+        <!-- Correction Exercice 4 : Supprimer -->
+        <div class="warning-box">
+            <h3><span class="step-number">4</span> Correction : Bouton Supprimer</h3>
+            
+            <h4>📄 task.service.ts</h4>
+            <pre class="code-light"><code>deleteTask(id: number): void {
+  const currentTasks = this.tasksSubject.value;
+  const updatedTasks = currentTasks.filter(task => task.id !== id);
+  this.tasksSubject.next(updatedTasks);
+}</code></pre>
 
-            <div class="info-box">
-                <h3><span class="step-number">4</span> Mettre à jour le README.md</h3>
-                <p>Créer une section : <strong>## Séquence 3 — Lazy Loading & Composants dynamiques</strong></p>
-                <p>Elle doit contenir une explication simple de ce que vous avez compris :</p>
-                <ul>
-                    <li>Ce qu'est le Lazy Loading</li>
-                    <li>Comment on structure une app avec <code>features/</code></li>
-                    <li>Ce qu'est un composant dynamique</li>
-                    <li>Comment fonctionne <code>ViewContainerRef + createComponent()</code></li>
-                </ul>
+            <h4>📄 tasks-page.component.html</h4>
+            <pre class="code-light"><code>@for (t of tasks; track t.id) {
+  &lt;li&gt;
+    {{ t.title }}
+    &lt;button type="button" (click)="highlight(t)"&gt;Mettre en avant&lt;/button&gt;
+    &lt;button type="button" (click)="deleteTask(t.id)" class="btn-delete"&gt;
+      Supprimer
+    &lt;/button&gt;
+  &lt;/li&gt;
+}</code></pre>
+
+            <h4>📄 tasks-page.component.ts</h4>
+            <pre class="code-light"><code>deleteTask(id: number): void {
+  this.taskService.deleteTask(id);
+}</code></pre>
+        </div>
+
+        <!-- Architecture -->
+        <div class="info-box">
+            <h3>🏗️ Architecture : Séparation des responsabilités</h3>
+            
+            <div class="comparison">
+                <div class="comparison-item comparison-after">
+                    <h4>🎨 Le Composant (UI)</h4>
+                    <ul>
+                        <li><strong>Récupère</strong> la saisie utilisateur</li>
+                        <li><strong>Valide</strong> que le champ n'est pas vide</li>
+                        <li><strong>Appelle</strong> le service</li>
+                        <li><strong>Vide</strong> l'input après ajout</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-item comparison-after">
+                    <h4>⚙️ Le Service (Logique)</h4>
+                    <ul>
+                        <li><strong>Crée</strong> l'objet Task complet</li>
+                        <li><strong>Génère</strong> l'ID unique</li>
+                        <li><strong>Met à jour</strong> le BehaviorSubject</li>
+                        <li><strong>Notifie</strong> tous les abonnés</li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <hr style="margin: 40px 0; border: 2px solid #667eea;">
+
+        <h2>Exercices Optionnels</h2>
+
+        <!-- Exercice 7 : Marquer comme terminée -->
+<div class="success-box">
+    <h3><span class="step-number">7</span> Correction : Marquer comme terminée</h3>
+    
+    <h4>📄 1. Modifier l'interface TaskItem (dans task.service.ts)</h4>
+    <pre class="code-light"><code>export interface TaskItem {
+  id: number;
+  title: string;
+  completed: boolean;  // 🆕 Ajouter cette propriété
+}</code></pre>
+
+    <h4>📄 2. Modifier les tâches initiales (dans task.service.ts)</h4>
+    <pre class="code-light"><code>private tasksSubject = new BehaviorSubject&lt;TaskItem[]&gt;([
+  { id: 1, title: 'préparer le cours Angular', completed: false },
+  { id: 2, title: 'Relire le module Rxjs', completed: false },
+  { id: 3, title: 'Corriger les TPs', completed: false },
+]);</code></pre>
+
+    <h4>📄 3. Ajouter la méthode toggleTask (dans task.service.ts)</h4>
+    <pre class="code-light"><code>toggleTask(id: number): void {
+  const currentTasks = this.tasksSubject.value;
+  const updatedTasks = currentTasks.map(task =>
+    task.id === id ? { ...task, completed: !task.completed } : task
+  );
+  this.tasksSubject.next(updatedTasks);
+}
+
+// 🔧 Modifier aussi addTask pour initialiser completed
+addTask(title: string): void {
+  const currentTasks = this.tasksSubject.value;
+  const newTask: TaskItem = {
+    id: this.nextId++,
+    title,
+    completed: false  // 🆕 Initialiser à false
+  };
+  const updatedTasks = [...currentTasks, newTask];
+  this.tasksSubject.next(updatedTasks);
+}</code></pre>
+
+    <h4>📄 4. Modifier le template (tasks-page.component.html)</h4>
+    <pre class="code-light"><code>@for (t of tasks; track t.id) {
+  &lt;li&gt;
+    &lt;!-- Texte barré si terminé --&gt;
+    &lt;span [style.text-decoration]="t.completed ? 'line-through' : 'none'"
+          [style.color]="t.completed ? '#999' : '#000'"&gt;
+      {{ t.title }}
+    &lt;/span&gt;
+    
+    &lt;!-- Bouton qui change selon l'état --&gt;
+    &lt;button (click)="toggleTask(t.id)"&gt;
+      {{ t.completed ? '↩️ Réactiver' : '✅ Terminer' }}
+    &lt;/button&gt;
+    
+    &lt;button (click)="deleteTask(t.id)"&gt;❌ Supprimer&lt;/button&gt;
+  &lt;/li&gt;
+}</code></pre>
+
+    <h4>📄 5. Ajouter la méthode dans le composant (tasks-page.component.ts)</h4>
+    <pre class="code-light"><code>toggleTask(id: number): void {
+  this.taskService.toggleTask(id);
+}</code></pre>
+
+    <div class="info-box">
+        <h4>🎯 Résultat visuel</h4>
+        <p><strong>Avant :</strong> ✓ préparer le cours Angular [✅ Terminer]</p>
+        <p><strong>Après clic :</strong> <span style="text-decoration: line-through; color: #999;">préparer le cours Angular</span> [↩️ Réactiver]</p>
+    </div>
+
+    <div class="highlight">
+        <h4>📊 Bonus : Filtrer avec map()</h4>
+        <pre class="code-light"><code>// Dans tasks-page.component.ts
+activeTasks$ = this.taskService.tasks$.pipe(
+  map(tasks => tasks.filter(t => !t.completed))
+);
+
+completedTasks$ = this.taskService.tasks$.pipe(
+  map(tasks => tasks.filter(t => t.completed))
+);
+
+// Dans le template
+&lt;h3&gt;Tâches en cours&lt;/h3&gt;
+@for (t of activeTasks$ | async; track t.id) {
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}
+
+&lt;h3&gt;Tâches terminées&lt;/h3&gt;
+@for (t of completedTasks$ | async; track t.id) {
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}</code></pre>
+    </div>
+</div>
+
+ <!-- Exercice 8 : Édition -->
+<div class="highlight">
+    <h3><span class="step-number">8</span> Correction : Édition de tâches</h3>
+    
+    <h4>📄 Créer le composant TaskEdit</h4>
+    <pre class="code-light"><code>ng g c features/tasks/task-edit</code></pre>
+
+    <h4>📄 task-edit.component.ts</h4>
+    <pre class="code-light"><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-task-edit',
+  standalone: true,
+  imports: [],  // Pas de FormsModule !
+  template: `
+    &lt;div class="task-edit"&gt;
+      &lt;h3&gt;Éditer la tâche&lt;/h3&gt;
+      &lt;input 
+        #editInput 
+        [value]="title" 
+        placeholder="Nouveau titre"
+      /&gt;
+      &lt;button (click)="save(editInput.value)"&gt;Sauvegarder&lt;/button&gt;
+      &lt;button (click)="cancel()"&gt;Annuler&lt;/button&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .task-edit {
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    input {
+      padding: 8px;
+      margin-right: 10px;
+      font-size: 1em;
+      width: 300px;
+    }
+  `]
+})
+export class TaskEditComponent {
+  @Input() title = '';
+  @Input() taskId = 0;
+  @Output() onSave = new EventEmitter&lt;{id: number, title: string}&gt;();
+  @Output() onCancel = new EventEmitter&lt;void&gt;();
+
+  save(newTitle: string) {
+    if (newTitle.trim()) {
+      this.onSave.emit({ id: this.taskId, title: newTitle });
+    }
+  }
+
+  cancel() {
+    this.onCancel.emit();
+  }
+}</code></pre>
+
+    <h4>📄 task.service.ts</h4>
+    <pre class="code-light"><code>updateTask(id: number, newTitle: string): void {
+  const currentTasks = this.tasksSubject.value;
+  const updatedTasks = currentTasks.map(task =>
+    task.id === id ? { ...task, title: newTitle } : task
+  );
+  this.tasksSubject.next(updatedTasks);
+}</code></pre>
+
+    <h4>📄 tasks-page.component.ts</h4>
+    <pre class="code-light"><code>import { TaskEditComponent } from '../task-edit/task-edit.component';
+
+@ViewChild('editContainer', { read: ViewContainerRef })
+editContainer!: ViewContainerRef;
+
+editTask(task: Task): void {
+  this.editContainer.clear();
+  const ref = this.editContainer.createComponent(TaskEditComponent);
+  ref.instance.title = task.title;
+  ref.instance.taskId = task.id;
+  
+  ref.instance.onSave.subscribe((data) => {
+    this.taskService.updateTask(data.id, data.title);
+    this.editContainer.clear();
+  });
+  
+  ref.instance.onCancel.subscribe(() => {
+    this.editContainer.clear();
+  });
+}
+
+// Dans le template
+// &lt;button (click)="editTask(t)"&gt;Éditer&lt;/button&gt;
+// &lt;div #editContainer&gt;&lt;/div&gt;</code></pre>
+</div>
+
+        <!-- Exercice 9 : Statistiques -->
+        <div class="info-box">
+            <h3><span class="step-number">9</span> Correction : Statistiques avec map()</h3>
+            
+            <h4>📄 Créer le composant</h4>
+            <pre class="code-light"><code>ng g c features/tasks/task-stats</code></pre>
+
+            <h4>📄 task-stats.component.ts</h4>
+            <pre class="code-light"><code>import { Component, inject } from '@angular/core';
+import { TaskService } from '../../../core/services/task.service';
+import { map } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-task-stats',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    @if (stats$ | async; as stats) {
+      &lt;div class="stats"&gt;
+        &lt;h3&gt;📊 Statistiques&lt;/h3&gt;
+        &lt;p&gt;Total : {{ stats.total }}&lt;/p&gt;
+        &lt;p&gt;Terminées : {{ stats.completed }}&lt;/p&gt;
+        &lt;p&gt;En cours : {{ stats.active }}&lt;/p&gt;
+        &lt;p&gt;Progression : {{ stats.percentage }}%&lt;/p&gt;
+      &lt;/div&gt;
+    }
+  `,
+  styles: [`
+    .stats {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #4caf50;
+    }
+  `]
+})
+export class TaskStatsComponent {
+  private taskService = inject(TaskService);
+
+  stats$ = this.taskService.tasks$.pipe(
+    map(tasks => {
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const active = total - completed;
+      const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+      return { total, completed, active, percentage };
+    })
+  );
+}</code></pre>
+
+            <h4>📄 Utilisation dans tasks-page</h4>
+            <pre class="code-light"><code>// tasks-page.component.html
+&lt;app-task-stats&gt;&lt;/app-task-stats&gt;
+
+// tasks-page.component.ts
+import { TaskStatsComponent } from '../task-stats/task-stats.component';
+
+@Component({
+  imports: [CommonModule, TaskStatsComponent]  // Ajouter
+})</code></pre>
+        </div>
+<!--Exercice 10-->
+  <div class="warning-box">
+    <h3><span class="step-number">10</span> Correction : Notifications avec tap()</h3>
+    
+    <h4>📄 Étape 1 : Créer le service NotificationService</h4>
+    <pre class="code-light"><code>ng g s core/services/notification</code></pre>
+    
+    <h4>📄 Étape 2 : notification.service.ts</h4>
+    <pre class="code-light"><code>import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+export interface Notification {
+  message: string;
+  type: 'success' | 'error' | 'info';
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NotificationService {
+  private notificationSubject = new BehaviorSubject&lt;Notification | null&gt;(null);
+  notification$ = this.notificationSubject.asObservable();
+
+  show(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
+    this.notificationSubject.next({ message, type });
+    
+    // Auto-hide après 3 secondes
+    setTimeout(() => {
+      this.notificationSubject.next(null);
+    }, 3000);
+  }
+}</code></pre>
+
+    <h4>📄 Étape 3 : Utiliser le service dans task.service.ts</h4>
+    <pre class="code-light"><code>import { tap } from 'rxjs';
+import { NotificationService } from './notification.service';
+
+export class Task {
+  private notificationService = inject(NotificationService);
+
+  addTask(title: string): void {
+    const currentTasks = this.tasksSubject.value;
+    const newTask: TaskItem = {
+      id: this.nextId++,
+      title,
+      completed: false
+    };
+    const updatedTasks = [...currentTasks, newTask];
+    this.tasksSubject.next(updatedTasks);
+    
+    // 🆕 Notification
+    this.notificationService.show(`Tâche "${title}" ajoutée !`, 'success');
+  }
+
+  deleteTask(id: number): void {
+    const currentTasks = this.tasksSubject.value;
+    const task = currentTasks.find(t => t.id === id);
+    const updatedTasks = currentTasks.filter(task => task.id !== id);
+    this.tasksSubject.next(updatedTasks);
+    
+    // 🆕 Notification
+    if (task) {
+      this.notificationService.show(`Tâche "${task.title}" supprimée`, 'info');
+    }
+  }
+
+  // 🆕 Observer avec tap()
+  tasks$ = this.tasksSubject.asObservable().pipe(
+    tap(tasks => console.log('📋 Nombre de tâches:', tasks.length))
+  );
+}</code></pre>
+
+    <h4>📄 Étape 4 : Créer le composant de notification</h4>
+    <pre class="code-light"><code>ng g c shared/notification</code></pre>
+
+    <h4>📄 notification.component.ts</h4>
+    <pre class="code-light"><code>import { Component, inject } from '@angular/core';
+import { NotificationService } from '../../core/services/notification.service';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-notification',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    @if (notification$ | async; as notif) {
+      &lt;div class="notification" [class]="notif.type"&gt;
+        {{ notif.message }}
+      &lt;/div&gt;
+    }
+  `,
+  styles: [`
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      z-index: 9999;
+      animation: slideIn 0.3s ease-out;
+    }
+    .success { background: #4caf50; }
+    .error { background: #f44336; }
+    .info { background: #2196f3; }
+    @keyframes slideIn {
+      from { transform: translateX(400px); }
+      to { transform: translateX(0); }
+    }
+  `]
+})
+export class NotificationComponent {
+  private notificationService = inject(NotificationService);
+  notification$ = this.notificationService.notification$;
+}
+</code></pre>
+
+    <h4>📄 Étape 5 : Ajouter dans app.component.html</h4>
+    <pre class="code-light"><code>&lt;app-notification&gt;&lt;/app-notification&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
+
+    <div class="highlight">
+        <h4>🎯 Résultat</h4>
+        <p>À chaque ajout/suppression, une notification apparaît en haut à droite pendant 3 secondes !</p>
+    </div>
+</div>
+
+        <div class="success-box" style="margin-top: 40px;">
+            <h3>🎉 Félicitations !</h3>
+            <p>Vous avez maintenant toutes les corrections pour progresser sur TaskBoard Pro !</p>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+
 
         <div class="controls">
             <button id="prev-btn">← Précédent</button>
@@ -1313,6 +1886,29 @@ messageAccueil$ = of("Bonjour", "à", "tous").pipe(
 
         // Initialize
         showSlide(0);
+
+
+
+
+       function unlockSolution33() {
+    const password = document.getElementById('password-input-33').value;
+    const correctPassword = 'ipi2025'; // 🔑 Changez ce mot de passe
+    
+    if (password === correctPassword) {
+        document.getElementById('solution-locked-33').style.display = 'none';
+        document.getElementById('solution-content-33').style.display = 'block';
+    } else {
+        document.getElementById('error-message-33').textContent = '❌ Mot de passe incorrect';
+        setTimeout(() => {
+            document.getElementById('error-message-33').textContent = '';
+        }, 3000);
+    }
+}
+
+// Permettre Enter pour valider
+document.getElementById('password-input-33')?.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') unlockSolution33();
+});
     </script>
 </body>
 </html>

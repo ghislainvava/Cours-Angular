@@ -56,6 +56,14 @@
                     <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
                     <p style="font-size: 1.3rem; margin-top: 1rem;">Tester une classe TypeScript pure (sans TestBed)</p>
                 </div>
+
+                <div class="warning-box">
+    <h3>💡 Conseil : Isoler vos tests avec fdescribe()</h3>
+    <p>Quand vous avez beaucoup de tests, utilisez <code>fdescribe()</code> pour exécuter uniquement un groupe de tests :</p>
+    <pre class="code-light"><code>// Remplacer describe par fdescribe
+// Tous les autres describe() seront ignorés !</code></pre>
+    <p><strong>Utilité :</strong> Parfait pour se concentrer sur un seul test quand vous en avez des dizaines qui échouent.</p>
+</div>
                 
                 <div style="background: #fef3c7; border: 3px solid #f59e0b; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
                     <h3 style="color: #92400e;">📝 Instructions</h3>
@@ -90,113 +98,64 @@
                     <strong>✅ Points clés :</strong> Pas besoin de TestBed • On instancie directement avec <code>new</code> • Tests rapides et simples
                 </div>
             </div>
-                        
-           <!-- Slide 22 -->
+
+            <!-- Slide 22 - Diagnostiquer les erreurs de tests -->
             <div class="slide">
-                <h2>Exercice 2 - Tester un service</h2>
+                <h1>🔍 Diagnostiquer les erreurs de tests</h1>
                 
-                <div class="exercise-box">
-                    <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
-                    <p style="font-size: 1.3rem; margin-top: 1rem;">Tester TaskService avec des données mockées</p>
+                <div class="warning-box">
+                    <h3>❌ Erreur courante : NullInjectorError</h3>
+                    <pre class="code-light"><code>NullInjectorError: No provider for TaskService!</code></pre>
+                    <p><strong>Cause :</strong> Le composant a besoin d'un service qui n'est pas fourni dans le test.</p>
+                    <p><strong>Solution :</strong></p>
+                    <pre class="code-light"><code>TestBed.configureTestingModule({
+            imports: [MonComposant],
+            providers: [TaskService]  // 🆕 Ajouter le service manquant
+            });</code></pre>
                 </div>
-                
-                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #8b5cf6;">describe</span>(<span style="color: #059669;">'TaskService'</span>, () => {
-            <span style="color: #0ea5e9;">let</span> service: TaskService;
 
-            <span style="color: #8b5cf6;">beforeEach</span>(() => {
-                service = <span style="color: #0ea5e9;">new</span> TaskService();
-            });
+                <div class="info-box">
+                    <h3>❌ Erreur : Can't bind to 'ngModel'</h3>
+                    <pre class="code-light"><code>Can't bind to 'ngModel' since it isn't a known property of 'input'</code></pre>
+                    <p><strong>Cause :</strong> FormsModule n'est pas importé.</p>
+                    <p><strong>Solution :</strong></p>
+                    <pre class="code-light"><code>import { FormsModule } from '@angular/forms';
 
-            <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait être créé'</span>, () => {
-                <span style="color: #8b5cf6;">expect</span>(service).<span style="color: #8b5cf6;">toBeTruthy</span>();
-            });
-
-            <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait retourner une liste vide au départ'</span>, () => {
-                <span style="color: #8b5cf6;">expect</span>(service.getTasks().length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">0</span>);
-            });
-
-            <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait ajouter une tâche'</span>, () => {
-                <span style="color: #0ea5e9;">const</span> task = { 
-                id: <span style="color: #dc2626;">1</span>, 
-                title: <span style="color: #059669;">'Test'</span>, 
-                completed: <span style="color: #dc2626;">false</span> 
-                };
-                service.addTask(task);
-                
-                <span style="color: #8b5cf6;">expect</span>(service.getTasks().length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">1</span>);
-                <span style="color: #8b5cf6;">expect</span>(service.getTasks()[<span style="color: #dc2626;">0</span>]).<span style="color: #8b5cf6;">toEqual</span>(task);
-            });
-            });</pre>
+            TestBed.configureTestingModule({
+            imports: [MonComposant, FormsModule]  // 🆕
+            });</code></pre>
                 </div>
-                
-                <div class="alert alert-blue">
-                    <strong>💡 À retenir :</strong> <code>beforeEach()</code> permet d'avoir un service "propre" pour chaque test • Tester le comportement, pas l'implémentation
+
+                <div class="highlight">
+                    <h3>❌ Erreur : No provider for HttpClient</h3>
+                    <pre class="code-light"><code>NullInjectorError: No provider for HttpClient!</code></pre>
+                    <p><strong>Cause :</strong> Le service utilise HttpClient mais il n'est pas fourni.</p>
+                    <p><strong>Solution :</strong></p>
+                    <pre class="code-light"><code>import { provideHttpClient } from '@angular/common/http';
+
+            TestBed.configureTestingModule({
+            imports: [MonComposant],
+            providers: [
+                MonService,
+                provideHttpClient()  // 🆕
+            ]
+            });</code></pre>
+                </div>
+
+                <div class="success-box">
+                    <h3>💡 Méthodologie de débogage</h3>
+                    <ol>
+                        <li><strong>Lire l'erreur</strong> : Elle indique souvent ce qui manque</li>
+                        <li><strong>Isoler le test</strong> : Utiliser <code>fdescribe()</code> pour se concentrer</li>
+                        <li><strong>Ajouter les dépendances</strong> : Providers, imports, etc.</li>
+                        <li><strong>Relancer</strong> : Karma se rafraîchit automatiquement</li>
+                    </ol>
                 </div>
             </div>
-
-            <!-- Slide 23 -->
-<div class="slide">
-    <h2>Mocks et Spies en tests unitaires</h2>
-    
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-        <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">🎯 Rappel : On teste en isolation</h3>
-        <p style="font-size: 1.2rem;">Dans les tests unitaires, on teste UNE unité à la fois, sans dépendre d'éléments externes.</p>
-    </div>
-    
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
-                    
-                    <div style="border: 3px solid #f59e0b; background: #fef3c7; padding: 2rem; border-radius: 0.5rem;">
-                        <h3 style="color: #92400e; font-size: 1.5rem; margin-bottom: 1rem;">🎭 Mock = Données simulées</h3>
-                        <p style="margin-bottom: 1rem;">Créer de fausses données pour tester</p>
-                        
-                        <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin: 1rem 0;">
-                            <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #1e293b;"><span style="color: #6b7280;">// Données mockées</span>
-            <span style="color: #0ea5e9;">const</span> mockTask = {
-            id: <span style="color: #dc2626;">1</span>,
-            title: <span style="color: #059669;">'Test'</span>,
-            completed: <span style="color: #dc2626;">false</span>
-            };</pre>
-                        </div>
-                        
-                        <p style="margin-top: 1rem; font-size: 0.95rem;"><strong>Usage :</strong> Créer des données fictives sans base de données</p>
-                    </div>
-                    
-                    <div style="border: 3px solid #3b82f6; background: #dbeafe; padding: 2rem; border-radius: 0.5rem;">
-                        <h3 style="color: #1e40af; font-size: 1.5rem; margin-bottom: 1rem;">🔍 Spy = Observer une méthode</h3>
-                        <p style="margin-bottom: 1rem;">Vérifier qu'une méthode a été appelée</p>
-                        
-                        <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin: 1rem 0;">
-                            <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #1e293b;"><span style="color: #6b7280;">// Observer un appel</span>
-            <span style="color: #8b5cf6;">spyOn</span>(service, <span style="color: #059669;">'addTask'</span>);
-
-            component.onSubmit();
-
-            <span style="color: #8b5cf6;">expect</span>(service.addTask)
-            .<span style="color: #8b5cf6;">toHaveBeenCalled</span>();</pre>
-                        </div>
-                        
-                        <p style="margin-top: 1rem; font-size: 0.95rem;"><strong>Usage :</strong> Vérifier les interactions entre composants</p>
-                    </div>
-                    
-                </div>
-                
-                <div style="background: #fef3c7; border-left: 8px solid #f59e0b; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin-top: 2rem;">
-                    <h3 style="color: #92400e;">💡 Dans vos exercices</h3>
-                    <ul style="margin-top: 1rem; font-size: 1.1rem;">
-                        <li><strong>• Mock :</strong> Les objets <code>task</code> que vous créez dans les tests</li>
-                        <li><strong>• Spy :</strong> Utile pour tester les <code>@Output</code> et vérifier les appels de méthodes</li>
-                    </ul>
-                </div>
-                
-                <div class="alert alert-blue" style="margin-top: 1.5rem;">
-                    <strong>📝 Note :</strong> Pour des tests unitaires simples, vous utiliserez surtout des mocks (données). Les spies sont plus utiles pour tester les interactions.
-                </div>
-            </div>
-
-           <!-- Slide 24 -->
+                       
+               <!-- Slide 23 -->
             <div class="slide">
-                <h2>Exercice 3 - Composant avec TestBed</h2>
+                <h2>Exercice 2 - Composant avec TestBed</h2>
                 
                 <div class="exercise-box">
                     <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
@@ -206,7 +165,7 @@
                 <div style="background: #fef3c7; border: 3px solid #f59e0b; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
                     <h3 style="color: #92400e;">📋 Nouveauté : On utilise TestBed</h3>
                     <p style="font-size: 1.1rem; margin-top: 0.5rem;">
-                        Contrairement aux exercices 1 et 2, ici on teste un <strong>composant Angular</strong> avec son template. 
+                        Contrairement à l'exercice précédent ici on teste un <strong>composant Angular</strong> avec son template. 
                         On doit donc utiliser <strong>TestBed</strong> pour compiler le composant et accéder au DOM.
                     </p>
                 </div>
@@ -267,8 +226,103 @@
                     </div>
                 </div>
             </div>
+      
 
-            <!-- Slide 25 -->
+       <!-- Slide 24 - Tester un service avec TestBed -->
+        <div class="slide">
+            <h2>Tester un service avec TestBed</h2>
+            
+            <div class="exercise-box">
+                <h3 style="color: white; font-size: 2rem;">🧪 Objectif</h3>
+                <p style="font-size: 1.3rem; margin-top: 1rem;">Tester le service Task avec TestBed</p>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>📘 Pourquoi TestBed ?</strong> Les services Angular utilisent l'injection de dépendances et d'autres élements
+            </div>
+
+            <h3 style="margin-top: 2rem;">Exemple de test</h3>
+
+            <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+                <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
+        <span style="color: #0ea5e9;">import</span> { Task } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./task.service'</span>;
+
+        <span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'Task Service'</span>, () => {
+        <span style="color: #0ea5e9;">let</span> service: Task;
+
+        <span style="color: #8b5cf6;">beforeEach</span>(() => {
+            <span style="color: #64748b;">// Configurer TestBed</span>
+            TestBed.configureTestingModule({
+            providers: [Task]
+            });
+            
+            <span style="color: #64748b;">// Récupérer le service</span>
+            service = TestBed.inject(Task);
+            service.clearTasks();  <span style="color: #64748b;">// État propre</span>
+        });
+
+        <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait être créé'</span>, () => {
+            <span style="color: #8b5cf6;">expect</span>(service).<span style="color: #8b5cf6;">toBeTruthy</span>();
+        });
+
+        <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait ajouter une tâche'</span>, () => {
+            service.addTask(<span style="color: #059669;">'Apprendre les tests'</span>);
+            
+            <span style="color: #0ea5e9;">const</span> tasks = service.getTasks();
+            <span style="color: #8b5cf6;">expect</span>(tasks.length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">1</span>);
+            <span style="color: #8b5cf6;">expect</span>(tasks[<span style="color: #dc2626;">0</span>].title).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">'Apprendre les tests'</span>);
+            <span style="color: #8b5cf6;">expect</span>(tasks[<span style="color: #dc2626;">0</span>].completed).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">false</span>);
+        });
+
+        <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait supprimer une tâche'</span>, () => {
+            service.addTask(<span style="color: #059669;">'Tâche temporaire'</span>);
+            <span style="color: #0ea5e9;">const</span> taskId = service.getTasks()[<span style="color: #dc2626;">0</span>].id;
+            
+            service.deleteTask(taskId);
+            
+            <span style="color: #8b5cf6;">expect</span>(service.getTasks().length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">0</span>);
+        });
+
+        <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait marquer une tâche comme terminée'</span>, () => {
+            service.addTask(<span style="color: #059669;">'Tâche à terminer'</span>);
+            <span style="color: #0ea5e9;">const</span> taskId = service.getTasks()[<span style="color: #dc2626;">0</span>].id;
+            
+            service.toggleTask(taskId);
+            
+            <span style="color: #0ea5e9;">const</span> task = service.getTasks()[<span style="color: #dc2626;">0</span>];
+            <span style="color: #8b5cf6;">expect</span>(task.completed).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">true</span>);
+        });
+        });
+            </div>
+
+            <div class="alert alert-blue">
+                <strong>💡 À retenir :</strong> TestBed.configureTestingModule() crée l'environnement • TestBed.inject() récupère le service • clearTasks() repart d'un état propre
+            </div>
+             <h3 style="margin-top: 2rem;">📝 Méthodes nécessaires</h3>
+                <p>Ajoutez ces méthodes dans <code>task.service.ts</code> :</p>
+
+                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #8b5cf6;">getTasks</span>(): TaskItem[] {
+<span style="color: #0ea5e9;">return</span> <span style="color: #0ea5e9;">this</span>.tasksSubject.value;
+}
+
+<span style="color: #8b5cf6;">clearTasks</span>(): <span style="color: #0ea5e9;">void</span> {
+<span style="color: #0ea5e9;">this</span>.tasksSubject.next([]);
+<span style="color: #0ea5e9;">this</span>.nextId = <span style="color: #dc2626;">1</span>;
+}
+</pre>
+                </div>
+
+               
+
+               
+        </div>
+
+           
+
+        
+
+            <!-- Slide 26 -->
             <div class="slide">
                 <h2>Décortiquer beforeEach avec TestBed</h2>
                 <div style="background: #fef3c7; border: 3px solid #f59e0b; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
@@ -297,7 +351,7 @@
                 </div>
             </div>
 
-            <!-- Slide 26 -->
+            <!-- Slide 27 -->
                   
             <div class="slide">
                 <h2>Tester les @Input</h2>
@@ -339,7 +393,7 @@
                 </div>
             </div>
 
-            <!-- Slide 27 -->
+            <!-- Slide 28 -->
            
             <div class="slide">
                 <h2>Tester les @Output</h2>
@@ -377,7 +431,7 @@
                 </div>
             </div>
 
-            <!-- Slide 28 -->
+            <!-- Slide 29 -->
             <div class="slide">
                 <h2>Tester le DOM</h2>
                 
@@ -426,51 +480,9 @@
                 </div>
             </div>
 
-            <!-- Slide 29 -->
-            <div class="slide">
-                <h2>fdescribe() et fit() - Focus sur un test</h2>
-                
-                <div style="background: #fee2e2; border: 3px solid #ef4444; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: #7f1d1d; font-size: 1.5rem; margin-bottom: 1rem;">⚠️ DANGER EN PRODUCTION !</h3>
-                    <p style="font-size: 1.2rem; color: #991b1b;">
-                        Utile pour debug, mais à retirer avant commit
-                    </p>
-                </div>
-                
-                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #6b7280;">// ❌ Seul CE bloc sera exécuté</span>
-            <span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'TaskService'</span>, () => {
-            <span style="color: #6b7280;">// ...</span>
-            });
+           
 
-            <span style="color: #6b7280;">// ❌ Seul CE test sera exécuté</span>
-            <span style="color: #8b5cf6;">fit</span>(<span style="color: #059669;">'devrait ajouter une tâche'</span>, () => {
-            <span style="color: #6b7280;">// ...</span>
-            });</pre>
-                </div>
-                
-                <div style="background: #fef2f2; border-left: 8px solid #ef4444; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin: 2rem 0;">
-                    <h3 style="color: #7f1d1d; margin-bottom: 1rem;">⚠️ Conséquences</h3>
-                    <ul style="margin-top: 1rem; font-size: 1.1rem; color: #7f1d1d;">
-                        <li>• Les autres tests ne seront PAS exécutés</li>
-                        <li>• <code>ng test</code> ne lancera pas tous les tests</li>
-                        <li>• CI/CD passera avec des tests manquants</li>
-                    </ul>
-                </div>
-                
-                <div class="alert alert-green">
-                    <strong>✅ Règle :</strong> Toujours remettre <code>describe()</code> et <code>it()</code> avant de commit !
-                </div>
-                
-                <div style="background: #dbeafe; border-left: 8px solid #3b82f6; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin-top: 1.5rem;">
-                    <h3 style="color: #1e40af;">💡 Usage légitime</h3>
-                    <p style="font-size: 1.1rem; color: #1e40af; margin-top: 0.5rem;">
-                        Utile pendant le développement pour exécuter rapidement un seul test et debugger plus vite
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 30 -->
+            <!-- Slide 31 -->
             <div class="slide">
                 <h2>Attention aux tests générés par le CLI</h2>
                 
@@ -512,7 +524,7 @@
                 </div>
             </div>
 
-            <!-- Slide 31 -->
+            <!-- Slide 32 -->
             <div class="slide">
                 <h2>Problème RouterTestingModule</h2>
                 
@@ -553,7 +565,7 @@
                 </div>
             </div>
 
-            <!-- Slide 32 -->
+            <!-- Slide 33 -->
             <div class="slide">
                 <h2>Code Coverage</h2>
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
@@ -595,7 +607,7 @@ ng test --code-coverage
    
     <script src="../navigation.js"></script>
     <script>
-        initNavigation(21); // Slides 21-32
+        initNavigation(21); // Slides 21-33
     </script>
 </body>
 </html>

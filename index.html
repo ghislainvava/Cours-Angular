@@ -24,9 +24,28 @@
         }
 
         header {
+            position: relative;
             text-align: center;
             color: white;
             margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header .logo-left {
+            height: 80px;
+            width: auto;
+        }
+
+        header .logo-right {
+            height: 80px;
+            width: auto;
+        }
+
+        header .header-content {
+            flex: 1;
+            text-align: center;
         }
 
         header h1 {
@@ -156,8 +175,14 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎓 Formation Angular</h1>
-            <p>Modules de formation progressifs</p>
+            <img src="../images/logo-ipi.png" alt="IPI Logo" class="logo-left">
+            
+            <div class="header-content">
+                <h1>🎓 Formation Angular</h1>
+                <p>Modules de formation progressifs</p>
+            </div>
+            
+            <img src="../images/logo-carcassonne.png" alt="Carcassonne Web Logo" class="logo-right">
         </header>
 
         <div class="sequences-grid">
