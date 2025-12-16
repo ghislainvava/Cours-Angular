@@ -237,10 +237,6 @@
                 <p style="font-size: 1.3rem; margin-top: 1rem;">Tester le service Task avec TestBed</p>
             </div>
 
-            <div class="alert alert-info">
-                <strong>📘 Pourquoi TestBed ?</strong> Les services Angular utilisent l'injection de dépendances et d'autres élements
-            </div>
-
             <h3 style="margin-top: 2rem;">Exemple de test</h3>
 
             <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
@@ -322,7 +318,7 @@
 
         
 
-            <!-- Slide 26 -->
+            <!-- Slide 25 -->
             <div class="slide">
                 <h2>Décortiquer beforeEach avec TestBed</h2>
                 <div style="background: #fef3c7; border: 3px solid #f59e0b; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
@@ -351,87 +347,233 @@
                 </div>
             </div>
 
-            <!-- Slide 27 -->
-                  
-            <div class="slide">
-                <h2>Tester les @Input</h2>
-                
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">🎯 Principe</h3>
-                    <ol style="margin-top: 1rem; font-size: 1.2rem; margin-left: 1.5rem;">
-                        <li>Modifier la propriété @Input du composant</li>
-                        <li>Appeler <code style="background: rgba(255,255,255,0.2); color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">fixture.detectChanges()</code></li>
-                        <li>Vérifier la propriété OU le DOM</li>
-                    </ol>
-                </div>
-                
-                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait recevoir un titre via @Input'</span>, () => {
-            <span style="color: #6b7280;">// 1. Définir la propriété @Input</span>
-            component.title = <span style="color: #059669;">'Titre reçu'</span>;
+        <!-- Slide 26 - Tester un composant avec @Input -->
+<div class="slide">
+    <h2>Tester un composant avec @Input</h2>
+    
+    <div class="exercise-box">
+        <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
+        <p style="font-size: 1.3rem; margin-top: 1rem;">Tester le composant TaskHighlight avec son @Input</p>
+    </div>
 
-            <span style="color: #6b7280;">// 2. Mettre à jour le template</span>
-            fixture.<span style="color: #8b5cf6;">detectChanges</span>();
+    <div class="alert alert-info">
+        <strong>📘 Rappel :</strong> Le composant <code>TaskHighlight</code> a été créé en séquence 3. Il reçoit un titre via <code>@Input</code> et l'affiche.
+    </div>
 
-            <span style="color: #6b7280;">// 3. Vérifier</span>
-            <span style="color: #8b5cf6;">expect</span>(component.title).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">'Titre reçu'</span>);
-            });</pre>
-                </div>
-                
-                <div style="background: #fee2e2; border: 3px solid #ef4444; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <h3 style="color: #7f1d1d; font-size: 1.3rem; margin-bottom: 1rem;">⚠️ Erreur n°1 des débutants</h3>
-                    <p style="font-size: 1.1rem; color: #991b1b;">
-                        Oublier <code style="background: #fef2f2; color: #dc2626; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">detectChanges()</code> = le template n'est jamais mis à jour !
-                    </p>
-                </div>
-                
-                <div style="background: #dbeafe; border-left: 8px solid #3b82f6; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin-top: 1.5rem;">
-                    <h3 style="color: #1e40af;">💡 Astuce</h3>
-                    <p style="font-size: 1.1rem; color: #1e40af; margin-top: 0.5rem;">
-                        Vous pouvez aussi tester que le DOM affiche bien le titre en utilisant <code>fixture.nativeElement.querySelector('h2')</code>
-                    </p>
-                </div>
-            </div>
+    <h3 style="margin-top: 2rem;">Le composant TaskHighlight</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { Component, Input } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core'</span>;
+
+<span style="color: #8b5cf6;">@Component</span>({
+  selector: <span style="color: #059669;">'app-task-highlight'</span>,
+  template: <span style="color: #059669;">`
+    &lt;div class="task-highlight"&gt;
+      &lt;h3&gt;Tâche mise en avant&lt;/h3&gt;
+      &lt;h2&gt;{{ title }}&lt;/h2&gt;
+    &lt;/div&gt;
+  `</span>
+})
+<span style="color: #0ea5e9;">export class</span> <span style="color: #8b5cf6;">TaskHighlight</span> {
+  <span style="color: #8b5cf6;">@Input</span>() title = <span style="color: #059669;">''</span>;
+}</pre>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Test du composant</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { ComponentFixture, TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
+<span style="color: #0ea5e9;">import</span> { TaskHighlight } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./task-highlight.component'</span>;
+
+<span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'TaskHighlight Component'</span>, () => {
+  <span style="color: #0ea5e9;">let</span> component: TaskHighlight;
+  <span style="color: #0ea5e9;">let</span> fixture: ComponentFixture&lt;TaskHighlight&gt;;
+
+  <span style="color: #8b5cf6;">beforeEach</span>(<span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #0ea5e9;">await</span> TestBed.configureTestingModule({
+      imports: [TaskHighlight]  <span style="color: #64748b;">// Standalone component</span>
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TaskHighlight);
+    component = fixture.componentInstance;
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait être créé'</span>, () => {
+    <span style="color: #8b5cf6;">expect</span>(component).<span style="color: #8b5cf6;">toBeTruthy</span>();
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait afficher le titre passé en @Input'</span>, () => {
+    <span style="color: #64748b;">// ARRANGE : Définir la valeur de @Input</span>
+    component.title = <span style="color: #059669;">'Apprendre Angular'</span>;
+    
+    <span style="color: #64748b;">// ACT : Déclencher la détection de changements</span>
+    fixture.detectChanges();
+    
+    <span style="color: #64748b;">// ASSERT : Vérifier que le titre s'affiche</span>
+    <span style="color: #0ea5e9;">const</span> element = fixture.nativeElement;
+    <span style="color: #0ea5e9;">const</span> h2 = element.querySelector(<span style="color: #059669;">'h2'</span>);
+    <span style="color: #8b5cf6;">expect</span>(h2.textContent).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">'Apprendre Angular'</span>);
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait avoir un titre vide par défaut'</span>, () => {
+    <span style="color: #8b5cf6;">expect</span>(component.title).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">''</span>);
+  });
+});</pre>
+    </div>
+
+    <div class="alert alert-warning" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+        <strong>💡 Comprendre l'@Input dans les tests :</strong>
+        <p style="margin-top: 10px;">Écrire <code>component.title = 'Apprendre Angular'</code> dans le test, c'est comme si on écrivait dans un template :</p>
+        <pre style="background: white; padding: 10px; border-radius: 4px; margin-top: 10px;"><code>&lt;app-task-highlight title="Apprendre Angular"&gt;&lt;/app-task-highlight&gt;</code></pre>
+        <p style="margin-top: 10px;">Les deux font la même chose : passer une valeur à la propriété <code>@Input()</code> du composant.</p>
+    </div>
+
+    <div class="alert alert-success">
+        <strong>🔑 Concepts clés :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li><code>ComponentFixture</code> : Conteneur de test pour le composant</li>
+            <li><code>fixture.componentInstance</code> : Accès au composant TypeScript</li>
+            <li><code>fixture.detectChanges()</code> : Force Angular à mettre à jour le DOM</li>
+            <li><code>fixture.nativeElement</code> : Accès au DOM HTML</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-blue">
+        <strong>💡 À retenir :</strong> On modifie la propriété <code>@Input</code> directement • On appelle <code>detectChanges()</code> pour mettre à jour le DOM • On vérifie le rendu HTML avec <code>querySelector()</code>
+    </div>
+</div>
+           <!-- Slide 27 - Tester un composant avec @Output -->
+<div class="slide">
+    <h2>Tester un composant avec @Output</h2>
+    
+    <div class="exercise-box">
+        <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
+        <p style="font-size: 1.3rem; margin-top: 1rem;">Tester le composant TaskEditComponent avec ses @Output</p>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>📘 Rappel :</strong> Le composant <code>TaskEditComponent</code> permet d'éditer une tâche. Il émet des événements <code>@Output</code> quand on sauvegarde ou annule.
+    </div>
+
+    <h3 style="margin-top: 2rem;">Le composant TaskEditComponent</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; color: #1e293b;"><span style="color: #8b5cf6;">@Component</span>({
+  selector: <span style="color: #059669;">'app-task-edit'</span>,
+  template: <span style="color: #059669;">`
+    &lt;div class="task-edit"&gt;
+      &lt;h3&gt;Éditer la tâche&lt;/h3&gt;
+      &lt;input #editInput [value]="title" /&gt;
+      &lt;button (click)="save(editInput.value)"&gt;Sauvegarder&lt;/button&gt;
+      &lt;button (click)="cancel()"&gt;Annuler&lt;/button&gt;
+    &lt;/div&gt;
+  `</span>
+})
+<span style="color: #0ea5e9;">export class</span> <span style="color: #8b5cf6;">TaskEditComponent</span> {
+  <span style="color: #8b5cf6;">@Input</span>() title = <span style="color: #059669;">''</span>;
+  <span style="color: #8b5cf6;">@Input</span>() taskId = <span style="color: #dc2626;">0</span>;
+  <span style="color: #8b5cf6;">@Output</span>() onSave = <span style="color: #0ea5e9;">new</span> EventEmitter&lt;{id: <span style="color: #0ea5e9;">number</span>, title: <span style="color: #0ea5e9;">string</span>}&gt;();
+  <span style="color: #8b5cf6;">@Output</span>() onCancel = <span style="color: #0ea5e9;">new</span> EventEmitter&lt;<span style="color: #0ea5e9;">void</span>&gt;();
+
+  <span style="color: #8b5cf6;">save</span>(newTitle: <span style="color: #0ea5e9;">string</span>) {
+    <span style="color: #0ea5e9;">if</span> (newTitle.trim()) {
+      <span style="color: #0ea5e9;">this</span>.onSave.emit({ id: <span style="color: #0ea5e9;">this</span>.taskId, title: newTitle });
+    }
+  }
+
+  <span style="color: #8b5cf6;">cancel</span>() {
+    <span style="color: #0ea5e9;">this</span>.onCancel.emit();
+  }
+}</pre>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Test du composant</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { ComponentFixture, TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
+<span style="color: #0ea5e9;">import</span> { TaskEditComponent } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./task-edit.component'</span>;
+
+<span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'TaskEditComponent'</span>, () => {
+  <span style="color: #0ea5e9;">let</span> component: TaskEditComponent;
+  <span style="color: #0ea5e9;">let</span> fixture: ComponentFixture&lt;TaskEditComponent&gt;;
+
+  <span style="color: #8b5cf6;">beforeEach</span>(<span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #0ea5e9;">await</span> TestBed.configureTestingModule({
+      imports: [TaskEditComponent]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TaskEditComponent);
+    component = fixture.componentInstance;
+    component.title = <span style="color: #059669;">'Tâche initiale'</span>;
+    component.taskId = <span style="color: #dc2626;">1</span>;
+    fixture.detectChanges();
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait émettre onSave avec les bonnes données'</span>, () => {
+    <span style="color: #64748b;">// ARRANGE : Espionner l'événement @Output</span>
+    <span style="color: #0ea5e9;">let</span> savedData: any;
+    component.onSave.subscribe((data) => {
+      savedData = data;
+    });
+
+    <span style="color: #64748b;">// ACT : Appeler la méthode save</span>
+    component.save(<span style="color: #059669;">'Nouvelle tâche'</span>);
+
+    <span style="color: #64748b;">// ASSERT : Vérifier les données émises</span>
+    <span style="color: #8b5cf6;">expect</span>(savedData.id).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">1</span>);
+    <span style="color: #8b5cf6;">expect</span>(savedData.title).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">'Nouvelle tâche'</span>);
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait émettre onCancel quand on annule'</span>, () => {
+    <span style="color: #64748b;">// ARRANGE : Espionner l'événement @Output</span>
+    <span style="color: #0ea5e9;">let</span> cancelled = <span style="color: #dc2626;">false</span>;
+    component.onCancel.subscribe(() => {
+      cancelled = <span style="color: #dc2626;">true</span>;
+    });
+
+    <span style="color: #64748b;">// ACT : Appeler la méthode cancel</span>
+    component.cancel();
+
+    <span style="color: #64748b;">// ASSERT : Vérifier que l'événement a été émis</span>
+    <span style="color: #8b5cf6;">expect</span>(cancelled).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">true</span>);
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'ne devrait pas émettre onSave si le titre est vide'</span>, () => {
+    <span style="color: #0ea5e9;">let</span> emitted = <span style="color: #dc2626;">false</span>;
+    component.onSave.subscribe(() => {
+      emitted = <span style="color: #dc2626;">true</span>;
+    });
+
+    component.save(<span style="color: #059669;">'   '</span>);  <span style="color: #64748b;">// Titre vide (espaces)</span>
+
+    <span style="color: #8b5cf6;">expect</span>(emitted).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">false</span>);
+  });
+});</pre>
+    </div>
+
+    <div class="alert alert-warning" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+        <strong>💡 Comprendre l'@Output dans les tests :</strong>
+        <p style="margin-top: 10px;">S'abonner à <code>component.onSave.subscribe(...)</code> dans le test, c'est comme si on écrivait dans un template :</p>
+        <pre style="background: white; padding: 10px; border-radius: 4px; margin-top: 10px;"><code>&lt;app-task-edit (onSave)="handleSave($event)"&gt;&lt;/app-task-edit&gt;</code></pre>
+        <p style="margin-top: 10px;">Les deux écoutent l'événement émis par le composant enfant.</p>
+    </div>
+
+    <div class="alert alert-success">
+        <strong>🔑 Concepts clés :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li><code>component.onSave.subscribe()</code> : S'abonner à l'événement @Output</li>
+            <li><code>.emit()</code> : Le composant émet une valeur</li>
+            <li>On teste que les bonnes données sont émises</li>
+            <li>On teste aussi les cas limites (titre vide)</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-blue">
+        <strong>💡 À retenir :</strong> Les @Output sont des EventEmitter • On s'y abonne avec <code>.subscribe()</code> • On vérifie que les bonnes données sont émises
+    </div>
+</div>
 
             <!-- Slide 28 -->
-           
-            <div class="slide">
-                <h2>Tester les @Output</h2>
-                
-                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">🎯 Principe</h3>
-                    <ol style="margin-top: 1rem; font-size: 1.2rem; margin-left: 1.5rem;">
-                        <li>S'abonner à l'EventEmitter</li>
-                        <li>Capturer la valeur émise</li>
-                        <li>Déclencher l'événement</li>
-                        <li>Vérifier la valeur capturée</li>
-                    </ol>
-                </div>
-                
-                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait émettre un événement au clic'</span>, () => {
-            <span style="color: #6b7280;">// 1. Variable pour capturer la valeur</span>
-            <span style="color: #0ea5e9;">let</span> emittedValue: <span style="color: #0ea5e9;">string</span> | <span style="color: #0ea5e9;">undefined</span>;
-            
-            <span style="color: #6b7280;">// 2. S'abonner à l'EventEmitter</span>
-            component.taskClicked.<span style="color: #8b5cf6;">subscribe</span>((value: <span style="color: #0ea5e9;">string</span>) => {
-                emittedValue = value;
-            });
-            
-            <span style="color: #6b7280;">// 3. Déclencher l'événement</span>
-            component.onClick();
-            
-            <span style="color: #6b7280;">// 4. Vérifier la valeur capturée</span>
-            <span style="color: #8b5cf6;">expect</span>(emittedValue).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #059669;">'task-clicked'</span>);
-            });</pre>
-                </div>
-                
-                <div class="alert alert-blue">
-                    <strong>💡 Astuce :</strong> Vous pouvez aussi utiliser <code>spyOn(component.taskClicked, 'emit')</code> pour vérifier l'émission
-                </div>
-            </div>
-
-            <!-- Slide 29 -->
             <div class="slide">
                 <h2>Tester le DOM</h2>
                 
@@ -475,14 +617,14 @@
                     <ul style="margin-top: 0.5rem; color: #15803d;">
                         <li>• Toujours appeler <code>detectChanges()</code> avant de tester le DOM</li>
                         <li>• <code>querySelector()</code> retourne le premier élément trouvé</li>
-                        <li>• <code>querySelectorAll()</code> retourne tous les éléments (NodeList)</li>
+                        <li>• <code>querySelectorAll()</code> retourne tous les éléments (NodeList) exemple &lt;li&gt;</li>
                     </ul>
                 </div>
             </div>
 
            
 
-            <!-- Slide 31 -->
+            <!-- Slide 30 -->
             <div class="slide">
                 <h2>Attention aux tests générés par le CLI</h2>
                 
@@ -524,48 +666,95 @@
                 </div>
             </div>
 
+      <!-- Slide 30 - Tester la navigation (Router) -->
+<div class="slide">
+    <h2>Tester la navigation (Router)</h2>
+    
+    <div class="exercise-box">
+        <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
+        <p style="font-size: 1.3rem; margin-top: 1rem;">Tester un composant qui utilise le Router Angular</p>
+    </div>
+
+    <div class="alert alert-warning">
+        <strong>⚠️ Attention :</strong> <code>RouterTestingModule</code> est déprécié depuis Angular 15+. Utilisez <code>provideRouter([])</code> à la place.
+    </div>
+
+    <h3 style="margin-top: 2rem;">Exemple avec le composant Home</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; color: #1e293b;"><span style="color: #64748b;">// home.component.ts (exemple)</span>
+<span style="color: #8b5cf6;">@Component</span>({
+  selector: <span style="color: #059669;">'app-home'</span>,
+  template: <span style="color: #059669;">`
+    &lt;h1&gt;Bienvenue sur TaskBoard Pro&lt;/h1&gt;
+    &lt;button (click)="goToTasks()"&gt;Voir les tâches&lt;/button&gt;
+  `</span>
+})
+<span style="color: #0ea5e9;">export class</span> <span style="color: #8b5cf6;">Home</span> {
+  <span style="color: #0ea5e9;">private</span> router = inject(Router);
+
+  <span style="color: #8b5cf6;">goToTasks</span>() {
+    <span style="color: #0ea5e9;">this</span>.router.navigate([<span style="color: #059669;">'/tasks'</span>]);
+  }
+}</pre>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Test avec provideRouter</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { ComponentFixture, TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
+<span style="color: #0ea5e9;">import</span> { provideRouter } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router'</span>;
+<span style="color: #0ea5e9;">import</span> { Router } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router'</span>;
+<span style="color: #0ea5e9;">import</span> { Home } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./home.component'</span>;
+
+<span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'Home Component avec Router'</span>, () => {
+  <span style="color: #0ea5e9;">let</span> component: Home;
+  <span style="color: #0ea5e9;">let</span> fixture: ComponentFixture&lt;Home&gt;;
+  <span style="color: #0ea5e9;">let</span> router: Router;
+
+  <span style="color: #8b5cf6;">beforeEach</span>(<span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #0ea5e9;">await</span> TestBed.configureTestingModule({
+      imports: [Home],
+      providers: [
+        provideRouter([])  <span style="color: #64748b;">// ✅ Nouvelle méthode (Angular 15+)</span>
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Home);
+    component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    fixture.detectChanges();
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait naviguer vers /tasks'</span>, () => {
+    <span style="color: #64748b;">// ARRANGE : Espionner la méthode navigate du router</span>
+    <span style="color: #0ea5e9;">const</span> navigateSpy = spyOn(router, <span style="color: #059669;">'navigate'</span>);
+
+    <span style="color: #64748b;">// ACT : Appeler la méthode de navigation</span>
+    component.goToTasks();
+
+    <span style="color: #64748b;">// ASSERT : Vérifier que navigate a été appelé avec le bon argument</span>
+    <span style="color: #8b5cf6;">expect</span>(navigateSpy).<span style="color: #8b5cf6;">toHaveBeenCalledWith</span>([<span style="color: #059669;">'/tasks'</span>]);
+  });
+});</pre>
+    </div>
+
+    <div class="alert alert-success">
+        <strong>🔑 Concepts clés :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li><code>provideRouter([])</code> : Configure le Router pour les tests (Angular 15+)</li>
+            <li><code>spyOn(router, 'navigate')</code> : Espionne les appels au router</li>
+            <li><code>toHaveBeenCalledWith()</code> : Vérifie les arguments passés</li>
+            <li>Pas besoin de vraies routes dans les tests unitaires</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-blue">
+        <strong>💡 À retenir :</strong> N'utilisez plus RouterTestingModule • Utilisez <code>provideRouter([])</code> • Espionnez <code>router.navigate()</code> avec <code>spyOn()</code>
+    </div>
+</div>
+
             <!-- Slide 32 -->
-            <div class="slide">
-                <h2>Problème RouterTestingModule</h2>
-                
-                <div style="background: #fee2e2; border: 3px solid #ef4444; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: #7f1d1d; font-size: 1.3rem; margin-bottom: 1rem;">❌ Erreur courante</h3>
-                    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin-top: 1rem;">
-                        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 1rem; color: #dc2626;">NG0201: No provider for ActivatedRoute</pre>
-                    </div>
-                </div>
-                
-                <div style="background: #dbeafe; border-left: 8px solid #3b82f6; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin: 2rem 0;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">🔍 Cause</h3>
-                    <p style="margin-top: 0.5rem; font-size: 1.1rem; color: #1e40af;">
-                        Votre composant utilise RouterLink, RouterOutlet ou ActivatedRoute, mais TestBed ne les fournit pas par défaut
-                    </p>
-                </div>
-                
-                <div style="background: #dcfce7; border-left: 8px solid #22c55e; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0;">
-                    <h3 style="color: #15803d; margin-bottom: 1rem;">✅ Solution</h3>
-                    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin-top: 1rem;">
-                        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { RouterTestingModule } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router/testing'</span>;
-
-            <span style="color: #0ea5e9;">await</span> TestBed.<span style="color: #8b5cf6;">configureTestingModule</span>({
-            imports: [TaskHighlight, <span style="color: #dc2626;">RouterTestingModule</span>]
-            }).<span style="color: #8b5cf6;">compileComponents</span>();</pre>
-                    </div>
-                </div>
-                
-                <div class="alert alert-yellow" style="margin-top: 2rem;">
-                    <strong>📝 Note :</strong> RouterTestingModule est marqué "déprécié" mais reste utilisable. La nouvelle API (provideRouter()) n'est pas encore stable partout.
-                </div>
-                
-                <div style="background: #fef3c7; border-left: 8px solid #f59e0b; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0; margin-top: 1.5rem;">
-                    <strong style="color: #92400e;">💡 Cas d'usage :</strong>
-                    <p style="margin-top: 0.5rem; font-size: 1.1rem; color: #78350f;">
-                        Vous aurez besoin de RouterTestingModule dès que votre composant contient un <code>&lt;a routerLink&gt;</code> ou utilise le Router
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 33 -->
             <div class="slide">
                 <h2>Code Coverage</h2>
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
