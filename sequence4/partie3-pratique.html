@@ -573,54 +573,102 @@
     </div>
 </div>
 
-            <!-- Slide 28 -->
-            <div class="slide">
-                <h2>Tester le DOM</h2>
-                
-                <div style="background: #fef3c7; border: 3px solid #f59e0b; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: #92400e;">🎯 Objectif</h3>
-                    <p style="font-size: 1.2rem; margin-top: 0.5rem;">
-                        Vérifier que le template affiche correctement les données
-                    </p>
-                </div>
-                
-                <div style="background: white; border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 2rem; margin: 2rem 0;">
-                    <h3>🔍 Méthodes utiles</h3>
-                    <ul style="margin-top: 1rem;">
-                        <li><code>fixture.nativeElement</code> → Accès au DOM réel</li>
-                        <li><code>querySelector()</code> → Sélectionner un élément</li>
-                        <li><code>querySelectorAll()</code> → Sélectionner plusieurs éléments</li>
-                        <li><code>textContent</code> → Récupérer le texte</li>
-                    </ul>
-                </div>
-                
-                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait afficher le bon nombre de tâches'</span>, () => {
-            <span style="color: #6b7280;">// ARRANGE : Définir les tâches</span>
-            component.tasks = [
-                { id: <span style="color: #dc2626;">1</span>, title: <span style="color: #059669;">'Tâche 1'</span> },
-                { id: <span style="color: #dc2626;">2</span>, title: <span style="color: #059669;">'Tâche 2'</span> }
-            ];
-            
-            <span style="color: #6b7280;">// ACT : Mettre à jour le template</span>
-            fixture.<span style="color: #8b5cf6;">detectChanges</span>();
-            
-            <span style="color: #6b7280;">// ASSERT : Compter les éléments dans le DOM</span>
-            <span style="color: #0ea5e9;">const</span> items = fixture.nativeElement
-                .<span style="color: #8b5cf6;">querySelectorAll</span>(<span style="color: #059669;">'.task-item'</span>);
-            <span style="color: #8b5cf6;">expect</span>(items.length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">2</span>);
-            });</pre>
-                </div>
-                
-                <div style="background: #dcfce7; border-left: 8px solid #22c55e; padding: 1.5rem; border-radius: 0 0.5rem 0.5rem 0;">
-                    <strong style="color: #15803d;">✅ Points clés :</strong>
-                    <ul style="margin-top: 0.5rem; color: #15803d;">
-                        <li>• Toujours appeler <code>detectChanges()</code> avant de tester le DOM</li>
-                        <li>• <code>querySelector()</code> retourne le premier élément trouvé</li>
-                        <li>• <code>querySelectorAll()</code> retourne tous les éléments (NodeList) exemple &lt;li&gt;</li>
-                    </ul>
-                </div>
-            </div>
+            <!-- Slide 28 - Tester le rendu du composant -->
+<div class="slide">
+    <h2>Tester le rendu (DOM) du composant</h2>
+    
+    <div class="exercise-box">
+        <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
+        <p style="font-size: 1.3rem; margin-top: 1rem;">Vérifier que les tâches s'affichent correctement dans le template</p>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>📘 Différence avec les tests précédents :</strong> Jusqu'ici on testait la logique TypeScript. Maintenant on teste que ça s'affiche vraiment dans le HTML !
+    </div>
+
+    <h3 style="margin-top: 2rem;">Test de rendu du composant TasksPage</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { ComponentFixture, TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
+<span style="color: #0ea5e9;">import</span> { provideRouter } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router'</span>;
+<span style="color: #0ea5e9;">import</span> { TasksPage } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./tasks-page'</span>;
+<span style="color: #0ea5e9;">import</span> { Task } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'../../../core/services/task'</span>;
+
+<span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'TasksPage Component - Rendu'</span>, () => {
+  <span style="color: #0ea5e9;">let</span> component: TasksPage;
+  <span style="color: #0ea5e9;">let</span> fixture: ComponentFixture&lt;TasksPage&gt;;
+  <span style="color: #0ea5e9;">let</span> service: Task;
+
+  <span style="color: #8b5cf6;">beforeEach</span>(<span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #0ea5e9;">await</span> TestBed.configureTestingModule({
+      imports: [TasksPage],
+      providers: [
+        provideRouter([]),
+        Task
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TasksPage);
+    component = fixture.componentInstance;
+    service = TestBed.inject(Task);
+    
+    <span style="color: #64748b;">// Partir d'un état propre</span>
+    service.clearTasks();
+    fixture.detectChanges();
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait afficher le bon nombre de tâches'</span>, <span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #64748b;">// ARRANGE : Ajouter des tâches via le service</span>
+    service.addTask(<span style="color: #059669;">'Tâche 1'</span>);
+    service.addTask(<span style="color: #059669;">'Tâche 2'</span>);
+    
+    <span style="color: #64748b;">// ACT : Mettre à jour le template</span>
+    fixture.detectChanges();
+    
+    <span style="color: #64748b;">// Attendre que l'Observable émette</span>
+    <span style="color: #0ea5e9;">await</span> fixture.whenStable();
+    
+    <span style="color: #64748b;">// ASSERT : Compter les éléments &lt;li&gt; dans le DOM</span>
+    <span style="color: #0ea5e9;">const</span> items = fixture.nativeElement.querySelectorAll(<span style="color: #059669;">'li'</span>);
+    <span style="color: #8b5cf6;">expect</span>(items.length).<span style="color: #8b5cf6;">toBe</span>(<span style="color: #dc2626;">4</span>);
+  });
+
+  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait afficher le titre des tâches'</span>, <span style="color: #0ea5e9;">async</span> () => {
+    <span style="color: #64748b;">// ARRANGE</span>
+    service.addTask(<span style="color: #059669;">'Apprendre Angular'</span>);
+    service.addTask(<span style="color: #059669;">'Maîtriser les tests'</span>);
+    
+    <span style="color: #64748b;">// ACT</span>
+    fixture.detectChanges();
+    <span style="color: #0ea5e9;">await</span> fixture.whenStable();
+    
+    <span style="color: #64748b;">// ASSERT</span>
+    <span style="color: #0ea5e9;">const</span> element = fixture.nativeElement;
+    <span style="color: #0ea5e9;">const</span> text = element.textContent;
+    
+    <span style="color: #8b5cf6;">expect</span>(text).<span style="color: #8b5cf6;">toContain</span>(<span style="color: #059669;">'Apprendre Angular'</span>);
+    <span style="color: #8b5cf6;">expect</span>(text).<span style="color: #8b5cf6;">toContain</span>(<span style="color: #059669;">'Maîtriser les tests'</span>);
+  });
+});</pre>
+    </div>
+
+    
+
+    <div class="alert alert-success">
+        <strong>🔑 Concepts clés :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li><code>fixture.detectChanges()</code> : Force Angular à mettre à jour le DOM</li>
+            <li><code>await fixture.whenStable()</code> : Attend que les Observables émettent</li>
+            <li><code>fixture.nativeElement</code> : Accès au DOM HTML réel</li>
+            <li><code>.querySelectorAll('li')</code> : Sélectionne tous les &lt;li&gt; de la page</li>
+            <li><code>.textContent</code> : Récupère tout le texte visible</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-blue">
+        <strong>💡 À retenir :</strong> Les tests de rendu vérifient que les données apparaissent bien dans le HTML • On utilise <code>querySelectorAll()</code> et <code>textContent</code> comme en JavaScript classique
+    </div>
+</div>
 
            
 
