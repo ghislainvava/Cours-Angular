@@ -710,7 +710,7 @@
 
            
 
-            <!-- Slide 30 -->
+            <!-- Slide  -->
             <div class="slide">
                 <h2>Attention aux tests générés par le CLI</h2>
                 
@@ -752,123 +752,137 @@
                 </div>
             </div>
 
-      <!-- Slide 30 - Tester la navigation (Router) -->
-<!-- <div class="slide">
-    <h2>Tester la navigation (Router)</h2>
+      <!-- <!-- Slide 30 - Code Coverage -->
+<div class="slide">
+    <h2>Code Coverage - Couverture de tests</h2>
     
     <div class="exercise-box">
-        <h3 style="color: white; font-size: 2rem;">🎯 Objectif</h3>
-        <p style="font-size: 1.3rem; margin-top: 1rem;">Tester un composant qui utilise le Router Angular</p>
+        <h3 style="color: white; font-size: 2rem;">📊 Objectif</h3>
+        <p style="font-size: 1.3rem; margin-top: 1rem;">Mesurer quelle partie du code est testée</p>
     </div>
 
-    <div class="alert alert-warning">
-        <strong>⚠️ Attention :</strong> <code>RouterTestingModule</code> est déprécié depuis Angular 15+. Utilisez <code>provideRouter([])</code> à la place.
+    <div class="alert alert-info">
+        <strong>🔍 Qu'est-ce que le Code Coverage ?</strong>
+        <p style="margin-top: 10px;">Le <strong>code coverage</strong> (couverture de code) mesure le pourcentage de votre code qui est exécuté pendant les tests.</p>
     </div>
 
-    <h3 style="margin-top: 2rem;">Exemple avec le composant Home</h3>
+    <h3 style="margin-top: 2rem;">Générer un rapport de couverture</h3>
 
     <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; color: #1e293b;"><span style="color: #64748b;">// home.component.ts (exemple)</span>
-<span style="color: #8b5cf6;">@Component</span>({
-  selector: <span style="color: #059669;">'app-home'</span>,
-  template: <span style="color: #059669;">`
-    &lt;h1&gt;Bienvenue sur TaskBoard Pro&lt;/h1&gt;
-    &lt;button (click)="goToTasks()"&gt;Voir les tâches&lt;/button&gt;
-  `</span>
-})
-<span style="color: #0ea5e9;">export class</span> <span style="color: #8b5cf6;">Home</span> {
-  <span style="color: #0ea5e9;">private</span> router = inject(Router);
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #64748b;"># Lancer les tests avec le rapport de couverture</span>
+ng test --code-coverage
 
-  <span style="color: #8b5cf6;">goToTasks</span>() {
-    <span style="color: #0ea5e9;">this</span>.router.navigate([<span style="color: #059669;">'/tasks'</span>]);
-  }
-}</pre>
+<span style="color: #64748b;"># Le rapport s'affiche dans la console et génère un dossier coverage/</span></pre>
     </div>
 
-    <h3 style="margin-top: 2rem;">Test avec provideRouter</h3>
+    <h3 style="margin-top: 2rem;">📊 Exemple de rapport de couverture</h3>
+
+    <div style="background: #1e1e1e; color: #d4d4d4; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0; font-family: 'Courier New', monospace;">
+        <pre style="margin: 0; font-size: 0.9rem; line-height: 1.6;">=============================== Coverage summary ===============================
+Statements   : 73.26% ( 74/101 )
+Branches     : 40% ( 4/10 )
+Functions    : 56.66% ( 17/30 )
+Lines        : 70% ( 63/90 )
+================================================================================</pre>
+    </div>
+
+    <h3 style="margin-top: 2rem;">🔍 Explication ligne par ligne</h3>
 
     <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
-        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; color: #1e293b;"><span style="color: #0ea5e9;">import</span> { ComponentFixture, TestBed } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/core/testing'</span>;
-<span style="color: #0ea5e9;">import</span> { provideRouter } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router'</span>;
-<span style="color: #0ea5e9;">import</span> { Router } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'@angular/router'</span>;
-<span style="color: #0ea5e9;">import</span> { Home } <span style="color: #0ea5e9;">from</span> <span style="color: #059669;">'./home.component'</span>;
-
-<span style="color: #8b5cf6;">fdescribe</span>(<span style="color: #059669;">'Home Component avec Router'</span>, () => {
-  <span style="color: #0ea5e9;">let</span> component: Home;
-  <span style="color: #0ea5e9;">let</span> fixture: ComponentFixture&lt;Home&gt;;
-  <span style="color: #0ea5e9;">let</span> router: Router;
-
-  <span style="color: #8b5cf6;">beforeEach</span>(<span style="color: #0ea5e9;">async</span> () => {
-    <span style="color: #0ea5e9;">await</span> TestBed.configureTestingModule({
-      imports: [Home],
-      providers: [
-        provideRouter([])  <span style="color: #64748b;">// ✅ Nouvelle méthode (Angular 15+)</span>
-      ]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Home);
-    component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    fixture.detectChanges();
-  });
-
-  <span style="color: #8b5cf6;">it</span>(<span style="color: #059669;">'devrait naviguer vers /tasks'</span>, () => {
-    <span style="color: #64748b;">// ARRANGE : Espionner la méthode navigate du router</span>
-    <span style="color: #0ea5e9;">const</span> navigateSpy = spyOn(router, <span style="color: #059669;">'navigate'</span>);
-
-    <span style="color: #64748b;">// ACT : Appeler la méthode de navigation</span>
-    component.goToTasks();
-
-    <span style="color: #64748b;">// ASSERT : Vérifier que navigate a été appelé avec le bon argument</span>
-    <span style="color: #8b5cf6;">expect</span>(navigateSpy).<span style="color: #8b5cf6;">toHaveBeenCalledWith</span>([<span style="color: #059669;">'/tasks'</span>]);
-  });
-});</pre>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #e0f2fe; border-bottom: 2px solid #0ea5e9;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #bae6fd;">Métrique</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #bae6fd;">Résultat</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #bae6fd;">Explication</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">Statements</td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>73.26% (74/101)</code></td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;">
+                        <strong>Instructions de code testées</strong><br>
+                        74 instructions sur 101 sont exécutées pendant les tests<br>
+                        <em>Ex: <code>const x = 5;</code>, <code>service.addTask();</code></em>
+                    </td>
+                </tr>
+                <tr style="background: #f5f5f5;">
+                    <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">Branches</td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>40% (4/10)</code></td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;">
+                        <strong>Chemins conditionnels testés</strong><br>
+                        4 branches sur 10 sont testées<br>
+                        <em>Ex: Dans <code>if (title.trim()) {...}</code>, teste-t-on le cas vrai ET le cas faux ?</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">Functions</td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>56.66% (17/30)</code></td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;">
+                        <strong>Fonctions/méthodes testées</strong><br>
+                        17 fonctions sur 30 sont appelées pendant les tests<br>
+                        <em>Ex: <code>addTask()</code>, <code>deleteTask()</code></em>
+                    </td>
+                </tr>
+                <tr style="background: #f5f5f5;">
+                    <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">Lines</td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>70% (63/90)</code></td>
+                    <td style="padding: 12px; border: 1px solid #e0e0e0;">
+                        <strong>Lignes de code testées</strong><br>
+                        63 lignes sur 90 sont exécutées<br>
+                        <em>Similaire à Statements mais compte les lignes physiques</em>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="alert alert-success">
-        <strong>🔑 Concepts clés :</strong>
-        <ul style="margin-top: 10px; margin-left: 20px;">
-            <li><code>provideRouter([])</code> : Configure le Router pour les tests (Angular 15+)</li>
-            <li><code>spyOn(router, 'navigate')</code> : Espionne les appels au router</li>
-            <li><code>toHaveBeenCalledWith()</code> : Vérifie les arguments passés</li>
-            <li>Pas besoin de vraies routes dans les tests unitaires</li>
+        <strong>💡 Exemple concret :</strong>
+        <pre style="margin-top: 10px; background: white; padding: 15px; border-radius: 4px;"><code>addTask(title: string): void {
+  if (title.trim()) {        // ← BRANCH (2 chemins possibles)
+    this.service.addTask(title);  // ← STATEMENT + LINE + dans FUNCTION
+  }
+}</code></pre>
+        <ul style="margin-top: 15px; margin-left: 20px;">
+            <li><strong>Statements :</strong> 2 instructions (<code>if</code> + <code>this.service.addTask()</code>)</li>
+            <li><strong>Branches :</strong> 2 chemins (vrai/faux du <code>if</code>)</li>
+            <li><strong>Functions :</strong> 1 fonction (<code>addTask</code>)</li>
+            <li><strong>Lines :</strong> 3 lignes de code</li>
         </ul>
     </div>
 
-    <div class="alert alert-blue">
-        <strong>💡 À retenir :</strong> N'utilisez plus RouterTestingModule • Utilisez <code>provideRouter([])</code> • Espionnez <code>router.navigate()</code> avec <code>spyOn()</code>
+    <div class="alert alert-warning">
+        <strong>⚠️ Analyse de votre couverture :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li>✅ <strong>Statements (73.26%)</strong> : Bon niveau</li>
+            <li>✅ <strong>Lines (70%)</strong> : Acceptable</li>
+            <li>⚠️ <strong>Functions (56.66%)</strong> : Moyen - beaucoup de fonctions non testées</li>
+            <li>❌ <strong>Branches (40%)</strong> : Faible - peu de cas limites testés</li>
+        </ul>
+        <p style="margin-top: 15px;"><strong>Recommandation :</strong> Ajouter des tests pour les cas <code>if/else</code> non testés</p>
     </div>
-</div> -->
 
-            <!-- Slide 32 -->
-            <div class="slide">
-                <h2>Code Coverage</h2>
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                    <h3 style="color: white; font-size: 1.8rem;">📊 Qu'est-ce que c'est ?</h3>
-                    <p style="font-size: 1.2rem; margin-top: 1rem;">Le code coverage mesure quel pourcentage de votre code est couvert par les tests</p>
-                </div>
-                <div style="background: white; border: 3px solid #3b82f6; border-radius: 0.5rem; padding: 2rem; margin: 2rem 0;">
-                    <h3 style="color: #1e40af;">💻 Commande</h3>
-                    <div class="code-block">
-ng test --code-coverage
-                    </div>
-                    <h3 style="color: #1e40af; margin-top: 2rem;">📈 Résultat</h3>
-                    <p style="margin-top: 0.5rem;">Un rapport HTML dans <code>coverage/index.html</code> avec :</p>
-                    <ul style="margin-top: 1rem;">
-                        <li><strong>• Statements</strong> : lignes de code exécutées</li>
-                        <li><strong>• Branches</strong> : conditions if/else testées</li>
-                        <li><strong>• Functions</strong> : fonctions appelées</li>
-                        <li><strong>• Lines</strong> : lignes couvertes</li>
-                    </ul>
-                </div>
-                <div class="alert alert-blue">
-                    <strong>🎯 Objectif recommandé :</strong> Viser 70-80% de couverture
-                </div>
-                <div class="alert alert-yellow">
-                    <strong>⚠️ Attention :</strong> 100% de coverage ≠ 0 bug !
-                </div>
-            </div>
-            
+    <div class="alert alert-blue">
+        <strong>🎯 Objectifs de couverture recommandés :</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            <li><strong>Minimum acceptable :</strong> 70% de couverture globale</li>
+            <li><strong>Bon niveau :</strong> 80%+</li>
+            <li><strong>Excellent :</strong> 90%+</li>
+        </ul>
+        <p style="margin-top: 10px;"><strong>⚠️ Attention :</strong> 100% de couverture ne garantit pas zéro bug ! Un code peut être exécuté sans que tous les cas soient testés.</p>
+    </div>
+
+    <h3 style="margin-top: 2rem;">📁 Rapport HTML détaillé</h3>
+
+    <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.8; color: #1e293b;"><span style="color: #64748b;"># Ouvrir le rapport HTML dans le navigateur</span>
+open coverage/index.html
+
+<span style="color: #64748b;"># Le rapport montre ligne par ligne ce qui est testé (vert) ou non (rouge)</span></pre>
+    </div>
+</div>
         </div>
         
        <div class="navigation">
