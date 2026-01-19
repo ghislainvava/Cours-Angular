@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Séquence 5 - Performance & Sécurité Angular</title>
-    <style>
+     <style>
         * {
             margin: 0;
             padding: 0;
@@ -145,21 +145,20 @@
             font-size: 0.95em;
         }
 
-       pre {
-            background: #f4f4f4;
-            color: #333;
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
             padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
             font-family: 'Courier New', monospace;
             line-height: 1.5;
-            border: 1px solid #ddd;
         }
 
         pre code {
             background: transparent;
-            color: #333;        /* ← Changé de #f8f8f2 à #333 */
+            color: #f8f8f2;
             padding: 0;
         }
 
@@ -237,11 +236,6 @@
             margin: 20px 0;
         }
 
-        .comparison-item {
-            padding: 20px;
-            border-radius: 10px;
-        }
-
         .comparison-before {
             background: #f8d7da;
             border-left: 4px solid #dc3545;
@@ -256,36 +250,81 @@
             color: #667eea;
         }
 
-        .score-badge {
+        .step-number {
             display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
             font-weight: bold;
-            font-size: 1.1em;
-            margin: 0 5px;
+            margin-right: 10px;
         }
 
-        .score-excellent {
-            background: #d4edda;
-            color: #28a745;
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
         }
 
-        .score-good {
-            background: #fff3cd;
-            color: #ffc107;
+        .flow-step {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold;
         }
-
-        .score-poor {
-            background: #f8d7da;
-            color: #dc3545;
+          .container {
+        padding: 3rem;
+        border-radius: 1rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+         .back-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: white;
+                color: #667eea;
+                padding: 12px 25px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #667eea;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div class="presentation-container">
-        <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">20</span>
+    
+      <div class="presentation-container">
+
+          <div class="container">
+            <a href="../index.html" class="back-button">← Retour au dashboard</a>
+            <div class="slide-counter">
+                <span id="current-slide">1</span> / <span id="total-slides">30</span>
+            </div>
+
         </div>
+      
+     
 
         <!-- Slide 1 -->
         <div class="slide active">
@@ -336,95 +375,9 @@
             </div>
         </div>
 
+  
+
         <!-- Slide 3 -->
-        <div class="slide">
-            <h1>🔍 Les causes fréquentes en Angular</h1>
-            
-            <div class="comparison">
-                <div class="comparison-before">
-                    <h3>❌ Problème 1 : Change Detection par défaut</h3>
-                    <p>Angular vérifie TOUS les composants à CHAQUE événement</p>
-                    <pre><code>@Component({
-  selector: 'app-tasks',
-  // Pas de stratégie = Default (lent)
-})</code></pre>
-                    <p><strong>Impact :</strong> 100 composants vérifiés à chaque clic !</p>
-                </div>
-
-                <div class="comparison-after">
-                    <h3>✅ Solution : OnPush</h3>
-                    <p>Angular vérifie uniquement si les @Input changent</p>
-                    <pre><code>@Component({
-  selector: 'app-task-item',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})</code></pre>
-                    <p><strong>Gain :</strong> 99% de vérifications en moins !</p>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <h3>❌ Problème 2 : ngFor sans trackBy</h3>
-                <pre><code>@for (task of tasks; track task) {  // ❌ Sans ID
-  &lt;li&gt;{{ task.title }}&lt;/li&gt;
-}
-// Angular recrée TOUS les &lt;li&gt; à chaque changement</code></pre>
-            </div>
-
-            <div class="success-box">
-                <h3>✅ Solution : track par ID</h3>
-                <pre><code>@for (task of tasks; track task.id) {  // ✅ Avec ID
-  &lt;li&gt;{{ task.title }}&lt;/li&gt;
-}
-// Angular ne recrée que ce qui a changé</code></pre>
-            </div>
-        </div>
-
-        <!-- Slide 4 -->
-        <div class="slide">
-            <h1>🔎 Audit de performance</h1>
-            
-            <div class="highlight" style="text-align: center; padding: 40px;">
-                <h2 style="font-size: 2.5em; color: #667eea; margin-bottom: 20px;">
-                    "On n'optimise pas sans mesurer !"
-                </h2>
-                <p style="font-size: 1.3em;">Il faut d'abord <strong>identifier les vrais problèmes</strong> avant d'optimiser.</p>
-            </div>
-
-            <div class="info-box">
-                <h3>📊 Deux outils essentiels</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Outil</th>
-                            <th>Usage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Angular DevTools</strong></td>
-                            <td>Problèmes spécifiques Angular (change detection, composants)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Lighthouse</strong></td>
-                            <td>Performance globale (chargement, bundle, images)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="success-box">
-                <p><strong>Méthodologie :</strong></p>
-                <ol>
-                    <li>Mesurer l'état actuel</li>
-                    <li>Identifier les goulots d'étranglement</li>
-                    <li>Optimiser de manière ciblée</li>
-                    <li>Mesurer à nouveau</li>
-                    <li>Répéter jusqu'à satisfaction</li>
-                </ol>
-            </div>
-        </div>
-
-        <!-- Slide 5 -->
         <div class="slide">
             <h1>🛠️ Angular DevTools</h1>
             
@@ -460,7 +413,133 @@
             </div>
         </div>
 
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <h1>⏱️ DevTools Profiler : mesurer les re-renders</h1>
+
+            <div class="info-box">
+                <h3>🎯 Objectif</h3>
+                <p>Identifier <strong>quels composants</strong> sont vérifiés (change detection) lors d’une action utilisateur.</p>
+                <p><strong>Règle :</strong> on <em>mesure</em> avant d’optimiser.</p>
+            </div>
+
+            <div class="highlight">
+                <h3>🧪 Démo (TaskBoard Pro)</h3>
+                <ol>
+                    <li>Ouvrir l’app → DevTools → <strong>Angular</strong> → <strong>Profiler</strong></li>
+                    <li>Cliquer sur <strong>Record</strong> ⏺️</li>
+                    <li>Faire une action : <strong>Ajouter une tâche</strong> (ou <strong>Terminer</strong>)</li>
+                    <li>Cliquer sur <strong>Stop</strong> ⏹️</li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>🔎 Ce qu’on observe</h3>
+                <ul>
+                    <li><strong>Combien de composants</strong> se sont rafraîchis ?</li>
+                    <li>Quels composants reviennent souvent ? (ex : <code>TasksPage</code>, <code>TaskStats</code>, <code>TaskHighlight</code>)</li>
+                    <li>Est-ce logique par rapport à l’action faite ?</li>
+                </ul>
+                <p><strong>Question :</strong> Est-ce que tous ces composants <em>devaient</em> être vérifiés ?</p>
+            </div>
+
+           
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <h1>🧩 DevTools Components : comprendre l’état et OnPush</h1>
+
+            <div class="info-box">
+                <h3>🎯 Objectif</h3>
+                <p>Visualiser l’<strong>arbre des composants</strong> et comprendre <strong>pourquoi</strong> un composant se met à jour.</p>
+            </div>
+
+            <div class="highlight">
+                <h3>🧪 Démo (TaskBoard Pro)</h3>
+                <ol>
+                    <li>DevTools → <strong>Angular</strong> → <strong>Components</strong></li>
+                    <li>Sélectionner <code>TasksPage</code> puis <code>TaskStats</code></li>
+                    <li>Faire une action : <strong>Ajouter</strong> / <strong>Terminer</strong> une tâche</li>
+                    <li>Observer les valeurs et l’état du composant sélectionné</li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>🔎 Ce qu’on observe</h3>
+                <ul>
+                    <li>La hiérarchie : qui est parent / enfant ?</li>
+                    <li>Les <strong>valeurs en direct</strong> (ex : liste, compteurs, sélection)</li>
+                    <li>La stratégie : <strong>Default</strong> vs <strong>OnPush</strong> (selon le composant)</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h3>💡 Utilité (concrète)</h3>
+                <ul>
+                    <li>Débugger un composant qui <strong>ne se met pas à jour</strong> (référence immuable, @Input, async)</li>
+                    <li>Vérifier que le composant reçoit bien ses données (Input / état)</li>
+                    <li>Comprendre rapidement « qui affiche quoi » dans l’UI</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- Slide 6 -->
+        <div class="slide">
+            <h1>🌳 DevTools Injector Tree : comprendre les services et les scopes</h1>
+
+            <div class="info-box">
+                <h3>🎯 Objectif</h3>
+                <p>Vérifier <strong>d’où vient un service</strong> (root / composant) et éviter les <strong>instances dupliquées</strong>.</p>
+            </div>
+
+            <div class="highlight">
+                <h3>🧪 Démo (TaskBoard Pro)</h3>
+                <ol>
+                    <li>DevTools → <strong>Angular</strong> → <strong>Injector Tree</strong></li>
+                    <li>Rechercher le service <code>Task</code> (ou le service de tâches)</li>
+                    <li>Observer : il est fourni <strong>où</strong> ? (root ou ailleurs)</li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>🔎 Ce qu’on observe</h3>
+                <ul>
+                    <li>Le <strong>provider</strong> qui crée l’instance du service</li>
+                    <li>Le chemin de résolution : quel injector fournit quoi ?</li>
+                    <li>Si un service est instancié plusieurs fois (mauvais scope)</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h3>💡 Utilité (concrète)</h3>
+                <ul>
+                    <li>Débugger un état qui « disparaît » : service fourni au mauvais niveau</li>
+                    <li>Éviter les <strong>services dupliqués</strong> quand on met <code>providers: [...]</code> dans un composant</li>
+                    <li>Comprendre la différence : <code>providedIn: 'root'</code> vs provider local</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Slide 7 -->
         <div class="slide">
             <h1>💡 Lighthouse (Chrome DevTools)</h1>
             
@@ -512,7 +591,58 @@
             </div>
         </div>
 
-        <!-- Slide 7 -->
+        <!-- Slide : Comment utiliser Lighthouse -->
+        <div class="slide">
+            <h1>🧭 Comment utiliser Lighthouse ?</h1>
+
+            <div class="info-box">
+                <h3>🎯 Objectif</h3>
+                <p>
+                    Utiliser <strong>Lighthouse</strong> pour obtenir un <strong>diagnostic global</strong>
+                    de performance et identifier les <strong>axes d’amélioration prioritaires</strong>.
+                </p>
+            </div>
+
+            <div class="highlight">
+                <h3>🧪 Étapes pas à pas</h3>
+                <ol>
+                    <li>Ouvrir l’application Angular dans <strong>Chrome</strong></li>
+                    <li>Ouvrir les DevTools : <code>F12</code> ou <code>Cmd + Option + I</code></li>
+                    <li>Aller dans l’onglet <strong>Lighthouse</strong></li>
+                    <li>Cocher <strong>Performance</strong> (et laisser les autres options par défaut)</li>
+                    <li>Cliquer sur <strong>Analyze page load</strong></li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>📊 Ce que Lighthouse analyse</h3>
+                <ul>
+                    <li>Temps de chargement initial (FCP, LCP)</li>
+                    <li>JavaScript bloquant le thread principal</li>
+                    <li>Poids des bundles et ressources</li>
+                    <li>Stabilité visuelle (CLS)</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Bonnes pratiques d’interprétation</h3>
+                <ul>
+                    <li>Lighthouse donne une <strong>tendance</strong>, pas une vérité absolue</li>
+                    <li>Toujours comparer <strong>avant / après optimisation</strong></li>
+                    <li>Croiser les résultats avec <strong>Angular DevTools</strong></li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3>💬 Question à se poser</h3>
+                <p style="font-size: 1.3em; text-align: center;">
+                    <strong>Quel est le problème principal identifié par Lighthouse ?</strong><br>
+                    (JS trop lourd ? rendu lent ? trop de calculs ?)
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 8 -->
         <div class="slide">
             <h1>📈 Exemple de rapport Lighthouse</h1>
             
@@ -560,7 +690,194 @@
             </div>
         </div>
 
- <!-- Slide 8 -->
+
+
+<!-- Slide 9 -->
+<div class="slide">
+  <h1>🔍 Causes fréquentes de lenteur en Angular</h1>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>❌ Problème 1 : Change Detection par défaut</h3>
+      <p>
+        Angular vérifie <strong>tous les composants</strong> à chaque événement
+      </p>
+      <pre><code>@Component({
+  selector: 'app-tasks'
+  // changeDetection: Default
+})</code></pre>
+      <p><strong>Impact :</strong> chaque clic déclenche une vérification globale</p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>✅ Solution : OnPush</h3>
+      <p>
+        Angular vérifie le composant <strong>uniquement si ses @Input changent</strong>
+      </p>
+      <pre><code>@Component({
+  selector: 'app-task-item',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})</code></pre>
+      <p><strong>Gain :</strong> beaucoup moins de cycles de vérification</p>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <h3>❌ Problème 2 : Liste sans identité stable</h3>
+    <pre><code>@for (task of tasks; track task) {   // ❌ objet utilisé comme clé
+  &lt;li&gt;{{ task.title }}&lt;/li&gt;
+}</code></pre>
+    <p>
+      Angular ne peut pas savoir quel élément a réellement changé
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Solution : Tracking par identifiant</h3>
+    <pre><code>@for (task of tasks; track task.id) { // ✅ identité stable
+  &lt;li&gt;{{ task.title }}&lt;/li&gt;
+}</code></pre>
+    <p>
+      Angular réutilise le DOM et ne met à jour que les éléments modifiés
+    </p>
+  </div>
+</div>
+
+<!-- Slide 10 -->
+<div class="slide">
+  <h1>🧪 Cas concret : filtre (recherche) + mauvais tracking</h1>
+
+  <p class="intro">
+    Dans <code>TasksPage</code>, on ajoute une recherche. Tout fonctionne…
+    mais un mauvais <code>track</code> peut forcer Angular à recréer trop d’éléments DOM.
+  </p>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>Tentant : track par index (ou par objet)</h3>
+
+      <p><strong>Fichier :</strong> <code>tasks-page.ts</code></p>
+      <pre><code>// Ajout d'un terme de recherche
+searchTerm = '';
+
+filteredTasks$ = this.taskService.tasks$.pipe(
+  map(tasks =&gt; tasks.filter(t =&gt;
+    t.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+  ))
+);</code></pre>
+
+      <p><strong>Fichier :</strong> <code>tasks-page.html</code></p>
+      <pre><code>&lt;input
+  type="text"
+  placeholder="Rechercher..."
+  (input)="searchTerm = $any($event.target).value"
+/&gt;
+
+@for (t of filteredTasks$ | async; track $index) {  // ❌ mauvais
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}</code></pre>
+
+      <p class="impact">
+        <strong>Effet :</strong> en filtrant/triant, les indexes bougent.
+        Angular réassocie mal les éléments → re-render inutile, focus/DOM instable.
+      </p>
+    </div>
+
+    <div class="comparison-after">
+      <h3> Recommandé : track par identifiant stable</h3>
+
+      <p><strong>Fichier :</strong> <code>tasks-page.html</code></p>
+      <pre><code>@for (t of filteredTasks$ | async; track t.id) {   
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}</code></pre>
+
+      <p class="gain">
+        <strong>Résultat :</strong> Angular reconnaît chaque tâche et réutilise le DOM.
+        La liste reste stable et performante pendant la recherche.
+      </p>
+    </div>
+  </div>
+
+  <div class="blue-box">
+    <h3>⚠️ À retenir</h3>
+    <p>
+      Dès qu’une liste est <strong>filtrée, triée ou recalculée</strong>,
+      privilégier un identifiant métier (<code>id</code>).
+    </p>
+  </div>
+</div>
+
+
+
+
+<!-- Slide 11 -->
+<div class="slide">
+  <h1>⚙️ Bonus : limiter les <code>| async</code> dans une même page</h1>
+
+  <p class="intro">
+    Exemple réel dans <code>tasks-page.html</code> : Vous affichez peut-être deux listes filtrées.
+    C’est correct… mais cela peut multiplier les abonnements et les recalculs.
+  </p>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>✅ Fonctionne… mais 2 async + 2 filtres</h3>
+      <p><strong>Fichier :</strong> <code>tasks-page.html</code></p>
+
+      <pre><code>&lt;h3&gt;Tâches en cours&lt;/h3&gt;
+@for (t of activeTasks$ | async; track t.id) {
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}
+
+&lt;h3&gt;Tâches terminées&lt;/h3&gt;
+@for (t of completedTasks$ | async; track t.id) {
+  &lt;li&gt;{{ t.title }}&lt;/li&gt;
+}</code></pre>
+
+      <p class="impact">
+        <strong>Effet :</strong> 2 abonnements + 2 filtres recalculés à chaque mise à jour.
+        Sur une grosse liste ou une recherche live, ça peut coûter.
+      </p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>✅ Solution : un seul <code>async</code>, puis filtrage en mémoire</h3>
+      <p><strong>Fichier :</strong> <code>tasks-page.html</code></p>
+
+      <pre><code>@if (tasks$ | async; as tasks) {
+
+  &lt;h3&gt;Tâches en cours&lt;/h3&gt;
+  @for (t of tasks.filter(x =&gt; !x.completed); track t.id) {
+    &lt;li&gt;{{ t.title }}&lt;/li&gt;
+  }
+
+  &lt;h3&gt;Tâches terminées&lt;/h3&gt;
+  @for (t of tasks.filter(x =&gt; x.completed); track t.id) {
+    &lt;li&gt;{{ t.title }}&lt;/li&gt;
+  }
+
+} @else {
+  &lt;p&gt;Chargement...&lt;/p&gt;
+}</code></pre>
+
+      <p class="gain">
+        <strong>Résultat :</strong> 1 abonnement (1 async) + rendu plus prévisible.
+        On optimise seulement si on observe un problème réel.
+      </p>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ À retenir</h3>
+    <p>
+      <code>| async</code> est une bonne pratique.  
+      On réduit le nombre d’abonnements <strong>uniquement</strong> quand on mesure un coût
+      (DevTools / Lighthouse).
+    </p>
+  </div>
+</div>
+
+ <!-- Slide 12 -->
         <div class="slide">
             <h1>🎯 Optimisation 1 : OnPush</h1><div class="info-box">
   <h3>🤔 À quoi sert OnPush ?</h3>
@@ -636,7 +953,7 @@ export class TaskHighlight {
         </div>
 
 
-<!-- Slide 9 - Quand utiliser OnPush -->
+<!-- Slide 13 - Quand utiliser OnPush -->
         <div class="slide">
             <h1>🤔 Quand utiliser OnPush dans TaskBoard Pro ?</h1>
             
@@ -724,7 +1041,7 @@ this.tasksSubject.next([...currentTasks, newTask]); // ✅ Nouvelle référence<
         </div>
 
 
-   <!-- Slide 10 -->
+   <!-- Slide 14 -->
 <div class="slide">
   <h1>🎯 Optimisation 2 : trackBy</h1>
 
@@ -782,7 +1099,64 @@ this.tasksSubject.next([...currentTasks, newTask]); // ✅ Nouvelle référence<
   </div>
 </div>
 
-        <!-- Slide 11 -->
+  <!-- Slide 15 : Lighthouse en dev vs production -->
+        <div class="slide">
+            <h1>⚠️ Lighthouse : développement ≠ production</h1>
+
+            <div class="warning-box">
+                <h3>🚧 Attention au contexte d’analyse</h3>
+                <p>
+                    Un score Lighthouse élevé sur <strong>localhost</strong> ne garantit pas
+                    une performance optimale en conditions réelles.
+                </p>
+                <p>
+                    En développement, certaines optimisations navigateur
+                    (<strong>minification, compression, cache</strong>) ne sont pas actives
+                    ou sont simulées.
+                </p>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-before">
+                    <h3>🔧 Audit en développement</h3>
+                    <ul>
+                        <li>Code JavaScript parfois non minifié</li>
+                        <li>Chargement via serveur de dev</li>
+                        <li>Scores parfois trompeurs (trop optimistes ou trop pessimistes)</li>
+                    </ul>
+                    <p><strong>Objectif :</strong> détecter des tendances et des problèmes grossiers</p>
+                </div>
+
+                <div class="comparison-after">
+                    <h3>🚀 Audit en production</h3>
+                    <ul>
+                        <li>JavaScript minifié et optimisé</li>
+                        <li>Tree-shaking et lazy loading effectifs</li>
+                        <li>Résultats représentatifs pour les utilisateurs</li>
+                    </ul>
+                    <p><strong>Objectif :</strong> mesurer la performance réelle</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>🧪 Bonne pratique recommandée</h3>
+                <ol>
+                    <li>Lancer un <code>ng build</code> (ou build production)</li>
+                    <li>Servir le dossier <code>dist/&lt;app&gt;/browser</code></li>
+                    <li>Relancer Lighthouse sur l’application buildée</li>
+                    <li>Comparer <strong>avant / après</strong></li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>🎯 Message clé</h3>
+                <p style="font-size: 1.3em; text-align: center;">
+                    <strong>Lighthouse est un outil de mesure : le contexte compte autant que le score.</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 16 -->
         <div class="slide">
             <h1>🔒 Sécurité côté front-end</h1>
             
@@ -813,7 +1187,7 @@ this.tasksSubject.next([...currentTasks, newTask]); // ✅ Nouvelle référence<
             </div>
         </div>
 
-        <!-- Slide 12 -->
+        <!-- Slide 17 -->
         <div class="slide">
             <h1>⚠️ XSS (Cross-Site Scripting)</h1>
             
@@ -846,50 +1220,164 @@ addTask('&lt;img src=x onerror="alert(document.cookie)"&gt;');
             </div>
         </div>
 
-        <!-- Slide 13 -->
-        <div class="slide">
-            <h1>🛡️ Protection XSS dans Angular</h1>
-            
-            <div class="success-box">
-                <h3>✅ Angular protège automatiquement !</h3>
-                <p>Avec l'interpolation normale, Angular échappe le HTML</p>
-                <pre><code>// Code malveillant
-task.title = '&lt;script&gt;alert("Hacké")&lt;/script&gt;';
 
-// Dans le template Angular
+
+<!-- New XSS-->
+
+<div class="slide">
+  <h1>🛡️ XSS : comment Angular vous protège</h1>
+
+
+
+<div class="success-box">
+  <h3>✅ Protection automatique avec {{ }}</h3>
+
+  <pre><code>// Donnée utilisateur malveillante
+task.title = '&lt;script&gt;alert("XSS")&lt;/script&gt;';
+
+// Template Angular
 &lt;div&gt;{{ task.title }}&lt;/div&gt;
+</code></pre>
 
-// Résultat affiché (texte brut, pas exécuté) :
-// &lt;script&gt;alert("Hacké")&lt;/script&gt;</code></pre>
-                <p>✅ Le script n'est PAS exécuté, il est affiché comme du texte !</p>
-            </div>
+  <p>
+    ➡️ Angular échappe le HTML automatiquement.<br>
+    Le script est affiché comme du texte, <strong>il n’est jamais exécuté</strong>.
+  </p>
+</div>
 
-            <div class="warning-box">
-                <h3>⚠️ Danger avec innerHTML</h3>
-                <pre><code>// ❌ DANGEREUX : innerHTML exécute le code !
-&lt;div [innerHTML]="task.description"&gt;&lt;/div&gt;
+<div class="warning-box">
+  <h3>⚠️ Tentation fréquente : innerHTML</h3>
 
-// Si task.description contient un script, il s'exécute !</code></pre>
-            </div>
+  <p>
+    Parfois, on veut afficher du HTML dynamique
+    (mise en forme, contenu riche, CMS…).
+  </p>
 
-            <div class="info-box">
-                <h3>🔧 Solution : DomSanitizer</h3>
-                <pre><code>import { DomSanitizer } from '@angular/platform-browser';
+  <pre><code>// Tentation
+&lt;div [innerHTML]="task.description"&gt;&lt;/div&gt;</code></pre>
 
-export class TaskComponent {
-  private sanitizer = inject(DomSanitizer);
+  <ul>
+    <li>⚠️ Surface d’attaque plus large</li>
+    <li>⚠️ Code plus difficile à auditer</li>
+    <li>⚠️ Risque si mal utilisé</li>
+  </ul>
+</div>
 
-  getSafeHtml(html: string) {
-    return this.sanitizer.sanitize(SecurityContext.HTML, html);
-  }
-}
+<div class="info-box">
+  <h3>🔐 DomSanitizer : le garde-fou Angular</h3>
 
-// Dans le template
-&lt;div [innerHTML]="getSafeHtml(task.description)"&gt;&lt;/div&gt;</code></pre>
-            </div>
-        </div>
+  <p>
+    <strong>DomSanitizer est un service Angular de sécurité.</strong><br>
+    Il sert à nettoyer du contenu potentiellement dangereux
+    avant de l’injecter dans le DOM.
+  </p>
 
-        <!-- Slide 14 -->
+  <p>
+    Angular l’utilise déjà automatiquement,
+    mais il peut être utilisé explicitement
+    dans des cas précis.
+  </p>
+
+   <h3>📌 Cas où DomSanitizer est légitime</h3>
+  <ul>
+    <li>📝 Contenu CMS</li>
+    <li>🧾 Markdown transformé en HTML</li>
+    <li>✍️ Éditeur riche</li>
+    <li>🌐 HTML venant d’une API de confiance</li>
+  </ul>
+
+  <p>
+    ➡️ Dans ces cas, <strong>le HTML est attendu</strong>,
+    mais il doit rester sous contrôle.
+  </p>
+</div>
+
+
+
+
+
+<div class="success-box">
+  <h3>🧩 Exemple concret : afficher du HTML de manière sécurisée</h3>
+
+  <p>
+    Cas réel : description provenant d’un CMS ou d’un Markdown converti en HTML.
+  </p>
+
+  <pre><code>// task-description.component.ts
+import { DomSanitizer, SecurityContext } from '@angular/platform-browser';
+
+sanitize(html: string): string {
+  return this.sanitizer.sanitize(SecurityContext.HTML, html) ?? '';
+}</code></pre>
+
+  <pre><code>// Template
+&lt;div [innerHTML]="sanitize(task.description)"&gt;&lt;/div&gt;</code></pre>
+
+  <p>
+    ✅ Le HTML est affiché<br>
+    ✅ Les scripts et attributs dangereux sont supprimés
+  </p>
+</div>
+
+
+
+<div class="warning-box">
+  <h3>⚠️ bypassSecurityTrustHtml : un outil à utiliser dans des cas exceptionnel</h3>
+
+  <p>
+    Cette méthode permet d’indiquer à Angular :
+  </p>
+
+  <blockquote style="font-style: italic; margin: 1rem 0;">
+    “Ce contenu est sûr, j’en prends la responsabilité.”
+  </blockquote>
+
+  <pre><code>// HTML totalement considéré comme fiable
+this.sanitizer.bypassSecurityTrustHtml(html);</code></pre>
+
+  <p>
+    Elle existe pour des <strong>cas très spécifiques</strong>,
+    où le HTML est <strong>entièrement maîtrisé</strong>.
+  </p>
+
+<h3>Pourquoi bypass est presque toujours une mauvaise idée</h3>
+
+  <ul>
+    <li>❌ Angular ne nettoie plus rien</li>
+    <li>❌ Les scripts sont exécutés tels quels</li>
+    <li>❌ Une seule donnée compromise = faille XSS</li>
+    <li>❌ Erreur humaine très fréquente</li>
+  </ul>
+
+  <p>
+    👉 Ce n’est pas une faille Angular,<br>
+    c’est une <strong>responsabilité développeur</strong>.
+  </p>
+</div>
+
+
+<div class="success-box">
+  <h3>🎯 Règle d’or XSS dans Angular</h3>
+
+  <ul style="font-size: 1.2em;">
+    <li>✅ Utiliser {{ }} par défaut</li>
+    <li>⚠️ Utiliser innerHTML seulement si nécessaire</li>
+    <li>🔐 sanitize() pour contrôler le HTML</li>
+    <li>🚨 bypass uniquement avec justification métier claire</li>
+    <li>🛡️ La validation back-end reste indispensable</li>
+  </ul>
+</div>
+    </div>
+
+
+
+
+
+
+
+
+
+        <!-- Slide 19 -->
         <div class="slide">
             <h1>✅ Bonnes pratiques XSS</h1>
             
@@ -921,117 +1409,337 @@ export class TaskComponent {
             </div>
         </div>
 
-        <!-- Slide 15 -->
-        <div class="slide">
-            <h1>🔒 CSRF (Cross-Site Request Forgery)</h1>
-            
-            <div class="warning-box">
-                <h3>🔴 Principe de l'attaque CSRF</h3>
-                <p>Un site malveillant force l'utilisateur à faire une action non désirée sur VOTRE site</p>
-                <pre><code>1. Utilisateur connecté sur taskboard.com (session active)
-2. Visite site-malveillant.com
-3. site-malveillant.com contient :
-   &lt;img src="https://taskboard.com/api/tasks/delete/123"&gt;
-4. Le navigateur envoie la requête AVEC les cookies
-5. La tâche est supprimée sans que l'utilisateur le veuille !</code></pre>
-            </div>
+    
 
-            <div class="info-box">
-                <h3>🛡️ Protection CSRF</h3>
-                <p><strong>Solution :</strong> Utiliser des tokens CSRF</p>
-                <ol>
-                    <li>Le serveur génère un token unique par session</li>
-                    <li>Le token est envoyé dans chaque requête</li>
-                    <li>Le serveur vérifie que le token est valide</li>
-                    <li>Les requêtes externes n'ont pas le token → rejetées</li>
-                </ol>
-            </div>
+     
 
-            <div class="success-box">
-                <h3>✅ Angular HttpClient protège automatiquement</h3>
-                <pre><code>// Angular ajoute automatiquement le header X-XSRF-TOKEN
-this.http.post('/api/tasks', task).subscribe(...)
+<!-- Slide CSRF (version pédagogique : général → exemple) -->
+<div class="slide">
+  <h1>🧨 CSRF : une action déclenchée à votre place</h1>
 
-// Le serveur vérifie le token côté back</code></pre>
-            </div>
-        </div>
+  <div class="warning-box">
+    <h3>🔴 Description générale</h3>
+    <p>
+      <strong>CSRF (Cross-Site Request Forgery)</strong> : un attaquant pousse le navigateur
+      d’un utilisateur <strong>déjà connecté</strong> à envoyer une requête vers votre site
+      <strong>sans son intention</strong>.
+    </p>
+    <ul>
+      <li>✅ Le pirate ne vole pas le mot de passe</li>
+      <li>✅ Il profite d’une <strong>session ouverte</strong> (cookies)</li>
+      <li>✅ Le navigateur envoie les cookies <strong>automatiquement</strong></li>
+    </ul>
+  </div>
 
-        <!-- Slide 16 -->
-        <div class="slide">
-            <h1>🔒 Content Security Policy (CSP)</h1>
-            
-            <div class="info-box">
-                <h3>🎯 Qu'est-ce qu'une CSP ?</h3>
-                <p>Une <strong>Content Security Policy</strong> est un mécanisme de sécurité qui limite les sources de contenu autorisées</p>
-                <p>Elle se configure via un header HTTP :</p>
-                <pre><code>Content-Security-Policy: 
-  default-src 'self'; 
-  script-src 'self' https://cdn.example.com; 
-  style-src 'self' 'unsafe-inline';</code></pre>
-            </div>
+  <div class="info-box">
+    <h3>📌 D’où peut venir le déclencheur ?</h3>
+    <ul>
+      <li>📧 Un lien dans un <strong>email</strong> (phishing / newsletter compromise)</li>
+      <li>🌐 Une page web malveillante ouverte dans un onglet</li>
+      <li>💬 Un lien dans un chat (Teams / Slack / Discord)</li>
+      <li>📰 Une pub / un contenu embarqué (iframe / image)</li>
+    </ul>
+    <p>
+      👉 Peu importe la source : <strong>le navigateur peut déclencher une requête</strong>.
+    </p>
+  </div>
 
-            <div class="success-box">
-                <h3>🛡️ Ce que bloque une CSP</h3>
-                <ul>
-                    <li>✅ Scripts inline malveillants</li>
-                    <li>✅ Scripts externes non autorisés</li>
-                    <li>✅ Styles inline dangereux</li>
-                    <li>✅ Ressources de domaines non autorisés</li>
-                </ul>
-            </div>
+  <div class="highlight">
+    <h3>🎬 Exemple concret (le plus simple à comprendre)</h3>
+    <ol>
+      <li>Vous êtes connecté sur <strong>taskboard.com</strong> (cookie de session actif)</li>
+      <li>Vous cliquez un lien reçu (mail / site) → <strong>site-malveillant.com</strong></li>
+      <li>La page contient un élément invisible :</li>
+      <pre><code>&lt;img src="https://taskboard.com/api/tasks/delete/123"&gt;</code></pre>
+      <li>Le navigateur charge l’image… et envoie la requête avec vos cookies :</li>
+      <pre><code>GET /api/tasks/delete/123
+Cookie: session=abc123</code></pre>
+      <li>Le serveur voit un cookie valide → il exécute l’action → tâche supprimée</li>
+    </ol>
+  </div>
+</div>
+  
+<!-- Slide CSRF : protections (Angular + côté serveur) -->
+<div class="slide">
+  <h1>🛡️ CSRF : comment s’en protéger (Angular + API)</h1>
 
-            <div class="highlight">
-                <h3>💡 Exemple concret</h3>
-                <pre><code>// Avec CSP : script-src 'self'
+  <div class="info-box">
+    <h3>🎯 Idée clé</h3>
+    <p>
+      Le CSRF vise surtout les applications qui s’authentifient via <strong>cookies de session</strong>.
+      <br>
+      👉 La protection est principalement <strong>côté serveur</strong>, mais Angular participe (envoi du token).
+    </p>
+  </div>
 
-// ✅ Autorisé (même domaine)
-&lt;script src="/assets/app.js"&gt;&lt;/script&gt;
+ <div class="warning-box">
+  <h3>✅ 1) Utiliser un token CSRF (Synchronizer Token)</h3>
 
-// ❌ Bloqué (domaine externe)
-&lt;script src="https://malicious.com/evil.js"&gt;&lt;/script&gt;
+  <p>
+    Le token CSRF permet de répondre à une question essentielle :
+  </p>
 
-// ❌ Bloqué (script inline)
-&lt;script&gt;alert("Hacké")&lt;/script&gt;</code></pre>
-            </div>
-        </div>
+  <p style="font-weight: bold; margin: 1rem 0;">
+    ❓ « Si l’utilisateur est connecté, pourquoi le token CSRF empêche l’attaque ? »
+  </p>
 
-        <!-- Slide 17 -->
-        <div class="slide">
-            <h1>🔧 CSP avec Angular</h1>
-            
-            <div class="success-box">
-                <h3>✅ Configuration CSP compatible Angular</h3>
-                <pre><code>Content-Security-Policy:
+  <p>
+    👉 Parce que le token CSRF prouve <strong>l’intention de l’utilisateur</strong>,
+    pas seulement son identité.
+  </p>
+
+  <p style="font-weight: bold; margin-top: 1rem;">
+    🔑 Différence fondamentale : identité vs intention
+  </p>
+
+  <hr>
+
+  <p><strong>❌ Sans token CSRF</strong></p>
+  <ul>
+    <li>Le serveur vérifie uniquement : “L’utilisateur est-il connecté ?”</li>
+    <li>➡️ Cookie de session valide → requête acceptée</li>
+  </ul>
+
+  <p>
+    ⚠️ Problème : le navigateur envoie le cookie automatiquement,
+    même si la requête est déclenchée depuis un site externe.
+  </p>
+
+  <p>
+    👉 Le serveur ne sait pas :
+  </p>
+  <ul>
+    <li>si l’utilisateur a réellement voulu l’action</li>
+    <li>ou si elle a été déclenchée à son insu</li>
+  </ul>
+
+  <hr>
+
+  <p><strong>✅ Avec token CSRF (Synchronizer Token)</strong></p>
+  <p>Le serveur exige <strong>deux preuves distinctes</strong> :</p>
+
+  <ol>
+    <li>
+      <strong>Identité</strong><br>
+      Cookie de session → “qui est l’utilisateur”
+    </li>
+    <li>
+      <strong>Intention</strong><br>
+      Token CSRF → “est-ce que l’utilisateur a chargé MON formulaire / MON front”
+    </li>
+  </ol>
+
+  <p>
+    👉 Un site malveillant peut déclencher une requête,
+    <strong>mais il ne peut pas fournir le token CSRF</strong>.
+  </p>
+
+  <hr>
+
+  <p><strong>🧠 Pourquoi l’attaquant ne peut pas récupérer le token ?</strong></p>
+  <ul>
+    <li>Le token est généré par <strong>votre serveur</strong></li>
+    <li>Il est stocké dans le HTML, une balise meta ou un cookie sécurisé</li>
+    <li>Un site externe ne peut pas lire votre DOM</li>
+    <li>👉 La <strong>Same Origin Policy</strong> bloque l’accès</li>
+  </ul>
+
+  <p>
+    ➡️ Le pirate peut forcer une requête,<br>
+    ➡️ mais il <strong>ne peut pas deviner ni voler le token</strong>.
+  </p>
+
+  <hr>
+
+<p><strong>🧩 Exemple côté Angular</strong></p>
+
+<p>
+  Le token CSRF est fourni par le serveur (cookie, meta, endpoint dédié),
+  puis renvoyé par Angular dans les requêtes sensibles.
+</p>
+
+<pre><code>// Exemple Angular (HttpClient)
+this.http.post(
+  '/api/tasks/delete/123',
+  {},
+  {
+    headers: {
+      'X-CSRF-TOKEN': csrfToken
+    }
+  }
+);</code></pre>
+
+<p>
+  ✅ Si le token est valide → requête acceptée<br>
+  ❌ Si le token est absent ou incorrect → requête refusée
+</p>
+</div>
+
+  <div class="success-box">
+  <h3>✅ Cookies SameSite (protection côté serveur)</h3>
+
+  <p>
+    L’attribut <strong>SameSite</strong> est configuré
+    <strong>par le serveur</strong> sur le cookie de session.
+  </p>
+
+  <p>
+    Il indique au navigateur <strong>quand il a le droit d’envoyer le cookie</strong>
+    lors d’une requête provenant d’un autre site.
+  </p>
+
+  <p>
+    👉 Objectif : bloquer l’envoi automatique du cookie
+    lors des requêtes <strong>cross-site</strong> (attaque CSRF).
+  </p>
+
+  <ul>
+    <li><strong>Lax</strong> : bon compromis (recommandé par défaut)</li>
+    <li><strong>Strict</strong> : très sécurisé, mais peut bloquer certaines redirections</li>
+    <li><strong>None</strong> : autorisé uniquement avec HTTPS (<code>Secure</code>)</li>
+  </ul>
+
+  <hr>
+
+  <p><strong>🧩 Exemple de configuration (côté serveur)</strong></p>
+
+  <pre><code>Set-Cookie: session=abc123;
+  HttpOnly;
+  Secure;
+  SameSite=Lax;</code></pre>
+
+  <p>
+    ✅ Cookie envoyé lors d’une navigation normale<br>
+    ❌ Cookie bloqué lors d’une requête déclenchée depuis un autre site
+  </p>
+</div>
+
+
+
+
+
+
+
+<div class="info-box">
+  <h3>🔍 Vérifier Origin / Referer (côté serveur)</h3>
+
+  <p>
+    Le serveur peut vérifier que la requête
+    provient bien de votre domaine
+    via les en-têtes <code>Origin</code> ou <code>Referer</code>.
+  </p>
+
+  <p>
+    ✅ Utile en complément<br>
+    ⚠️ Pas suffisant seul (certains navigateurs ou contextes les masquent)
+  </p>
+</div>
+<div class="warning-box">
+  <h3>⚠️ Bonnes pratiques API (indispensables)</h3>
+
+  <ul>
+    <li>❌ Ne jamais modifier des données avec <code>GET</code></li>
+    <li>✅ Actions sensibles → <code>POST</code> / <code>PUT</code> / <code>DELETE</code></li>
+    <li>✅ Requêtes critiques = token CSRF + cookies SameSite</li>
+  </ul>
+</div>
+<div class="success-box">
+  <h3>🧩 Le rôle d’Angular face au CSRF</h3>
+
+  <ul>
+    <li>Angular protège le <strong>DOM</strong> → XSS</li>
+    <li>Angular <strong>n’empêche pas</strong> le CSRF à lui seul</li>
+    <li>Angular sert à <strong>envoyer le token CSRF</strong> via HttpClient</li>
+    <li>La vraie barrière est <strong>côté serveur</strong></li>
+  </ul>
+
+  <p style="margin-top: 1rem;">
+    ➡️ Sécurité CSRF = <strong>front + navigateur + serveur</strong>
+  </p>
+</div>
+</div>
+  
+
+
+
+<!-- Slide CSP -->
+<div class="slide">
+  <h1>🧱 CSP (Content Security Policy)</h1>
+
+  <div class="info-box">
+    <h3>🔍 C’est quoi ?</h3>
+    <p>
+      La <strong>Content Security Policy</strong> est une règle de sécurité appliquée par le
+      <strong>navigateur</strong> pour limiter ce que la page a le droit de charger/exécuter.
+    </p>
+    <ul>
+      <li>✅ Empêche une partie des attaques <strong>XSS</strong> (scripts injectés)</li>
+      <li>✅ Contrôle les sources autorisées : <strong>JS</strong>, <strong>CSS</strong>, <strong>images</strong>, <strong>polices</strong>, <strong>API</strong></li>
+      <li>⚠️ Ce n’est pas “du code Angular” : c’est une <strong>configuration côté serveur</strong></li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>🎯 Pourquoi c’est important pour Angular ?</h3>
+    <p>
+      Une CSP trop stricte peut <strong>bloquer des ressources</strong> et “casser” l’UI :
+      scripts, styles, fonts, appels réseau…
+    </p>
+    <p style="margin-top: 0.75rem;">
+      👉 Objectif : <strong>autoriser le nécessaire</strong> (Angular + API)
+      et <strong>bloquer le reste</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Comment on configure (côté serveur)</h3>
+    <p>
+      Le serveur envoie un en-tête HTTP au navigateur :
+      <code>Content-Security-Policy</code>
+    </p>
+
+    <pre><code>// Exemple CSP "compatible Angular" (base simple)
+Content-Security-Policy:
   default-src 'self';
   script-src 'self';
-  style-src 'self' 'unsafe-inline';  &lt;!-- Angular a besoin de styles inline --&gt;
+  style-src 'self';
   img-src 'self' data: https:;
-  font-src 'self' data:;</code></pre>
-            </div>
+  font-src 'self' data:;
+  connect-src 'self' https://api.example.com;</code></pre>
 
-            <div class="info-box">
-                <h3>🔧 Configuration côté serveur (exemple Node.js)</h3>
-                <pre><code>// express.js
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
-  );
-  next();
-});</code></pre>
-            </div>
+    <p style="margin-top: 0.75rem;">
+      ✅ <strong>script-src</strong> : autorise le JS du même domaine (bundle Angular)<br>
+      ✅ <strong>style-src</strong> : autorise les CSS du même domaine<br>
+      ✅ <strong>connect-src</strong> : autorise les appels HTTP vers votre API
+    </p>
+  </div>
 
-            <div class="highlight">
-                <h3>💡 Tester votre CSP</h3>
-                <ol>
-                    <li>Ouvrir DevTools → Console</li>
-                    <li>Les violations CSP apparaissent en rouge</li>
-                    <li>Ajuster la politique selon les besoins</li>
-                </ol>
-            </div>
-        </div>
 
-        <!-- Slide 18 -->
+
+  <div class="warning-box">
+    <h3>⚠️ Erreurs fréquentes</h3>
+    <ul>
+      <li>❌ Oublier <code>connect-src</code> → Angular ne peut plus appeler l’API</li>
+      <li>❌ Mettre <code>script-src *</code> → annule l’intérêt de la CSP</li>
+      <li>⚠️ Ajouter <code>'unsafe-inline'</code> sans raison → réduit fortement la protection</li>
+    </ul>
+    <p style="margin-top: 0.75rem;">
+      ✅ Bonne pratique : commencer strict, puis ouvrir uniquement ce qui est bloqué
+      (en regardant les erreurs CSP dans la console).
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🎯 À retenir</h3>
+    <p style="font-size: 1.2em;">
+      CSP = <strong>la liste blanche</strong> de ce que le navigateur a le droit de charger/exécuter.<br>
+      Angular doit fonctionner <strong>dans ces règles</strong>.
+    </p>
+  </div>
+</div>
+ 
+
+        <!-- Slide 23 -->
         <div class="slide">
             <h1>📋 Récapitulatif Sécurité</h1>
             
@@ -1076,7 +1784,7 @@ app.use((req, res, next) => {
             </div>
         </div>
 
-        <!-- Slide 19 -->
+        <!-- Slide 24 -->
         <div class="slide">
             <h1>🛠️ Atelier pratique guidé</h1>
             
@@ -1107,7 +1815,7 @@ app.use((req, res, next) => {
                 <h3>🔧 Partie 2 : Optimisations (30 min)</h3>
                 <ol>
                     <li>Ajouter OnPush sur TasksPageComponent</li>
-                    <li>Vérifier trackBy dans toutes les boucles @for</li>
+                    <li>Vérifier le tracking (<code>track</code>) dans toutes les boucles de template</li>
                     <li>Relancer Lighthouse et comparer les scores</li>
                 </ol>
             </div>
@@ -1122,7 +1830,7 @@ app.use((req, res, next) => {
             </div>
         </div>
 
-        <!-- Slide 20 -->
+        <!-- Slide 25 -->
         <div class="slide">
             <h1>📚 Synthèse de la séquence</h1>
             

@@ -1,0 +1,2592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence 6 </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-counter {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+            animation: slideIn 0.5s ease-out;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin: 25px 0 15px 0;
+        }
+
+        h3 {
+            color: #555;
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+        }
+
+        h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin: 15px 0 10px 0;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: transparent;
+            color: #f8f8f2;
+            padding: 0;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .controls button {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .controls button:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-before {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .comparison-after {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        strong {
+            color: #667eea;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold;
+        }
+          .container {
+        padding: 3rem;
+        border-radius: 1rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+         .back-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: white;
+                color: #667eea;
+                padding: 12px 25px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #667eea;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+          <div class="container">
+            <a href="../index.html" class="back-button">← Retour au dashboard</a>
+            <div class="slide-counter">
+                <span id="current-slide">1</span> / <span id="total-slides">30</span>
+            </div>
+
+        </div>
+       
+
+     <!-- Slide : Objectifs de la séance (3h30) -->
+<div class="slide">
+  <h1>🎯 Objectifs de la séance (3h30)</h1>
+
+  <div class="info-box">
+    <h3>🚀 À la fin de cette séance, vous saurez…</h3>
+    <ul style="font-size: 1.2em; line-height: 1.9;">
+      <li><strong>Construire</strong> une application Angular pour la production (<code>ng build</code>)</li>
+      <li><strong>Comprendre</strong> ce que contient réellement le dossier <code>dist/</code></li>
+      <li><strong>Tester</strong> une version “production” en local (avant déploiement)</li>
+      <li><strong>Déployer</strong> une SPA Angular sur un hébergement statique (Netlify / Firebase  / GitHub Pages)</li>
+      <li><strong>Résoudre</strong> le problème du <em>refresh</em> sur les routes Angular (fallback <code>index.html</code>)</li>
+      <li><strong>Identifier</strong> les limites d’une SPA (SEO / premier rendu / partage social)</li>
+      <li><strong>Comprendre</strong> le principe du SSR (Angular Universal) et <strong>quand l’utiliser</strong></li>
+    </ul>
+  </div>
+</div>
+
+  <!-- Slide 1 — Du développement à la production -->
+<div class="slide">
+  <h1>🚀 Du développement à la production</h1>
+
+  <div class="info-box">
+    <h3>🧭 Contexte</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Jusqu’ici, vous avez développé et testé votre application Angular
+      principalement avec <code>ng serve</code>.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Mais <strong>une application qui fonctionne en local</strong>
+      n’est pas forcément <strong>prête pour la production</strong>.
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Problème fréquent</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✔️ “Ça marche chez moi”</li>
+      <li>❌ “Ça casse une fois déployé”</li>
+      <li>❌ Performances différentes</li>
+      <li>❌ Erreurs absentes en local mais présentes en prod</li>
+    </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>🎯 Objectif de cette partie</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Comprendre <strong>ce qui change réellement</strong> quand une application
+      Angular passe :
+    </p>
+    <ul style="font-size: 1.2em; line-height: 1.9;">
+      <li>🔧 du mode <strong>développement</strong></li>
+      <li>🚢 au mode <strong>production</strong></li>
+    </ul>
+  </div>
+
+</div>
+
+
+<!-- Slide 2 — Le mode développement : ng serve -->
+<div class="slide">
+  <h1>🧪 Le mode développement : <code>ng serve</code></h1>
+
+  <div class="info-box">
+    <h3>🔧 À quoi sert <code>ng serve</code> ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      <code>ng serve</code> lance un <strong>serveur de développement</strong>
+      optimisé pour le confort du développeur.
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>⚡ Rechargement automatique (Hot Reload)</li>
+      <li>🧩 Messages d’erreur détaillés</li>
+      <li>🛠️ Outils de debug activés</li>
+      <li>📦 Code lisible (non minifié)</li>
+    </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Avantages</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Développement rapide</li>
+      <li>Détection immédiate des erreurs</li>
+      <li>Confort pour coder et tester</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Limites importantes</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>❌ Ne reflète pas la performance réelle</li>
+      <li>❌ Code plus lourd que nécessaire</li>
+      <li>❌ Comportements parfois différents de la production</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 À retenir</h3>
+    <p style="font-size: 1.25em; margin: 0;">
+      <code>ng serve</code> est fait pour <strong>développer</strong>,  
+      pas pour mesurer la <strong>réalité de la production</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- Slide 3 — Les illusions du mode développement -->
+<div class="slide">
+  <h1>🪄 Les illusions du mode développement</h1>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce que <code>ng serve</code> peut masquer</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>🚀 Performances qui semblent excellentes</li>
+      <li>📊 Scores Lighthouse flatteurs</li>
+      <li>🐞 Erreurs invisibles en local</li>
+      <li>📦 Code plus lourd que nécessaire</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>❓ Pourquoi c’est trompeur</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      En développement, Angular active de nombreux outils
+      (debug, vérifications, messages détaillés) qui
+      <strong>n’existent plus en production</strong>.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Résultat : on mesure une application
+      <strong>dans un environnement artificiel</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>📉 Exemple typique</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✔️ Lighthouse à 100 en local</li>
+      <li>❌ Bundle JavaScript très volumineux</li>
+      <li>❌ Temps de chargement réel inconnu</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Les performances mesurées avec <code>ng serve</code>
+      <strong>ne représentent pas la réalité de la production</strong>.
+    </p>
+  </div>
+</div>
+  
+<!-- Slide 4 — Passer en mode production -->
+<div class="slide">
+  <h1>🏗️ Passer en mode production</h1>
+
+  <div class="info-box">
+    <h3>🚢 Construire l’application pour la production</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Pour préparer une application Angular à être déployée,
+      on ne lance plus <code>ng serve</code> :
+      on <strong>construit</strong> l’application.
+    </p>
+
+    <pre><code>ng build --configuration production</code></pre>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Ce que fait Angular CLI en production</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✂️ <strong>Minification</strong> du JavaScript et du CSS</li>
+      <li>🌳 <strong>Tree-shaking</strong> (suppression du code inutilisé)</li>
+      <li>📦 <strong>Découpage en bundles</strong> optimisés</li>
+      <li>🚫 Suppression des outils de debug</li>
+      <li>⚡ Optimisation des performances globales</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Point important</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le build production n’est <strong>pas un serveur</strong>.<br>
+      Il génère des fichiers prêts à être servis par
+      <strong>n’importe quel serveur web</strong>.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      <strong><code>ng build</code> transforme Angular</strong><br>
+      en une application optimisée et prête à être déployée.
+    </p>
+  </div>
+</div>
+
+
+<!-- Slide 5 — Le dossier dist/ : ce que génère Angular -->
+<div class="slide">
+  <h1>📦 Le dossier <code>dist/</code> : le “vrai” résultat</h1>
+
+  <div class="info-box">
+    <h3>🔍 Après <code>ng build</code>, Angular génère…</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Un dossier <code>dist/</code> contenant <strong>uniquement des fichiers statiques</strong>.
+      C’est ce dossier qu’on déploie.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>📁 À l’intérieur de <code>dist/</code></h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✅ <code>index.html</code> → la page de départ</li>
+      <li>✅ <code>main.*.js</code> → votre application (bundle principal)</li>
+      <li>✅ <code>polyfills.*.js</code> → compatibilité navigateur</li>
+      <li>✅ <code>styles.*.css</code> → styles globaux</li>
+      <li>✅ <code>chunk-*.js</code> → bundles (lazy loading / découpage)</li>
+      <li>✅ <code>assets/</code> → images, fichiers, etc.</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce qui n’existe plus</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>❌ TypeScript (<code>.ts</code>)</li>
+      <li>❌ fichiers Angular “source” (<code>components</code>, <code>services</code>)</li>
+      <li>❌ projet <code>src/</code> (il reste sur votre machine, pas sur le serveur)</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      En production, on déploie <strong>dist/</strong> :<br>
+      <strong>HTML + CSS + JavaScript</strong> (rien de plus).
+    </p>
+  </div>
+
+  
+</div>
+
+<!-- Slide 6 — En production, Angular “disparaît” -->
+<div class="slide">
+  <h1>👻 En production, Angular “disparaît”</h1>
+
+  <div class="info-box">
+    <h3>🔎 Ce que voit réellement le navigateur</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Une fois l’application buildée et déployée, le navigateur
+      <strong>n’exécute pas Angular</strong> en tant que framework.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Il exécute simplement du <strong>JavaScript compilé</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Ce qui reste en production</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>📄 HTML statique (<code>index.html</code>)</li>
+      <li>🎨 CSS compilé</li>
+      <li>📦 JavaScript minifié (bundles)</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>❌ Ce qui n’existe plus</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>❌ Composants Angular “en tant que tels”</li>
+      <li>❌ Services Angular visibles</li>
+      <li>❌ TypeScript</li>
+      <li>❌ Angular CLI</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Pour le navigateur, Angular est juste
+      <strong>du JavaScript optimisé</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- Slide 7 — Tester une version de production localement -->
+<div class="slide">
+  <h1>🧪 Tester une version de production localement</h1>
+
+  <div class="info-box">
+    <h3>❓ Pourquoi tester le build localement ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Tester uniquement avec <code>ng serve</code> ne permet pas de détecter
+      certains problèmes qui apparaissent <strong>uniquement en production</strong>.
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>⚠️ erreurs liées au routing</li>
+      <li>⚠️ appels API mal configurés</li>
+      <li>⚠️ différences de performance</li>
+      <li>⚠️ comportements absents en dev</li>
+    </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Comment tester un build prod en local</h3>
+    <p style="font-size: 1.15em;">
+      Une fois le build généré, on peut servir le dossier <code>dist/</code>
+      avec un serveur statique simple :
+    </p>
+
+    <pre><code>ng build --configuration production
+npx serve dist/nom-du-projet</code></pre>
+
+    <p style="font-size: 1.1em; margin-top: 0.5rem;">
+      ➡️ L’application est alors accessible via <code>http://localhost:3000</code>
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Point de vigilance</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Le comportement observé ici est <strong>beaucoup plus proche</strong>
+      de celui d’une application réellement déployée.
+    </p>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      C’est à ce moment-là que Lighthouse devient
+      <strong>réellement pertinent</strong>.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Toujours tester un <strong>build production</strong>
+      avant de déployer en ligne.
+    </p>
+  </div>
+</div>
+
+<!-- Slide 8 — Développement vs Production -->
+<div class="slide">
+  <h1>⚖️ Développement vs Production</h1>
+
+  <div class="info-box">
+    <h3>🔍 Deux environnements, deux réalités</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Angular ne se comporte pas de la même manière en
+      <strong>développement</strong> et en <strong>production</strong>.
+      Comprendre cette différence est essentiel pour éviter les surprises.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧪 Développement (<code>ng serve</code>)</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>✔️ Serveur de dev Angular</li>
+        <li>✔️ Code lisible (non minifié)</li>
+        <li>✔️ Debug et warnings actifs</li>
+        <li>✔️ Rechargement à chaud</li>
+        <li>❌ Performances non représentatives</li>
+        <li>❌ Lighthouse trompeur</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>🚢 Production (<code>ng build</code>)</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>✔️ Fichiers statiques optimisés</li>
+        <li>✔️ Code minifié et découpé</li>
+        <li>✔️ Debug désactivé</li>
+        <li>✔️ Chargement plus rapide</li>
+        <li>✔️ Lighthouse pertinent</li>
+        <li>✔️ Comportement réel utilisateur</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Ce n’est <strong>pas la même application</strong> que vous observez :
+      <br>
+      <strong>dev = confort</strong>, <strong>prod = réalité</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- Slide 9 — Pourquoi cette étape est essentielle -->
+<div class="slide">
+  <h1>🧠 Pourquoi cette étape est essentielle</h1>
+
+  <div class="success-box">
+    <h3>🎯 Ce que vous devez retenir</h3>
+    <ul style="font-size: 1.2em; line-height: 1.9;">
+      <li>✔️ <code>ng serve</code> est un outil de développement</li>
+      <li>✔️ Le build production est le <strong>produit final</strong></li>
+      <li>✔️ Une application Angular déployée est <strong>statique</strong></li>
+      <li>✔️ Les performances réelles se mesurent en production</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Erreurs fréquentes</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>❌ Déployer sans tester le build</li>
+      <li>❌ Se fier aux performances du mode dev</li>
+      <li>❌ Découvrir les erreurs en production</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>➡️ Et maintenant ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Nous avons maintenant une application Angular
+      <strong>prête techniquement</strong>.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      La question suivante est simple :
+      <strong>où et comment la déployer correctement ?</strong>
+    </p>
+  </div>
+
+</div>
+
+<!-- PARTIE 2 — Slide 1 : Déployer sur GitHub Pages -->
+<div class="slide">
+  <h1>🚀 Déployer Angular sur GitHub Pages</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Mettre en ligne notre application Angular <strong>buildée en production</strong>
+      sur un hébergement <strong>statique</strong> : <strong>GitHub Pages</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Pourquoi GitHub Pages ?</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Simple à utiliser (repo Git)</li>
+      <li>Gratuit</li>
+      <li>Parfait pour une SPA Angular “front only”</li>
+      <li>Idéal pour un portfolio / démonstration</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Point clé à comprendre</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      GitHub Pages <strong>sert des fichiers</strong> (HTML/CSS/JS)…<br>
+      mais <strong>ne comprend pas Angular Router</strong>.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      👉 On devra donc gérer un piège classique : <strong>le refresh sur une route</strong>.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Déployer Angular sur GitHub Pages = <strong>déployer le dossier dist/</strong>
+      + <strong>adapter le routing</strong>.
+    </p>
+  </div>
+</div>
+
+
+<!-- PARTIE 2 — Slide 2 : Ce que GitHub Pages fait (et ne fait pas) -->
+<div class="slide">
+  <h1>📄 GitHub Pages : serveur de fichiers, pas serveur Angular</h1>
+
+  <div class="success-box">
+    <h3>✅ Ce que GitHub Pages sait faire</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      GitHub Pages est un <strong>hébergement statique</strong> :
+      il sert simplement les fichiers de votre dossier buildé.
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>📄 <code>index.html</code></li>
+      <li>📦 fichiers <code>.js</code> (bundles Angular)</li>
+      <li>🎨 fichiers <code>.css</code></li>
+      <li>🖼️ dossier <code>assets/</code></li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>❌ Ce que GitHub Pages ne sait PAS faire</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      GitHub Pages ne comprend pas les routes Angular.
+      Pour lui, une URL correspond à un <strong>fichier</strong>.
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>❌ pas de “router” côté serveur</li>
+      <li>❌ pas de fallback automatique vers <code>index.html</code></li>
+      <li>❌ refresh sur <code>/tasks</code> = <strong>404</strong> si aucun fichier <code>/tasks</code> n’existe</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🧠 Ce que ça implique pour une SPA</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      La navigation <strong>dans l’app</strong> fonctionne (Angular gère tout côté navigateur),
+      mais un <strong>rechargement</strong> ou un lien direct peut casser.
+    </p>
+  </div>
+
+  
+</div>
+<!-- PARTIE 2 — Slide 3 : Préparer GitHub Pages -->
+<div class="slide">
+  <h1>⚙️ Préparer GitHub Pages</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Configurer GitHub Pages pour qu’il serve votre application Angular
+      (le contenu du dossier <code>dist/</code>).
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étapes (GitHub)</h3>
+    <ol style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>Pousser votre code</strong> sur un dépôt GitHub</li>
+      <li>Aller dans <strong>Settings</strong> → <strong>Pages</strong></li>
+      <li>Choisir la <strong>Source</strong> :
+        <ul>
+          <li><strong>Branch</strong> : <code>gh-pages</code> (recommandé)</li>
+          <li>ou <code>main</code> avec un dossier <code>/docs</code> (alternative)</li>
+        </ul>
+      </li>
+      <li>Cliquer sur <strong>Save</strong> puis attendre l’URL publiée</li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Choix recommandé (simple et propre)</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Utiliser une branche <code>gh-pages</code> dédiée :
+      <br>
+      ✅ le code reste sur <code>main</code> / <code>master</code><br>
+      ✅ le build (<code>dist/</code>) est publié séparément
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      GitHub Pages va servir votre app comme un site statique :<br>
+      <strong>il faut publier le contenu de <code>dist/</code></strong>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Le problème du refresh Angular -->
+<div class="slide">
+  <h1>🔄 Le piège classique : refresh et routes Angular</h1>
+
+  <div class="warning-box">
+    <h3>⚠️ Le problème</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Une application Angular utilise le <strong>routing côté navigateur</strong>.
+      Les routes (<code>/tasks</code>, <code>/stats</code>, etc.) n’existent
+      <strong>pas physiquement</strong> sur le serveur.
+    </p>
+
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✔️ Navigation interne → OK</li>
+      <li>❌ Refresh sur une route → <strong>404</strong></li>
+      <li>❌ Accès direct à une URL → <strong>404</strong></li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🤔 Pourquoi ça casse ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      GitHub Pages pense qu’une URL correspond à un <strong>fichier</strong>.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Exemple :
+    </p>
+
+    <pre><code>https://username.github.io/taskboard/tasks</code></pre>
+
+    <p style="font-size: 1.2em;">
+      ➡️ GitHub cherche un fichier <code>/tasks</code>…<br>
+      ❌ qui n’existe pas → erreur 404
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🧠 À retenir</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Angular Router fonctionne <strong>après</strong> le chargement de
+      <code>index.html</code>.<br>
+      Le serveur doit toujours renvoyer <code>index.html</code>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Solution simple sur GitHub Pages = Hash Routing -->
+<div class="slide">
+  <h1>✅ Solution GitHub Pages : Hash Routing</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Éviter le 404 au refresh sur une route (<code>/tasks</code>) en utilisant une URL
+      qui ne dépend pas du serveur.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>❌ Mode “normal”</h3>
+      <pre><code>https://username.github.io/taskboard/tasks</code></pre>
+      <p style="font-size: 1.1em; line-height: 1.7;">
+        Au refresh, GitHub Pages cherche un fichier <code>/tasks</code> → 404
+      </p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>✅ Hash Routing</h3>
+      <pre><code>https://username.github.io/taskboard/#/tasks</code></pre>
+      <p style="font-size: 1.1em; line-height: 1.7;">
+        Le serveur sert toujours <code>index.html</code> (la partie après <code>#</code> est gérée par Angular)
+      </p>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Comment l’activer (Angular Router)</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Dans Angular moderne (standalone), on active le hash dans la config du router :
+    </p>
+
+    <pre><code>// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes, withHashLocation()) // ✅ active /#/...
+  ],
+};</code></pre>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Sur GitHub Pages, <strong>Hash Routing</strong> est la solution la plus simple :
+      <br><strong>navigation + refresh = OK</strong>.
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>🔧 GitHub Pages : configurer le <code>base-href</code></h1>
+
+  <div class="warning-box">
+    <h3>⚠️ Le piège n°2 : chemins des fichiers</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Sur GitHub Pages, votre application n’est pas servie à la racine (<code>/</code>) mais dans un sous-dossier :
+    </p>
+    <pre><code>https://username.github.io/nom-du-repo/</code></pre>
+
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Si le <code>base-href</code> n’est pas correct, le navigateur va chercher vos fichiers
+      (<code>main.js</code>, <code>styles.css</code>, <code>chunk-*.js</code>) au mauvais endroit.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>❌ Mauvais (par défaut)</h3>
+      <pre><code>&lt;base href="/"&gt;</code></pre>
+      <p style="font-size: 1.1em; line-height: 1.7;">
+        Les scripts sont cherchés à <code>/main.js</code><br>
+        → sur GitHub Pages : <strong>404</strong>
+      </p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>✅ Correct (GitHub Pages)</h3>
+      <pre><code>&lt;base href="/nom-du-repo/"&gt;</code></pre>
+      <p style="font-size: 1.1em; line-height: 1.7;">
+        Les scripts sont cherchés à <code>/nom-du-repo/main.js</code><br>
+        → ✅ OK
+      </p>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ La commande build adaptée</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Avant de déployer sur GitHub Pages, on build avec le bon <code>base-href</code> :
+    </p>
+    <pre><code>ng build --configuration production --base-href /nom-du-repo/</code></pre>
+    <p style="font-size: 1.1em; margin-top: 0.5rem;">
+      ✅ Angular mettra automatiquement le bon <code>&lt;base href="..."&gt;</code> dans <code>index.html</code>.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Sur GitHub Pages :<br>
+      <strong>HashRouting</strong> pour éviter le 404 routes<br>
+      + <strong>base-href</strong> pour charger correctement les bundles.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Déploiement (manuel) sur GitHub Pages -->
+<div class="slide">
+  <h1>📤 Déployer sur GitHub Pages (méthode simple)</h1>
+
+  <div class="info-box">
+    <h3>🎯 Idée générale</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      On développe sur <code>main</code> (code source),
+      et on publie les fichiers buildés (<code>dist/</code>) sur une branche dédiée : <code>gh-pages</code>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étape 1 — Générer le build adapté à GitHub Pages</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Remplacez <code>nom-du-repo</code> par le nom exact du dépôt GitHub.
+    </p>
+    <pre><code>ng build --configuration production --base-href /nom-du-repo/</code></pre>
+    <p style="font-size: 1.05em; line-height: 1.6; margin-top: 0.5rem;">
+      ⚠️ Si votre build génère un dossier <code>browser/</code>, le site à publier est dans <code>dist/…/browser</code>.
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>✅ Étape 2 — Publier le contenu du build sur <code>gh-pages</code></h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Principe : on pousse uniquement les fichiers statiques (HTML/CSS/JS), pas le code Angular.
+    </p>
+    <pre><code># 1) Créer/mettre à jour la branche gh-pages
+# 2) Copier le contenu du build dedans
+# 3) Commit + push
+
+# Exemple (idée) : publier le contenu de dist/nom-du-projet/browser
+# (le détail exact dépend de l'outil choisi)</code></pre>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      GitHub Pages ne “build” pas Angular :
+      <strong>il sert les fichiers que vous publiez</strong> (copie de <code>dist/</code> dans <code>gh-pages</code>).
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Déploiement automatique (angular-cli-ghpages) -->
+<div class="slide">
+  <h1>🤖 Déploiement automatique avec <code>angular-cli-ghpages</code></h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Éviter la manipulation Git “à la main” : l’outil
+      <code>angular-cli-ghpages</code> publie automatiquement le build dans la branche <code>gh-pages</code>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étape 1 — Installer l’outil (une seule fois)</h3>
+    <pre><code>npm i -D angular-cli-ghpages</code></pre>
+    <p style="font-size: 1.05em; line-height: 1.6; margin-top: 0.5rem;">
+      (Optionnel) Vous pouvez aussi utiliser <code>npx</code> si vous ne voulez pas l’installer globalement.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étape 2 — Déployer en 2 commandes</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Remplacez <code>nom-du-repo</code> par le nom exact du dépôt.
+    </p>
+    <pre><code>ng build --configuration production --base-href /nom-du-repo/
+
+npx angular-cli-ghpages --dir dist/nom-du-projet/browser</code></pre>
+    <p style="font-size: 1.05em; line-height: 1.6; margin-top: 0.5rem;">
+      Si votre build ne crée pas <code>browser/</code>, utilisez plutôt :<br>
+      <code>--dir dist/nom-du-projet</code>
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Pourquoi <code>--base-href</code> reste indispensable</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>GitHub Pages sert le site sous <code>/nom-du-repo/</code></li>
+      <li>Sans <code>base-href</code>, les bundles (<code>main.js</code>, <code>chunk-*.js</code>) partent au mauvais chemin</li>
+      <li>Résultat : page blanche + erreurs 404 dans la console</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      <strong>Build → Publish</strong> : Angular génère <code>dist/</code>,
+      puis l’outil copie ce dossier dans <code>gh-pages</code>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Debug déploiement GitHub Pages -->
+<div class="slide">
+  <h1>🧯 Débug : “page blanche” après déploiement</h1>
+
+  <div class="warning-box">
+    <h3>😵 Symptôme</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      L’URL GitHub Pages s’ouvre… mais l’application n’affiche rien (écran vide).
+      <br>
+      👉 Dans 90% des cas, c’est un <strong>chemin de fichiers</strong> ou un <strong>routing</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Check #1 — Ouvrir la Console (F12)</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Cherchez des erreurs du type : <strong>404</strong> sur <code>main*.js</code>, <code>chunk*.js</code>, <code>styles*.css</code>.
+      <br>
+      Exemple : <code>GET https://username.github.io/main.js 404</code>
+    </p>
+    <p style="font-size: 1.1em; margin: 0;">
+      ➡️ Si vous voyez des 404 sur les bundles, le <strong>base-href</strong> est probablement mauvais.
+    </p>
+  </div>
+
+  <div class="info-box">
+    <h3>✅ Check #2 — Vérifier le <code>base-href</code> dans <code>dist/.../index.html</code></h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Ouvrez le fichier buildé et vérifiez la balise :
+    </p>
+    <pre><code>&lt;base href="/nom-du-repo/"&gt;</code></pre>
+    <p style="font-size: 1.05em; line-height: 1.6; margin-top: 0.5rem;">
+      ✅ Sur GitHub Pages, il faut le nom du repo.<br>
+      ❌ Si vous avez <code>"/"</code>, la page risque d’être blanche.
+    </p>
+  </div>
+
+  <div class="info-box">
+    <h3>✅ Check #3 — Le bon dossier à publier</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Certains projets génèrent : <code>dist/nom-du-projet/browser</code>.
+      <br>
+      Dans ce cas, c’est <strong>browser</strong> qu’il faut publier (pas le parent).
+    </p>
+    <pre><code>npx angular-cli-ghpages --dir dist/nom-du-projet/browser</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>✅ Check #4 — Refresh sur une route = 404</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Si la home marche mais <strong>refresh sur /tasks</strong> casse :
+      <br>
+      ➡️ activez le <strong>Hash Routing</strong> (URLs en <code>/#/tasks</code>).
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Routine de diagnostic</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      1) Console → 404 ?<br>
+      2) <code>base-href</code> correct ?<br>
+      3) Bon dossier publié (<code>browser</code> ?) ?<br>
+      4) Routing : hash activé ?
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Déploiement pro avec GitHub Actions (CI) -->
+<div class="slide">
+  <h1>⚙️ Déploiement “pro” : GitHub Actions (CI)</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Automatiser le déploiement : à chaque <strong>push sur <code>main</code></strong>,
+      GitHub : 1) build l’app, 2) publie sur GitHub Pages.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Pourquoi c’est mieux que le “manuel”</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✅ Aucun dossier <code>dist/</code> à committer</li>
+      <li>✅ Plus d’erreur “mauvais dossier publié”</li>
+      <li>✅ Déploiement reproductible (CI = pipeline)</li>
+      <li>✅ Historique clair des déploiements</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce que GitHub Actions fait vraiment</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Contrairement à GitHub Pages “pur”, GitHub Actions peut exécuter des commandes :
+      <code>npm ci</code>, <code>ng build</code>, puis publier le résultat.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🧩 Le fichier à créer : <code>.github/workflows/deploy.yml</code></h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      (On va le voir juste après) — c’est un fichier YAML qui décrit les étapes du pipeline.
+    </p>
+    <pre><code>push sur main
+  → installer deps
+  → ng build (base-href)
+  → publier sur Pages</code></pre>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0; line-height: 1.7;">
+      <strong>Pages</strong> = héberge les fichiers statiques.<br>
+      <strong>Actions</strong> = construit l’app automatiquement.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : YAML GitHub Actions prêt à copier-coller -->
+<div class="slide">
+  <h1>📄 GitHub Actions : workflow <code>deploy.yml</code> (prêt à copier)</h1>
+
+  <div class="info-box">
+    <h3>📁 Où le mettre ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Dans votre dépôt, créez le fichier :<br>
+      <code>.github/workflows/deploy.yml</code>
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Workflow minimal pour Angular → GitHub Pages</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Remplacez <code>/nom-du-repo/</code> par le nom exact de votre repo.
+    </p>
+
+    <pre><code>name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (production)
+        run: npm run build -- --configuration production --base-href /nom-du-repo/
+
+      # ⚠️ Si votre build sort dans dist/APP/browser, gardez cette ligne
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/nom-du-projet/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ À adapter (2 points)</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>base-href</strong> : <code>/nom-du-repo/</code></li>
+      <li><strong>path</strong> : le dossier réel du build (souvent <code>dist/nom-du-projet/browser</code>)</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Vous poussez du code sur <code>main</code> → GitHub construit → GitHub déploie.
+      <br>
+      <strong>Plus de déploiement manuel</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Réglages GitHub Pages pour que l’Action déploie -->
+<div class="slide">
+  <h1>🧩 Réglages GitHub Pages (pour le déploiement)</h1>
+
+  <div class="info-box">
+    <h3>✅ À faire dans le repo GitHub</h3>
+    <ol style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>Settings</strong> → <strong>Pages</strong></li>
+      <li><strong>Build and deployment</strong> → Source : <strong>GitHub Actions</strong></li>
+      <li>Vérifier que l’onglet <strong>Actions</strong> existe et n’est pas désactivé</li>
+    </ol>
+  </div>
+
+  <div class="success-box">
+    <h3>🔐 Permissions : le point qui bloque souvent</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Dans le workflow, on a ajouté :
+      <code>pages: write</code> et <code>id-token: write</code> ✅
+    </p>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Et côté repo : <strong>Settings</strong> → <strong>Actions</strong> → <strong>General</strong> :
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>Workflow permissions</strong> : <strong>Read and write permissions</strong> (si nécessaire)</li>
+      <li>Autoriser GitHub Actions à déployer sur Pages</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Vérification rapide</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Après un <code>git push</code> → onglet <strong>Actions</strong> → voir un run “Deploy Angular to GitHub Pages”</li>
+      <li>Si échec : lire le log → souvent <strong>mauvais path dist</strong> ou <strong>base-href</strong></li>
+      <li>L’URL finale est visible dans <strong>Settings → Pages</strong></li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      <strong>Pages = hébergement</strong><br>
+      <strong>Actions = build + publication</strong><br>
+      → Il faut activer “GitHub Actions” comme source de Pages.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Vérifier que le déploiement fonctionne -->
+<div class="slide">
+  <h1>🔍 Vérifier que le déploiement fonctionne</h1>
+
+  <div class="info-box">
+    <h3>✅ Étape 1 — Vérifier le workflow GitHub Actions</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Après un <code>git push</code> sur <code>main</code>, GitHub lance automatiquement le workflow.
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Aller dans l’onglet <strong>Actions</strong></li>
+      <li>Ouvrir le dernier run “Deploy Angular to GitHub Pages”</li>
+      <li>Vérifier que toutes les étapes sont <strong>vertes</strong> ✅</li>
+    </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étape 2 — Accéder à l’URL publiée</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      L’URL finale est disponible dans :
+    </p>
+    <pre><code>Settings → Pages</code></pre>
+    <p style="font-size: 1.15em;">
+      Exemple :
+    </p>
+    <pre><code>https://username.github.io/nom-du-repo/</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Tests indispensables à faire</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✔️ La page d’accueil s’affiche correctement</li>
+      <li>✔️ Les styles sont chargés</li>
+      <li>✔️ La navigation interne fonctionne</li>
+      <li>✔️ <strong>Refresh</strong> sur une route ne casse pas (HashRouting)</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.3em; margin: 0;">
+      Un déploiement réussi = <strong>workflow OK</strong> + <strong>URL accessible</strong> + <strong>navigation stable</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Checklist des erreurs fréquentes (Actions + Pages) -->
+<div class="slide">
+  <h1>🧯 Débug CI/CD : les 4 erreurs les plus fréquentes</h1>
+
+  <div class="warning-box">
+    <h3>1) ❌ “Page blanche” mais pas d’erreur Actions</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Très souvent : <strong>mauvais base-href</strong> → les bundles sont cherchés au mauvais endroit.
+    </p>
+    <pre><code>ng build --configuration production --base-href /nom-du-repo/</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>2) ❌ Workflow OK, mais le site affiche “Index of /”</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Vous ne publiez pas le bon dossier : GitHub Pages reçoit un dossier qui ne contient pas <code>index.html</code>.
+    </p>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Dans le workflow : vérifiez <code>path</code> :
+    </p>
+    <pre><code>path: dist/nom-du-projet/browser</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>3) ❌ “404” au refresh sur une route</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Normal sur GitHub Pages si on est en routing “normal”.
+      <br>✅ Solution simple : <strong>HashRouting</strong>.
+    </p>
+    <pre><code>provideRouter(routes, withHashLocation())</code></pre>
+  </div>
+
+  <div class="warning-box">
+    <h3>4) ❌ Le workflow échoue (permissions Pages)</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Deux choses à vérifier :
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Settings → Pages → Source : <strong>GitHub Actions</strong></li>
+      <li>Dans le YAML : <code>pages: write</code> + <code>id-token: write</code></li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Routine express</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      1) Actions : run vert ?<br>
+      2) Pages : source “GitHub Actions” ?<br>
+      3) `path` contient bien `index.html` ?<br>
+      4) `base-href` correct ? / HashRouting ?
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : HashRouting vs PathLocationStrategy (choix et conséquences) -->
+<div class="slide">
+  <h1>🧭 HashRouting vs URL “propres”</h1>
+
+  <div class="info-box">
+    <h3>🎯 Le choix à faire</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Sur un hébergement statique (GitHub Pages), on choisit souvent <strong>HashRouting</strong>
+      pour éviter les 404 au refresh. Mais ce choix a un impact sur les URLs.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>✅ HashRouting (recommandé sur Pages)</h3>
+      <pre><code>https://site/#/tasks</code></pre>
+      <ul style="font-size: 1.1em; line-height: 1.8;">
+        <li>✅ Refresh OK</li>
+        <li>✅ Lien direct OK</li>
+        <li>✅ Pas besoin de config serveur</li>
+        <li>⚠️ URLs moins “propres”</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>🌐 URLs “propres” (sans #)</h3>
+      <pre><code>https://site/tasks</code></pre>
+      <ul style="font-size: 1.1em; line-height: 1.8;">
+        <li>✅ URLs plus jolies</li>
+        <li>⚠️ Refresh casse (404) si le serveur ne redirige pas vers <code>index.html</code></li>
+        <li>⚠️ Nécessite un serveur configurable (Netlify, Firebase, Nginx…)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Rappel : activer HashRouting</h3>
+    <pre><code>// app.config.ts
+provideRouter(routes, withHashLocation())</code></pre>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      <strong>GitHub Pages = statique</strong> → HashRouting = solution simple.<br>
+      Pour des URLs “propres”, il faut un hébergeur qui supporte le fallback <code>index.html</code>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Le 3e piège GitHub Pages (assets / chemins relatifs) -->
+<div class="slide">
+  <h1>🧩 3e piège : assets & chemins relatifs</h1>
+
+  <div class="warning-box">
+    <h3>⚠️ Symptôme</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      L’app s’affiche, mais :
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>images cassées (404)</li>
+      <li>favicon absent</li>
+      <li>polices non chargées</li>
+      <li>CSS OK mais assets KO</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🤔 Pourquoi ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Sur GitHub Pages, tout est servi sous :
+    </p>
+    <pre><code>https://username.github.io/nom-du-repo/</code></pre>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Si certains chemins pointent vers <code>/assets/...</code> (racine du domaine),
+      ils peuvent casser car la racine réelle est <code>/nom-du-repo/</code>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Solution</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✅ Toujours build avec le bon <code>base-href</code></li>
+      <li>✅ Utiliser des chemins “Angular friendly” (assets via build)</li>
+      <li>✅ Tester le site comme en prod (pas avec <code>ng serve</code>)</li>
+    </ul>
+    <pre><code>ng build --configuration production --base-href /nom-du-repo/</code></pre>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      GitHub Pages = sous-dossier → <strong>base-href</strong> = indispensable
+      pour que <strong>bundles + assets</strong> soient chargés au bon endroit.
+    </p>
+  </div>
+</div>
+
+
+<!-- PARTIE 2 — Slide suivant : Mini atelier (déploiement GitHub Pages en 10 minutes) -->
+<div class="slide">
+  <h1>🧪 Mini-atelier : déployer en 10 minutes</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Mettre en ligne votre Angular sur GitHub Pages
+      <strong>avec un refresh qui fonctionne</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Étapes (résumé)</h3>
+    <ol style="font-size: 1.15em; line-height: 1.9;">
+      <li>Activer HashRouting :
+        <pre><code>provideRouter(routes, withHashLocation())</code></pre>
+      </li>
+      <li>Build avec base-href :
+        <pre><code>ng build --configuration production --base-href /nom-du-repo/</code></pre>
+      </li>
+      <li>Publier (au choix) :
+        <ul>
+          <li><strong>Option A</strong> : <code>angular-cli-ghpages</code></li>
+          <li><strong>Option B</strong> : GitHub Actions (CI)</li>
+        </ul>
+      </li>
+      <li>Vérifier le site publié + tester un refresh sur <code>#/tasks</code></li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Check rapide si ça ne marche pas</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Console : 404 sur <code>main*.js</code> ? → base-href</li>
+      <li>“Index of /” ? → mauvais dossier publié (pas d’<code>index.html</code>)</li>
+      <li>Refresh route 404 ? → HashRouting pas activé</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Critère de réussite</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Vous pouvez ouvrir le site publié et faire :<br>
+      ✅ navigation → ✅ refresh sur <code>#/...</code> → ✅ retour OK
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 2 — Slide suivant : Clarifier “statique” vs “dynamique” (observables, appels HTTP) -->
+<div class="slide">
+  <h1>📌 “Site statique”… mais app dynamique</h1>
+
+  <div class="info-box">
+    <h3>🤔 Question fréquente</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      “Si GitHub Pages est un hébergement <strong>statique</strong>,
+      est-ce que mon Angular (Observables, HttpClient…) fonctionne quand même ?”
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>📄 Statique = le serveur</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Le serveur sert <strong>des fichiers</strong></li>
+        <li><code>index.html</code>, <code>main.js</code>, <code>styles.css</code></li>
+        <li>Aucun “code serveur” exécuté</li>
+        <li>Pas de base de données</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>⚡ Dynamique = le navigateur</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Angular tourne <strong>dans le navigateur</strong></li>
+        <li>Les Observables (RxJS) fonctionnent normalement</li>
+        <li>Les actions utilisateur déclenchent des mises à jour</li>
+        <li>Les appels HTTP vont vers une API externe (si existante)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Exemple concret</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Même sur GitHub Pages :
+    </p>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✅ <code>tasks$</code>, <code>map()</code>, <code>async</code> → OK</li>
+      <li>✅ WebSocket → OK (si serveur WS externe)</li>
+      <li>✅ <code>HttpClient.get()</code> → OK (si API accessible + CORS)</li>
+      <li>❌ “Sauvegarder en base” → nécessite un back/API</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      “Statique” décrit <strong>l’hébergement</strong> (serveur), pas votre app.<br>
+      Votre app reste <strong>interactive</strong> car tout se passe dans le navigateur.
+    </p>
+  </div>
+</div>
+
+<!-- Slide — Config production : environnements -->
+<div class="slide">
+  <h1>⚙️ Config production : environnements</h1>
+
+  <div class="info-box">
+    <h3>🎯 Pourquoi c’est indispensable ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Une application Angular “prod” ne pointe pas forcément vers les mêmes services qu’en local :
+      <strong>API</strong>, <strong>URL</strong>, <strong>features</strong>, <strong>debug</strong>, etc.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Le principe : 2 configs selon l’environnement</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>dev</strong> : API locale, logs détaillés, outils de debug</li>
+      <li><strong>prod</strong> : API publique, logs réduits, sécurité + perf</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Erreur fréquente</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      L’app fonctionne en local… mais en ligne elle “ne charge rien” parce que :
+      <br><strong>l’URL d’API est restée en localhost</strong>.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Le build prod ne change pas seulement les performances :<br>
+      il doit aussi utiliser la <strong>bonne configuration</strong> (URLs, options, features).
+    </p>
+  </div>
+</div>
+
+
+<!-- Slide — Pourquoi les fichiers ont un hash (cache navigateur) -->
+<div class="slide">
+  <h1>🧠 Pourquoi <code>main-XXXX.js</code> change de nom ?</h1>
+
+  <div class="info-box">
+    <h3>🔍 Ce que tu vois dans <code>dist/</code></h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      En production, Angular génère des fichiers avec un <strong>hash</strong> dans le nom :
+    </p>
+    <pre><code>main-5LNZVPCQ.js
+chunk-LVZSSPDY.js
+styles-5INURTSO.css</code></pre>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Objectif : gérer le cache intelligemment</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Le navigateur peut garder un fichier en cache très longtemps ✅</li>
+      <li>Si le contenu change, le hash change → <strong>le navigateur retélécharge</strong> ✅</li>
+      <li>Si le contenu ne change pas, il reste en cache → <strong>plus rapide</strong> ✅</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Sans hash : bug “chez certains utilisateurs”</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      Si <code>main.js</code> gardait toujours le même nom :
+      <br>
+      certains utilisateurs pourraient garder <strong>l’ancienne version</strong>
+      → application cassée / incohérente.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Le hash = <strong>performance + fiabilité</strong> : cache quand c’est possible, mise à jour quand c’est nécessaire.
+    </p>
+  </div>
+</div>
+
+
+<!-- Slide — SSR vs Prerender (SSG) : le pont avec hébergement statique -->
+<div class="slide">
+  <h1>🧩 SSR vs Prerender : lequel choisir ?</h1>
+
+  <div class="info-box">
+    <h3>🤔 Deux solutions… pour “avoir du HTML visible plus tôt”</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Quand une SPA affiche “trop tard” (SEO / partage / première impression),
+      on pense au SSR… mais il existe aussi une option “statique” : le <strong>Prerender</strong>.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🖥️ SSR (Server-Side Rendering)</h3>
+      <ul style="font-size: 1.1em; line-height: 1.8;">
+        <li>Le serveur génère le HTML <strong>à chaque requête</strong></li>
+        <li>✅ Très bon pour contenu dynamique</li>
+        <li>⚠️ Nécessite un <strong>serveur Node</strong></li>
+        <li>❌ Pas compatible GitHub Pages</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 Prerender (SSG “statique”)</h3>
+      <ul style="font-size: 1.1em; line-height: 1.8;">
+        <li>Le HTML est généré <strong>au moment du build</strong></li>
+        <li>✅ Compatible hébergement <strong>statique</strong></li>
+        <li>✅ Très bon pour pages “marketing”, docs…</li>
+        <li>⚠️ Moins adapté si tout change en temps réel</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>🎯 Règle simple</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>GitHub Pages</strong> → SPA statique ✅ + Prerender possible ✅</li>
+      <li><strong>Besoin de HTML dynamique à la demande</strong> → SSR ✅ (hébergeur Node requis)</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      SSR = “HTML généré à la demande” (serveur).<br>
+      Prerender = “HTML généré au build” (statique).
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Pourquoi le SSR devient nécessaire -->
+<div class="slide">
+  <h1>🔍 Limites d’une SPA “classique”</h1>
+
+  <div class="info-box">
+    <h3>🧠 Rappel : comment une SPA Angular se charge</h3>
+    <ol style="font-size: 1.15em; line-height: 1.9;">
+      <li>Le navigateur charge <code>index.html</code></li>
+      <li>Il télécharge le JavaScript (<code>main.js</code>, chunks…)</li>
+      <li>Angular démarre dans le navigateur</li>
+      <li>Le contenu réel s’affiche ensuite</li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Problèmes induits</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>⏳ Premier affichage parfois lent</li>
+      <li>🤖 SEO limité (robots voient peu de contenu initial)</li>
+      <li>📎 Mauvais aperçu lors du partage (Open Graph)</li>
+      <li>📱 Perception “page blanche” au chargement</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Question clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Et si le serveur envoyait déjà <strong>une page HTML remplie</strong> ?
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Qu’est-ce que le SSR (Angular Universal) -->
+<div class="slide">
+  <h1>🌍 SSR : Server-Side Rendering</h1>
+
+  <div class="info-box">
+    <h3>🤔 Qu’est-ce que le SSR ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le <strong>Server-Side Rendering</strong> consiste à
+      <strong>générer le HTML sur le serveur</strong>
+      avant de l’envoyer au navigateur.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Avec Angular, cette technologie s’appelle :
+      <strong>Angular Universal</strong>.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA classique (sans SSR)</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Le serveur envoie un HTML presque vide</li>
+        <li>Le navigateur charge le JS</li>
+        <li>Angular construit l’interface ensuite</li>
+        <li>⏳ Contenu visible plus tard</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>🚀 Angular avec SSR</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Le serveur génère une page HTML complète</li>
+        <li>Le contenu est visible immédiatement</li>
+        <li>Angular reprend ensuite la main (hydration)</li>
+        <li>⚡ Meilleure perception utilisateur</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Le SSR ne remplace pas Angular côté navigateur :<br>
+      il <strong>prépare le HTML</strong> pour un premier affichage rapide.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Pourquoi utiliser le SSR -->
+<div class="slide">
+  <h1>🎯 Pourquoi utiliser le SSR ?</h1>
+
+  <div class="success-box">
+    <h3>🚀 Performance perçue</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Le navigateur reçoit une page <strong>déjà remplie</strong></li>
+      <li>Moins d’effet “page blanche”</li>
+      <li>Meilleur <strong>LCP</strong> (Largest Contentful Paint)</li>
+      <li>UX plus fluide sur mobile et connexions lentes</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🔍 SEO (référencement)</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Les robots voient du <strong>vrai contenu HTML</strong></li>
+      <li>Pas besoin d’exécuter JavaScript</li>
+      <li>Indexation plus fiable</li>
+      <li>Méta-données correctement lues</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>🔗 Partage sur les réseaux</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Aperçu correct (Open Graph)</li>
+      <li>Titre, description, image visibles</li>
+      <li>Pas de “preview vide”</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ À retenir</h3>
+    <p style="font-size: 1.2em; line-height: 1.7;">
+      Le SSR n’est pas là pour “faire plus moderne”,  
+      mais pour <strong>mieux afficher et mieux référencer</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Ce que le SSR change vraiment -->
+<div class="slide">
+  <h1>🧩 Ce que le SSR change vraiment</h1>
+
+  <div class="info-box">
+    <h3>🔎 Concrètement, qu’est-ce qui change ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Sans SSR, le serveur renvoie surtout <code>index.html</code> (presque vide),
+      puis Angular construit la page dans le navigateur.
+      <br>
+      Avec SSR, le serveur renvoie <strong>déjà du HTML rempli</strong>.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA “classique” (sans SSR)</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Le serveur renvoie <code>index.html</code></li>
+        <li>Le navigateur télécharge les bundles JS</li>
+        <li>Angular démarre et génère l’UI</li>
+        <li>Le contenu arrive “après”</li>
+        <li>SEO / partage parfois limités</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>🚀 SSR (Angular Universal)</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>Le serveur exécute Angular côté serveur</li>
+        <li>Il génère du <strong>HTML complet</strong></li>
+        <li>Le navigateur affiche immédiatement</li>
+        <li>Angular “reprend” ensuite (hydration)</li>
+        <li>SEO / partage améliorés</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce que ça implique (le prix à payer)</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>📌 Il faut un <strong>serveur Node</strong> (ce n’est plus “100% statique”)</li>
+      <li>💸 Plus de ressources serveur (CPU / RAM)</li>
+      <li>🧪 Plus de complexité (build, déploiement, logs)</li>
+      <li>⚠️ Certaines API navigateur ne sont pas disponibles côté serveur</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      SSR = meilleur <strong>premier rendu</strong> ✅<br>
+      mais demande un <strong>serveur</strong> et une <strong>architecture</strong> plus solide ⚙️
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Pourquoi GitHub Pages ne peut PAS faire du SSR -->
+<div class="slide">
+  <h1>🚫 Pourquoi GitHub Pages ne peut pas faire du SSR</h1>
+
+  <div class="info-box">
+    <h3>📄 Rappel : ce qu’est GitHub Pages</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Hébergement <strong>100 % statique</strong></li>
+      <li>Il sert uniquement des fichiers (HTML, JS, CSS)</li>
+      <li>❌ Aucun code serveur exécuté</li>
+      <li>❌ Aucun processus Node actif</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>❌ Ce que le SSR exige</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Un <strong>serveur Node</strong> en fonctionnement</li>
+      <li>L’exécution d’Angular côté serveur</li>
+      <li>La génération du HTML à chaque requête</li>
+      <li>Un point d’entrée serveur (Express, Fastify…)</li>
+    </ul>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🌐 GitHub Pages</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>HTML déjà généré</li>
+        <li>Pas de logique serveur</li>
+        <li>Idéal pour SPA statiques</li>
+        <li>Coût = 0 €</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>🖥️ SSR Angular</h3>
+      <ul style="font-size: 1.15em; line-height: 1.9;">
+        <li>HTML généré à la demande</li>
+        <li>Serveur Node requis</li>
+        <li>Architecture plus lourde</li>
+        <li>Coût + maintenance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      GitHub Pages est parfait pour le <strong>déploiement SPA</strong>.<br>
+      Le SSR nécessite un <strong>vrai serveur</strong> → ce n’est pas le même usage.
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>📄 Prerender Angular (SSG)</h1>
+
+  <div class="info-box">
+    <h3>🤔 Qu’est-ce que le Prerender ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le <strong>Prerender</strong> consiste à générer
+      <strong>des pages HTML complètes au moment du build</strong>,
+      avant le déploiement.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      👉 Contrairement au SSR, il n’y a
+      <strong>aucun rendu à la demande côté serveur</strong>.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA classique</h3>
+      <ul>
+        <li>HTML presque vide</li>
+        <li>JS chargé puis rendu</li>
+        <li>SEO limité</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 SPA + Prerender</h3>
+      <ul>
+        <li>HTML déjà rempli</li>
+        <li>Chargement plus rapide</li>
+        <li>SEO et partage améliorés</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Avantages</h3>
+    <ul>
+      <li>Compatible hébergement <strong>100 % statique</strong></li>
+      <li>Aucun serveur Node en production</li>
+      <li>Très bon pour pages publiques, marketing, docs</li>
+      <li>Coût et complexité faibles</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Limites</h3>
+    <ul>
+      <li>Contenu généré à l’avance</li>
+      <li>Pas adapté au contenu très dynamique</li>
+      <li>Pas de rendu personnalisé par utilisateur</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0;">
+      Prerender = <strong>meilleur HTML sans serveur</strong><br>
+      SSR = <strong>HTML dynamique avec serveur</strong>
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : SSR en théorie (comment on le met en place) -->
+<div class="slide">
+  <h1>🧪 SSR en théorie : comment ça se met en place ?</h1>
+
+  <div class="info-box">
+    
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le SSR consiste à <strong>rendre une première version HTML côté serveur</strong>,
+      puis Angular reprend la main côté navigateur (<strong>hydration</strong>).
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🧩 Ce qu’il faut pour faire du SSR</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>✅ Un <strong>serveur Node</strong> (Express, Fastify…)</li>
+      <li>✅ Un build “browser” (JS pour le navigateur)</li>
+      <li>✅ Un build “server” (rendu côté serveur)</li>
+      <li>✅ Un hébergeur capable d’exécuter Node (VPS, Render, Fly.io, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce que ça change dans le projet</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Le serveur <strong>répond à toutes les routes</strong> (pas seulement des fichiers)</li>
+      <li>On fait attention aux API navigateur (<code>window</code>, <code>document</code>) côté serveur</li>
+      <li>Déploiement plus complexe qu’une SPA statique</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      SSR = <strong>Angular côté serveur + Angular côté navigateur</strong>.<br>
+      Donc il faut un hébergement qui sait exécuter Node.
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Les commandes (conceptuellement) -->
+<div class="slide">
+  <h1>🛠️ SSR : étapes & commandes (vue d’ensemble)</h1>
+
+  <div class="info-box">
+    <h3>📦 1) Ajouter le support SSR</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Angular fournit un schéma SSR qui ajoute un serveur Node + la config nécessaire.
+    </p>
+    <pre><code># 1 fois dans le projet
+ng add @angular/ssr</code></pre>
+    <p style="font-size: 1.05em; margin: 0; line-height: 1.6;">
+      ➡️ Le projet gagne une partie "server" (Node) en plus de la partie "browser".
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>⚙️ 2) Générer les 2 builds</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      En SSR, on obtient généralement <strong>2 sorties</strong> :
+      <strong>browser</strong> (fichiers statiques) + <strong>server</strong> (code Node qui rend le HTML).
+    </p>
+    <pre><code>ng build --configuration production</code></pre>
+    <p style="font-size: 1.05em; margin: 0; line-height: 1.6;">
+      Exemple de structure de sortie : <code>dist/nom-du-projet/browser</code> et <code>dist/nom-du-projet/server</code>
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>🚀 3) Démarrer le serveur SSR</h3>
+    <p style="font-size: 1.15em; line-height: 1.8;">
+      En production, ce n’est <strong>pas</strong> un hébergement statique : c’est un serveur Node qui répond aux routes.
+    </p>
+    <pre><code># selon le projet / scripts générés
+npm run serve:ssr
+
+# ou (idée générale)
+node dist/nom-du-projet/server/server.mjs</code></pre>
+    <p style="font-size: 1.1em; margin: 0;">
+      ➡️ Le serveur renvoie un HTML déjà rempli, puis le navigateur <strong>hydrate</strong> l’app.
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Et sur GitHub Pages ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Impossible : GitHub Pages <strong>ne peut pas exécuter Node</strong>.
+      <br>
+      👉 Pages peut héberger une SPA (ou du prerender), mais pas un serveur SSR.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      SPA = <strong>“je publie dist/”</strong><br>
+      SSR = <strong>“je déploie un serveur Node + des fichiers dist/”</strong>
+    </p>
+  </div>
+</div>
+
+<!-- PARTIE 3 — Slide suivant : Quand choisir SSR vs rester en SPA -->
+<div class="slide">
+  <h1>🧭 Quand choisir SSR (et quand éviter) ?</h1>
+
+  <div class="success-box">
+    <h3>✅ Cas où SSR est utile</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>SEO critique (blog, e-commerce, pages marketing)</li>
+      <li>Partage social important (prévisualisation Open Graph)</li>
+      <li>Premier affichage très rapide requis (mobile / faible réseau)</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Cas où SSR n’est pas nécessaire</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Application “back-office” / outil interne</li>
+      <li>Appli behind login (SEO inutile)</li>
+      <li>Projet simple à déployer (GitHub Pages, Netlify statique)</li>
+      <li>Priorité : simplicité / coût / maintenance</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🎯 Règle simple (pédagogique)</h3>
+    <p style="font-size: 1.2em; line-height: 1.8; margin: 0;">
+      Si vos utilisateurs arrivent via <strong>Google / partage</strong> → SSR peut avoir du sens.<br>
+      Si vos utilisateurs arrivent via <strong>connexion + navigation interne</strong> → SPA suffit souvent.
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>🧠 SPA, Prerender ou SSR ?</h1>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧩 SPA (statique)</h3>
+      <ul style="line-height: 1.9;">
+        <li>HTML quasi vide</li>
+        <li>Rendu côté navigateur</li>
+        <li>Déploiement simple (GitHub Pages)</li>
+        <li>SEO limité</li>
+      </ul>
+      <p><strong>Cas typiques :</strong><br>Back-office, outils internes</p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 Prerender (SSG)</h3>
+      <ul style="line-height: 1.9;">
+        <li>HTML généré au build</li>
+        <li>Très bon SEO</li>
+        <li>Hébergement statique</li>
+        <li>Pas de serveur Node</li>
+      </ul>
+      <p><strong>Cas typiques :</strong><br>Pages publiques, vitrine</p>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <h3>🚀 SSR (Angular Universal)</h3>
+    <ul style="line-height: 1.9;">
+      <li>HTML généré à chaque requête</li>
+      <li>SEO maximal</li>
+      <li>Serveur Node requis</li>
+      <li>Déploiement plus complexe</li>
+    </ul>
+    <p><strong>Cas typiques :</strong> e-commerce, contenu très dynamique</p>
+  </div>
+
+  <div class="highlight">
+    <h3>🎯 Règle simple à retenir</h3>
+    <p style="font-size: 1.25em; line-height: 1.7; margin: 0;">
+      👉 Besoin de simplicité → <strong>SPA</strong><br>
+      👉 Besoin de SEO sans serveur → <strong>Prerender</strong><br>
+      👉 Besoin de SEO dynamique → <strong>SSR</strong>
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>📄 Prerender : du HTML… sans serveur</h1>
+
+  <div class="info-box">
+    <h3>🤔 L’idée</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le <strong>Prerender</strong> génère des fichiers <strong>HTML complets</strong>
+      <em>au moment du build</em>.
+      <br>
+      Ensuite, on déploie ces fichiers sur un hébergement <strong>statique</strong>
+      (comme GitHub Pages).
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA classique</h3>
+      <ul style="font-size: 1.1em; line-height: 1.9;">
+        <li>Le serveur renvoie un HTML quasi vide</li>
+        <li>Le navigateur charge le JS</li>
+        <li>Le contenu arrive après</li>
+        <li>SEO / partage parfois limités</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 SPA + Prerender</h3>
+      <ul style="font-size: 1.1em; line-height: 1.9;">
+        <li>Le serveur renvoie un HTML déjà rempli</li>
+        <li>Meilleure impression au chargement</li>
+        <li>SEO / OpenGraph améliorés</li>
+        <li>Angular reprend ensuite la main (hydration)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Pourquoi c’est parfait pour GitHub Pages</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>GitHub Pages sait servir des fichiers <code>.html</code></li>
+      <li>Le HTML étant déjà généré → pas besoin d’exécuter Node</li>
+      <li>Vous gardez un déploiement “simple” (statique)</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Ce que le Prerender ne fait pas</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Il ne génère pas du HTML “à la demande” (contrairement au SSR)</li>
+      <li>Si le contenu change souvent → il faut re-build + re-déployer</li>
+      <li>Pas adapté à une page personnalisée par utilisateur connecté</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Prerender = <strong>SEO + premier rendu rapide</strong> ✅<br>
+      tout en restant <strong>100% statique</strong> (GitHub Pages compatible).
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>⚙️ Prerender Angular : comment ça fonctionne</h1>
+
+  <div class="info-box">
+    <h3>🧠 Principe général</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le Prerender s’appuie sur Angular pour
+      <strong>exécuter l’application au moment du build</strong>
+      et générer des pages HTML statiques pour certaines routes.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      👉 Angular simule le navigateur, rend la page,
+      puis <strong>écrit le HTML dans des fichiers</strong>.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>📦 Ce que produit le build</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li><strong>index.html</strong> déjà rempli pour certaines routes</li>
+      <li>Les fichiers JS/CSS habituels (SPA)</li>
+      <li>Un HTML prêt à être servi tel quel</li>
+    </ul>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>Sans Prerender</h3>
+      <ul style="line-height: 1.9;">
+        <li>HTML vide</li>
+        <li>JS obligatoire pour voir le contenu</li>
+        <li>Premier affichage plus lent</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>Avec Prerender</h3>
+      <ul style="line-height: 1.9;">
+        <li>HTML déjà visible</li>
+        <li>JS améliore ensuite l’interface</li>
+        <li>Meilleure perception de performance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Important à comprendre</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Le Prerender se fait <strong>au build</strong>, pas en production</li>
+      <li>Chaque changement de contenu → nouveau build</li>
+      <li>Seules certaines routes sont généralement prerenderées</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
+      Prerender = <strong>HTML généré à l’avance</strong><br>
+      SSR = <strong>HTML généré à chaque requête</strong>
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>🚀 Que déploie-t-on concrètement ?</h1>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA (statique)</h3>
+      <ul style="font-size: 1.1em; line-height: 1.9;">
+        <li>Dossier <code>dist/</code></li>
+        <li><code>index.html</code> (presque vide)</li>
+        <li>JS / CSS</li>
+        <li>Aucun serveur applicatif</li>
+      </ul>
+      <p><strong>Hébergement :</strong><br>GitHub Pages, Netlify, Firebase</p>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 Prerender (SSG)</h3>
+      <ul style="font-size: 1.1em; line-height: 1.9;">
+        <li>Dossier <code>dist/</code></li>
+        <li><code>index.html</code> déjà rempli</li>
+        <li>Une page HTML par route générée</li>
+        <li>Aucun serveur Node</li>
+      </ul>
+      <p><strong>Hébergement :</strong><br>GitHub Pages, Netlify, Firebase</p>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <h3>🚀 SSR (Angular Universal)</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Dossier <code>dist/.../browser</code> (JS / CSS)</li>
+      <li>Dossier <code>dist/.../server</code> (Node)</li>
+      <li>Serveur Node actif en production</li>
+      <li>Rendu HTML à chaque requête</li>
+    </ul>
+    <p><strong>Hébergement :</strong><br>Serveur Node, VPS, Cloud (Render, AWS, etc.)</p>
+  </div>
+
+  <div class="highlight">
+    <h3>🎯 Message final de la séquence</h3>
+    <p style="font-size: 1.25em; line-height: 1.7; margin: 0;">
+      Le choix <strong>SPA / Prerender / SSR</strong> détermine :<br>
+      👉 la complexité du projet<br>
+      👉 le type d’hébergement<br>
+      👉 le coût et la maintenance
+    </p>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>🎓 Bilan de la formation Angular</h1>
+
+  <div class="success-box">
+    <h3>Ce que nous avons vu ensemble</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Architecture Angular moderne</li>
+      <li>Composants, services, injection de dépendances</li>
+      <li>RxJS et gestion des flux asynchrones</li>
+      <li>Performance : OnPush, track, lazy loading</li>
+      <li>Sécurité front-end : XSS, CSRF, CSP</li>
+      <li>Build, déploiement, contraintes réelles</li>
+      <li>SPA, Prerender, SSR : savoir choisir</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🎯 Ce qui était l’objectif</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Comprendre Angular <strong>au-delà du framework</strong> :
+      ses choix techniques, ses compromis,
+      et son usage réel en production.
+    </p>
+  </div>
+
+ 
+</div>
+
+<div class="slide">
+  <h1>🚀 Ce que vous savez faire maintenant</h1>
+
+  <div class="success-box">
+    <h3>En tant que développeur Angular</h3>
+    <ul style="font-size: 1.15em; line-height: 1.9;">
+      <li>Concevoir une application Angular maintenable</li>
+      <li>Structurer une app autour des flux et des services</li>
+      <li>Optimiser les performances sans sur-optimiser</li>
+      <li>Identifier les risques de sécurité côté front</li>
+      <li>Choisir une stratégie de déploiement adaptée</li>
+      <li>Argumenter vos choix techniques</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🎯 Ce qui fait la différence</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Vous ne savez pas seulement “faire fonctionner” Angular :
+      <br>
+      vous savez <strong>expliquer pourquoi</strong> une solution est adaptée.
+    </p>
+  </div>
+
+  <div class="highlight">
+    <h3>Mot de clôture</h3>
+    <p style="font-size: 1.25em; line-height: 1.7; margin: 0;">
+      Un bon développeur Angular<br>
+      n’utilise pas toutes les fonctionnalités,<br>
+      il utilise <strong>les bonnes</strong>.
+    </p>
+  </div>
+</div>
+
+        <div class="controls">
+            <button id="prev-btn">← Précédent</button>
+            <button id="next-btn">Suivant →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideSpan = document.getElementById('current-slide');
+        const totalSlidesSpan = document.getElementById('total-slides');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+            currentSlideSpan.textContent = n + 1;
+            
+            prevBtn.disabled = n === 0;
+            nextBtn.disabled = n === totalSlides - 1;
+            
+            slides[n].scrollTop = 0;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
