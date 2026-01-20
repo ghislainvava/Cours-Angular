@@ -409,29 +409,7 @@
                     <li>Cliquer sur "Stop" ⏹️</li>
                     <li>Observer : combien de composants se sont rafraîchis ?</li>
                 </ol>
-                <p><strong>Question :</strong> Est-ce que TOUS les composants devaient se rafraîchir ?</p>
-            </div>
-        </div>
-
-
-        <!-- Slide 4 -->
-        <div class="slide">
-            <h1>⏱️ DevTools Profiler : mesurer les re-renders</h1>
-
-            <div class="info-box">
-                <h3>🎯 Objectif</h3>
-                <p>Identifier <strong>quels composants</strong> sont vérifiés (change detection) lors d’une action utilisateur.</p>
-                <p><strong>Règle :</strong> on <em>mesure</em> avant d’optimiser.</p>
-            </div>
-
-            <div class="highlight">
-                <h3>🧪 Démo (TaskBoard Pro)</h3>
-                <ol>
-                    <li>Ouvrir l’app → DevTools → <strong>Angular</strong> → <strong>Profiler</strong></li>
-                    <li>Cliquer sur <strong>Record</strong> ⏺️</li>
-                    <li>Faire une action : <strong>Ajouter une tâche</strong> (ou <strong>Terminer</strong>)</li>
-                    <li>Cliquer sur <strong>Stop</strong> ⏹️</li>
-                </ol>
+               
             </div>
 
             <div class="success-box">
@@ -441,13 +419,14 @@
                     <li>Quels composants reviennent souvent ? (ex : <code>TasksPage</code>, <code>TaskStats</code>, <code>TaskHighlight</code>)</li>
                     <li>Est-ce logique par rapport à l’action faite ?</li>
                 </ul>
-                <p><strong>Question :</strong> Est-ce que tous ces composants <em>devaient</em> être vérifiés ?</p>
+               
             </div>
-
-           
         </div>
 
-        <!-- Slide 5 -->
+
+    
+
+        <!-- Slide 4 -->
         <div class="slide">
             <h1>🧩 DevTools Components : comprendre l’état et OnPush</h1>
 
@@ -485,7 +464,7 @@
             </div>
         </div>
 
-        <!-- Slide 6 -->
+        <!-- Slide 5 -->
         <div class="slide">
             <h1>🌳 DevTools Injector Tree : comprendre les services et les scopes</h1>
 
@@ -517,7 +496,7 @@
                 <ul>
                     <li>Débugger un état qui « disparaît » : service fourni au mauvais niveau</li>
                     <li>Éviter les <strong>services dupliqués</strong> quand on met <code>providers: [...]</code> dans un composant</li>
-                    <li>Comprendre la différence : <code>providedIn: 'root'</code> vs provider local</li>
+                    
                 </ul>
             </div>
         </div>
@@ -539,18 +518,29 @@
 
 
 
-        <!-- Slide 7 -->
+        <!-- Slide 6 -->
         <div class="slide">
             <h1>💡 Lighthouse (Chrome DevTools)</h1>
             
-            <div class="info-box">
-                <h3>🚀 Lancer un audit Lighthouse</h3>
+             <div class="highlight">
+                <h3>🧪 Étapes pas à pas</h3>
                 <ol>
-                    <li>Ouvrir Chrome DevTools (F12/ Cmd + option + i)</li>
-                    <li>Onglet "Lighthouse"</li>
-                    <li>Cocher "Performance"</li>
-                    <li>Cliquer sur "Analyze page load"</li>
+                    <li>Ouvrir l’application Angular dans <strong>Chrome</strong></li>
+                    <li>Ouvrir les DevTools : <code>F12</code> ou <code>Cmd + Option + I</code></li>
+                    <li>Aller dans l’onglet <strong>Lighthouse</strong></li>
+                    <li>Cocher <strong>Performance</strong> (et laisser les autres options par défaut)</li>
+                    <li>Cliquer sur <strong>Analyze page load</strong></li>
                 </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>📊 Ce que Lighthouse analyse</h3>
+                <ul>
+                    <li>Temps de chargement initial (FCP, LCP)</li>
+                    <li>JavaScript bloquant le thread principal</li>
+                    <li>Poids des bundles et ressources</li>
+                    <li>Stabilité visuelle (CLS)</li>
+                </ul>
             </div>
 
             <div class="success-box">
@@ -591,58 +581,9 @@
             </div>
         </div>
 
-        <!-- Slide : Comment utiliser Lighthouse -->
-        <div class="slide">
-            <h1>🧭 Comment utiliser Lighthouse ?</h1>
+        
 
-            <div class="info-box">
-                <h3>🎯 Objectif</h3>
-                <p>
-                    Utiliser <strong>Lighthouse</strong> pour obtenir un <strong>diagnostic global</strong>
-                    de performance et identifier les <strong>axes d’amélioration prioritaires</strong>.
-                </p>
-            </div>
-
-            <div class="highlight">
-                <h3>🧪 Étapes pas à pas</h3>
-                <ol>
-                    <li>Ouvrir l’application Angular dans <strong>Chrome</strong></li>
-                    <li>Ouvrir les DevTools : <code>F12</code> ou <code>Cmd + Option + I</code></li>
-                    <li>Aller dans l’onglet <strong>Lighthouse</strong></li>
-                    <li>Cocher <strong>Performance</strong> (et laisser les autres options par défaut)</li>
-                    <li>Cliquer sur <strong>Analyze page load</strong></li>
-                </ol>
-            </div>
-
-            <div class="success-box">
-                <h3>📊 Ce que Lighthouse analyse</h3>
-                <ul>
-                    <li>Temps de chargement initial (FCP, LCP)</li>
-                    <li>JavaScript bloquant le thread principal</li>
-                    <li>Poids des bundles et ressources</li>
-                    <li>Stabilité visuelle (CLS)</li>
-                </ul>
-            </div>
-
-            <div class="warning-box">
-                <h3>⚠️ Bonnes pratiques d’interprétation</h3>
-                <ul>
-                    <li>Lighthouse donne une <strong>tendance</strong>, pas une vérité absolue</li>
-                    <li>Toujours comparer <strong>avant / après optimisation</strong></li>
-                    <li>Croiser les résultats avec <strong>Angular DevTools</strong></li>
-                </ul>
-            </div>
-
-            <div class="highlight">
-                <h3>💬 Question à se poser</h3>
-                <p style="font-size: 1.3em; text-align: center;">
-                    <strong>Quel est le problème principal identifié par Lighthouse ?</strong><br>
-                    (JS trop lourd ? rendu lent ? trop de calculs ?)
-                </p>
-            </div>
-        </div>
-
-        <!-- Slide 8 -->
+        <!-- Slide 7 -->
         <div class="slide">
             <h1>📈 Exemple de rapport Lighthouse</h1>
             
@@ -689,6 +630,65 @@
                 </p>
             </div>
         </div>
+
+
+ <!-- Slide 8 : Lighthouse en dev vs production -->
+        <div class="slide">
+            <h1>⚠️ Lighthouse : développement ≠ production</h1>
+
+            <div class="warning-box">
+                <h3>🚧 Attention au contexte d’analyse</h3>
+                <p>
+                    Un score Lighthouse élevé sur <strong>localhost</strong> ne garantit pas
+                    une performance optimale en conditions réelles.
+                </p>
+                <p>
+                    En développement, certaines optimisations navigateur
+                    (<strong>minification, compression, cache</strong>) ne sont pas actives
+                    ou sont simulées.
+                </p>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-before">
+                    <h3>🔧 Audit en développement</h3>
+                    <ul>
+                        <li>Code JavaScript parfois non minifié</li>
+                        <li>Chargement via serveur de dev</li>
+                        <li>Scores parfois trompeurs (trop optimistes ou trop pessimistes)</li>
+                    </ul>
+                    <p><strong>Objectif :</strong> détecter des tendances et des problèmes grossiers</p>
+                </div>
+
+                <div class="comparison-after">
+                    <h3>🚀 Audit en production</h3>
+                    <ul>
+                        <li>JavaScript minifié et optimisé</li>
+                        <li>Tree-shaking et lazy loading effectifs</li>
+                        <li>Résultats représentatifs pour les utilisateurs</li>
+                    </ul>
+                    <p><strong>Objectif :</strong> mesurer la performance réelle</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>🧪 Bonne pratique recommandée</h3>
+                <ol>
+                    <li>Lancer un <code>ng build</code> (ou build production)</li>
+                    <li>Servir le dossier <code>dist/&lt;app&gt;/browser</code></li>
+                    <li>Relancer Lighthouse sur l’application buildée</li>
+                    <li>Comparer <strong>avant / après</strong></li>
+                </ol>
+            </div>
+
+            <div class="success-box">
+                <h3>🎯 Message clé</h3>
+                <p style="font-size: 1.3em; text-align: center;">
+                    <strong>Lighthouse est un outil de mesure : le contexte compte autant que le score.</strong>
+                </p>
+            </div>
+        </div>
+
 
 
 
@@ -953,7 +953,7 @@ export class TaskHighlight {
         </div>
 
 
-<!-- Slide 13 - Quand utiliser OnPush -->
+<!-- Slide 12 - Quand utiliser OnPush -->
         <div class="slide">
             <h1>🤔 Quand utiliser OnPush dans TaskBoard Pro ?</h1>
             
@@ -1040,6 +1040,113 @@ this.tasksSubject.next([...currentTasks, newTask]); // ✅ Nouvelle référence<
             </div>
         </div>
 
+<!-- Slide 13 : Mise à jour de TasksPage -->
+<div class="slide">
+  <h1>♻️ Refactor : TasksPage sans ViewContainerRef</h1>
+
+  <div class="info-box">
+    <h3>🎯 Objectif</h3>
+    <p>
+      Remplacer la création <strong>impérative</strong> de composants
+      (<code>ViewContainerRef</code>) par une approche
+      <strong>déclarative basée sur l’état</strong>,
+      plus simple, plus lisible et plus compatible avec <strong>OnPush</strong>.
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Limite de ViewContainerRef</h3>
+    <ul>
+      <li>Couple la logique métier avec le DOM</li>
+      <li>Rend le flux de données moins lisible</li>
+      <li>Peut poser des problèmes avec <strong>OnPush</strong></li>
+      <li>Difficile à tester et à maintenir</li>
+    </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Principe recommandé</h3>
+    <p>
+      Le composant <strong>ne crée plus</strong> les composants enfants.<br>
+      Il expose uniquement un <strong>état</strong> :
+    </p>
+    <ul>
+      <li><code>highlightedTask</code></li>
+      <li><code>editingTask</code></li>
+    </ul>
+    <p>
+      👉 Le template décide <strong>quoi afficher</strong>.
+    </p>
+  </div>
+
+  <h3>🧩 Exemple : <code>tasks-page.ts</code> (refactor)</h3>
+
+  <pre><code>import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Task, TaskItem } from '../../../core/services/task';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: 'app-tasks-page',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe],
+  templateUrl: './tasks-page.html',
+  styleUrl: './tasks-page.css',
+})
+export class TasksPage {
+
+  private taskService = inject(Task);
+
+  tasks$ = this.taskService.tasks$;
+
+  highlightedTask: TaskItem | null = null;
+  editingTask: TaskItem | null = null;
+
+  addTask(title: string): void {
+    if (title.trim()) {
+      this.taskService.addTask(title);
+    }
+  }
+
+  highlight(task: TaskItem): void {
+    this.highlightedTask = task;
+  }
+
+  editTask(task: TaskItem): void {
+    this.editingTask = task;
+  }
+
+  updateTask(data: { id: number; title: string }): void {
+    this.taskService.updateTask(data.id, data.title);
+    this.editingTask = null;
+  }
+
+  cancelEdit(): void {
+    this.editingTask = null;
+  }
+}</code></pre>
+
+  <div class="highlight">
+    <h3>🧠 Message pédagogique clé</h3>
+    <p style="font-size: 1.3em; text-align: center;">
+      <strong>
+        On a étudié ViewContainerRef pour comprendre le mécanisme bas niveau.<br>
+        En pratique, Angular privilégie une approche déclarative
+        basée sur l’état et le template.
+      </strong>
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🎯 Bénéfices</h3>
+    <ul>
+      <li>✔ Compatible <strong>OnPush</strong></li>
+      <li>✔ Code plus lisible</li>
+      <li>✔ Séparation claire logique / affichage</li>
+      <li>✔ Plus simple à tester</li>
+      <li>✔ Recommandé en production</li>
+    </ul>
+  </div>
+</div>
 
    <!-- Slide 14 -->
 <div class="slide">
@@ -1099,63 +1206,7 @@ this.tasksSubject.next([...currentTasks, newTask]); // ✅ Nouvelle référence<
   </div>
 </div>
 
-  <!-- Slide 15 : Lighthouse en dev vs production -->
-        <div class="slide">
-            <h1>⚠️ Lighthouse : développement ≠ production</h1>
-
-            <div class="warning-box">
-                <h3>🚧 Attention au contexte d’analyse</h3>
-                <p>
-                    Un score Lighthouse élevé sur <strong>localhost</strong> ne garantit pas
-                    une performance optimale en conditions réelles.
-                </p>
-                <p>
-                    En développement, certaines optimisations navigateur
-                    (<strong>minification, compression, cache</strong>) ne sont pas actives
-                    ou sont simulées.
-                </p>
-            </div>
-
-            <div class="comparison">
-                <div class="comparison-before">
-                    <h3>🔧 Audit en développement</h3>
-                    <ul>
-                        <li>Code JavaScript parfois non minifié</li>
-                        <li>Chargement via serveur de dev</li>
-                        <li>Scores parfois trompeurs (trop optimistes ou trop pessimistes)</li>
-                    </ul>
-                    <p><strong>Objectif :</strong> détecter des tendances et des problèmes grossiers</p>
-                </div>
-
-                <div class="comparison-after">
-                    <h3>🚀 Audit en production</h3>
-                    <ul>
-                        <li>JavaScript minifié et optimisé</li>
-                        <li>Tree-shaking et lazy loading effectifs</li>
-                        <li>Résultats représentatifs pour les utilisateurs</li>
-                    </ul>
-                    <p><strong>Objectif :</strong> mesurer la performance réelle</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <h3>🧪 Bonne pratique recommandée</h3>
-                <ol>
-                    <li>Lancer un <code>ng build</code> (ou build production)</li>
-                    <li>Servir le dossier <code>dist/&lt;app&gt;/browser</code></li>
-                    <li>Relancer Lighthouse sur l’application buildée</li>
-                    <li>Comparer <strong>avant / après</strong></li>
-                </ol>
-            </div>
-
-            <div class="success-box">
-                <h3>🎯 Message clé</h3>
-                <p style="font-size: 1.3em; text-align: center;">
-                    <strong>Lighthouse est un outil de mesure : le contexte compte autant que le score.</strong>
-                </p>
-            </div>
-        </div>
-
+ 
         <!-- Slide 16 -->
         <div class="slide">
             <h1>🔒 Sécurité côté front-end</h1>
@@ -1356,17 +1407,7 @@ this.sanitizer.bypassSecurityTrustHtml(html);</code></pre>
 </div>
 
 
-<div class="success-box">
-  <h3>🎯 Règle d’or XSS dans Angular</h3>
 
-  <ul style="font-size: 1.2em;">
-    <li>✅ Utiliser {{ }} par défaut</li>
-    <li>⚠️ Utiliser innerHTML seulement si nécessaire</li>
-    <li>🔐 sanitize() pour contrôler le HTML</li>
-    <li>🚨 bypass uniquement avec justification métier claire</li>
-    <li>🛡️ La validation back-end reste indispensable</li>
-  </ul>
-</div>
     </div>
 
 
@@ -1445,7 +1486,7 @@ this.sanitizer.bypassSecurityTrustHtml(html);</code></pre>
   </div>
 
   <div class="highlight">
-    <h3>🎬 Exemple concret (le plus simple à comprendre)</h3>
+    <h3>🎬 Exemple concret </h3>
     <ol>
       <li>Vous êtes connecté sur <strong>taskboard.com</strong> (cookie de session actif)</li>
       <li>Vous cliquez un lien reçu (mail / site) → <strong>site-malveillant.com</strong></li>

@@ -342,7 +342,7 @@
   </div>
 </div>
 
-  <!-- Slide 1 — Du développement à la production -->
+  <!-- Slide 2 — Du développement à la production -->
 <div class="slide">
   <h1>🚀 Du développement à la production</h1>
 
@@ -383,7 +383,7 @@
 </div>
 
 
-<!-- Slide 2 — Le mode développement : ng serve -->
+<!-- Slide 3 — Le mode développement : ng serve -->
 <div class="slide">
   <h1>🧪 Le mode développement : <code>ng serve</code></h1>
 
@@ -428,7 +428,7 @@
   </div>
 </div>
 
-<!-- Slide 3 — Les illusions du mode développement -->
+<!-- Slide 4 — Les illusions du mode développement -->
 <div class="slide">
   <h1>🪄 Les illusions du mode développement</h1>
 
@@ -473,7 +473,7 @@
   </div>
 </div>
   
-<!-- Slide 4 — Passer en mode production -->
+<!-- Slide 5 — Passer en mode production -->
 <div class="slide">
   <h1>🏗️ Passer en mode production</h1>
 
@@ -518,7 +518,7 @@
 </div>
 
 
-<!-- Slide 5 — Le dossier dist/ : ce que génère Angular -->
+<!-- Slide 6 — Le dossier dist/ : ce que génère Angular -->
 <div class="slide">
   <h1>📦 Le dossier <code>dist/</code> : le “vrai” résultat</h1>
 
@@ -562,48 +562,7 @@
   
 </div>
 
-<!-- Slide 6 — En production, Angular “disparaît” -->
-<div class="slide">
-  <h1>👻 En production, Angular “disparaît”</h1>
 
-  <div class="info-box">
-    <h3>🔎 Ce que voit réellement le navigateur</h3>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Une fois l’application buildée et déployée, le navigateur
-      <strong>n’exécute pas Angular</strong> en tant que framework.
-    </p>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Il exécute simplement du <strong>JavaScript compilé</strong>.
-    </p>
-  </div>
-
-  <div class="success-box">
-    <h3>✅ Ce qui reste en production</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>📄 HTML statique (<code>index.html</code>)</li>
-      <li>🎨 CSS compilé</li>
-      <li>📦 JavaScript minifié (bundles)</li>
-    </ul>
-  </div>
-
-  <div class="warning-box">
-    <h3>❌ Ce qui n’existe plus</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>❌ Composants Angular “en tant que tels”</li>
-      <li>❌ Services Angular visibles</li>
-      <li>❌ TypeScript</li>
-      <li>❌ Angular CLI</li>
-    </ul>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.3em; margin: 0;">
-      Pour le navigateur, Angular est juste
-      <strong>du JavaScript optimisé</strong>.
-    </p>
-  </div>
-</div>
 
 <!-- Slide 7 — Tester une version de production localement -->
 <div class="slide">
@@ -1485,59 +1444,11 @@ jobs:
   </div>
 </div>
 
-<!-- PARTIE 2 — Slide suivant : HashRouting vs PathLocationStrategy (choix et conséquences) -->
-<div class="slide">
-  <h1>🧭 HashRouting vs URL “propres”</h1>
 
-  <div class="info-box">
-    <h3>🎯 Le choix à faire</h3>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Sur un hébergement statique (GitHub Pages), on choisit souvent <strong>HashRouting</strong>
-      pour éviter les 404 au refresh. Mais ce choix a un impact sur les URLs.
-    </p>
-  </div>
-
-  <div class="comparison">
-    <div class="comparison-before">
-      <h3>✅ HashRouting (recommandé sur Pages)</h3>
-      <pre><code>https://site/#/tasks</code></pre>
-      <ul style="font-size: 1.1em; line-height: 1.8;">
-        <li>✅ Refresh OK</li>
-        <li>✅ Lien direct OK</li>
-        <li>✅ Pas besoin de config serveur</li>
-        <li>⚠️ URLs moins “propres”</li>
-      </ul>
-    </div>
-
-    <div class="comparison-after">
-      <h3>🌐 URLs “propres” (sans #)</h3>
-      <pre><code>https://site/tasks</code></pre>
-      <ul style="font-size: 1.1em; line-height: 1.8;">
-        <li>✅ URLs plus jolies</li>
-        <li>⚠️ Refresh casse (404) si le serveur ne redirige pas vers <code>index.html</code></li>
-        <li>⚠️ Nécessite un serveur configurable (Netlify, Firebase, Nginx…)</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="success-box">
-    <h3>🛠️ Rappel : activer HashRouting</h3>
-    <pre><code>// app.config.ts
-provideRouter(routes, withHashLocation())</code></pre>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
-      <strong>GitHub Pages = statique</strong> → HashRouting = solution simple.<br>
-      Pour des URLs “propres”, il faut un hébergeur qui supporte le fallback <code>index.html</code>.
-    </p>
-  </div>
-</div>
 
 <!-- PARTIE 2 — Slide suivant : Le 3e piège GitHub Pages (assets / chemins relatifs) -->
 <div class="slide">
-  <h1>🧩 3e piège : assets & chemins relatifs</h1>
+  <h1>🧩 le piège : assets & chemins relatifs</h1>
 
   <div class="warning-box">
     <h3>⚠️ Symptôme</h3>
@@ -1586,7 +1497,7 @@ provideRouter(routes, withHashLocation())</code></pre>
 
 <!-- PARTIE 2 — Slide suivant : Mini atelier (déploiement GitHub Pages en 10 minutes) -->
 <div class="slide">
-  <h1>🧪 Mini-atelier : déployer en 10 minutes</h1>
+  <h1>🧪 Atelier : déployer Taskboard pro</h1>
 
   <div class="info-box">
     <h3>🎯 Objectif</h3>
@@ -1999,60 +1910,61 @@ styles-5INURTSO.css</code></pre>
   </div>
 </div>
 
-<!-- PARTIE 3 — Slide suivant : Pourquoi GitHub Pages ne peut PAS faire du SSR -->
 <div class="slide">
-  <h1>🚫 Pourquoi GitHub Pages ne peut pas faire du SSR</h1>
+  <h1>🧩 Mettre en place le SSR avec Angular</h1>
 
   <div class="info-box">
-    <h3>📄 Rappel : ce qu’est GitHub Pages</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>Hébergement <strong>100 % statique</strong></li>
-      <li>Il sert uniquement des fichiers (HTML, JS, CSS)</li>
-      <li>❌ Aucun code serveur exécuté</li>
-      <li>❌ Aucun processus Node actif</li>
+    <h3>🎯 Objectif</h3>
+    <p>
+      Comprendre <strong>comment Angular active le SSR</strong>,
+      sans entrer dans tous les détails serveur.
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>🛠️ Étape 1 : Ajouter le SSR au projet</h3>
+    <pre><code>ng add @angular/ssr</code></pre>
+    <p>
+      Angular configure automatiquement :
+      <ul>
+        <li>le rendu serveur</li>
+        <li>un serveur Node</li>
+        <li>les fichiers nécessaires</li>
+      </ul>
+    </p>
+  </div>
+
+  <div class="info-box">
+    <h3>📦 Étape 2 : Deux builds sont générés</h3>
+    <ul>
+      <li><strong>browser</strong> → JavaScript / CSS pour le navigateur</li>
+      <li><strong>server</strong> → code Node pour rendre le HTML</li>
     </ul>
+  </div>
+
+  <div class="success-box">
+    <h3>🚀 Étape 3 : Lancer le serveur SSR</h3>
+    <pre><code>npm run serve:ssr</code></pre>
+    <p>
+      Le serveur :
+      <ul>
+        <li>génère le HTML côté serveur</li>
+        <li>envoie une page déjà remplie</li>
+        <li>puis Angular s’hydrate côté client</li>
+      </ul>
+    </p>
   </div>
 
   <div class="warning-box">
-    <h3>❌ Ce que le SSR exige</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>Un <strong>serveur Node</strong> en fonctionnement</li>
-      <li>L’exécution d’Angular côté serveur</li>
-      <li>La génération du HTML à chaque requête</li>
-      <li>Un point d’entrée serveur (Express, Fastify…)</li>
+    <h3>⚠️ À retenir</h3>
+    <ul>
+      <li>SSR ≠ site statique</li>
+      <li>SSR nécessite un serveur Node</li>
+      <li>GitHub Pages ne supporte PAS le SSR</li>
     </ul>
   </div>
-
-  <div class="comparison">
-    <div class="comparison-before">
-      <h3>🌐 GitHub Pages</h3>
-      <ul style="font-size: 1.15em; line-height: 1.9;">
-        <li>HTML déjà généré</li>
-        <li>Pas de logique serveur</li>
-        <li>Idéal pour SPA statiques</li>
-        <li>Coût = 0 €</li>
-      </ul>
-    </div>
-
-    <div class="comparison-after">
-      <h3>🖥️ SSR Angular</h3>
-      <ul style="font-size: 1.15em; line-height: 1.9;">
-        <li>HTML généré à la demande</li>
-        <li>Serveur Node requis</li>
-        <li>Architecture plus lourde</li>
-        <li>Coût + maintenance</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
-      GitHub Pages est parfait pour le <strong>déploiement SPA</strong>.<br>
-      Le SSR nécessite un <strong>vrai serveur</strong> → ce n’est pas le même usage.
-    </p>
-  </div>
 </div>
+
 
 <div class="slide">
   <h1>📄 Prerender Angular (SSG)</h1>
