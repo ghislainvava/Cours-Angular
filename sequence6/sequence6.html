@@ -1823,62 +1823,7 @@ styles-5INURTSO.css</code></pre>
   </div>
 </div>
 
-<!-- PARTIE 3 — Slide suivant : Ce que le SSR change vraiment -->
-<div class="slide">
-  <h1>🧩 Ce que le SSR change vraiment</h1>
 
-  <div class="info-box">
-    <h3>🔎 Concrètement, qu’est-ce qui change ?</h3>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Sans SSR, le serveur renvoie surtout <code>index.html</code> (presque vide),
-      puis Angular construit la page dans le navigateur.
-      <br>
-      Avec SSR, le serveur renvoie <strong>déjà du HTML rempli</strong>.
-    </p>
-  </div>
-
-  <div class="comparison">
-    <div class="comparison-before">
-      <h3>🧱 SPA “classique” (sans SSR)</h3>
-      <ul style="font-size: 1.15em; line-height: 1.9;">
-        <li>Le serveur renvoie <code>index.html</code></li>
-        <li>Le navigateur télécharge les bundles JS</li>
-        <li>Angular démarre et génère l’UI</li>
-        <li>Le contenu arrive “après”</li>
-        <li>SEO / partage parfois limités</li>
-      </ul>
-    </div>
-
-    <div class="comparison-after">
-      <h3>🚀 SSR (Angular Universal)</h3>
-      <ul style="font-size: 1.15em; line-height: 1.9;">
-        <li>Le serveur exécute Angular côté serveur</li>
-        <li>Il génère du <strong>HTML complet</strong></li>
-        <li>Le navigateur affiche immédiatement</li>
-        <li>Angular “reprend” ensuite (hydration)</li>
-        <li>SEO / partage améliorés</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="warning-box">
-    <h3>⚠️ Ce que ça implique (le prix à payer)</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>📌 Il faut un <strong>serveur Node</strong> (ce n’est plus “100% statique”)</li>
-      <li>💸 Plus de ressources serveur (CPU / RAM)</li>
-      <li>🧪 Plus de complexité (build, déploiement, logs)</li>
-      <li>⚠️ Certaines API navigateur ne sont pas disponibles côté serveur</li>
-    </ul>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
-      SSR = meilleur <strong>premier rendu</strong> ✅<br>
-      mais demande un <strong>serveur</strong> et une <strong>architecture</strong> plus solide ⚙️
-    </p>
-  </div>
-</div>
 
 <!-- Slide : Mettre en place le SSR avec Angular -->
 <div class="slide">
