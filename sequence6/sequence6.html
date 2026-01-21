@@ -1731,37 +1731,7 @@ styles-5INURTSO.css</code></pre>
   </div>
 </div>
 
-<!-- PARTIE 3 — Slide suivant : Pourquoi le SSR devient nécessaire -->
-<div class="slide">
-  <h1>🔍 Limites d’une SPA “classique”</h1>
 
-  <div class="info-box">
-    <h3>🧠 Rappel : comment une SPA Angular se charge</h3>
-    <ol style="font-size: 1.15em; line-height: 1.9;">
-      <li>Le navigateur charge <code>index.html</code></li>
-      <li>Il télécharge le JavaScript (<code>main.js</code>, chunks…)</li>
-      <li>Angular démarre dans le navigateur</li>
-      <li>Le contenu réel s’affiche ensuite</li>
-    </ol>
-  </div>
-
-  <div class="warning-box">
-    <h3>⚠️ Problèmes induits</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>⏳ Premier affichage parfois lent</li>
-      <li>🤖 SEO limité (robots voient peu de contenu initial)</li>
-      <li>📎 Mauvais aperçu lors du partage (Open Graph)</li>
-      <li>📱 Perception “page blanche” au chargement</li>
-    </ul>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Question clé</h3>
-    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
-      Et si le serveur envoyait déjà <strong>une page HTML remplie</strong> ?
-    </p>
-  </div>
-</div>
 
 <!-- PARTIE 3 — Slide suivant : Qu’est-ce que le SSR (Angular Universal) -->
 <div class="slide">
@@ -1910,165 +1880,75 @@ styles-5INURTSO.css</code></pre>
   </div>
 </div>
 
+<!-- Slide : Mettre en place le SSR avec Angular -->
 <div class="slide">
   <h1>🧩 Mettre en place le SSR avec Angular</h1>
 
   <div class="info-box">
-    <h3>🎯 Objectif</h3>
-    <p>
-      Comprendre <strong>comment Angular active le SSR</strong>,
-      sans entrer dans tous les détails serveur.
+    <h3>🎯 Idée clé à retenir</h3>
+    <p style="font-size: 1.25em; line-height: 1.8;">
+      <strong>Le SSR ne remplace pas le build de production.</strong><br>
+      Il <strong>ajoute une partie serveur</strong> à l’architecture Angular.
     </p>
   </div>
 
   <div class="success-box">
-    <h3>🛠️ Étape 1 : Ajouter le SSR au projet</h3>
-    <pre><code>ng add @angular/ssr</code></pre>
+    <h3>1️⃣ Build navigateur (obligatoire)</h3>
     <p>
-      Angular configure automatiquement :
-      <ul>
-        <li>le rendu serveur</li>
-        <li>un serveur Node</li>
-        <li>les fichiers nécessaires</li>
-      </ul>
+      Génère les fichiers optimisés pour le navigateur (JS, CSS, assets).
+    </p>
+    <pre><code>ng build --configuration production</code></pre>
+    <p>
+      ➜ Identique à une SPA classique<br>
+      ➜ Indispensable même avec SSR
+    </p>
+  </div>
+
+  <div class="success-box">
+    <h3>2️⃣ Build serveur (spécifique au SSR)</h3>
+    <p>
+      Génère le code Node.js capable de rendre le HTML côté serveur.
+    </p>
+    <pre><code>ng build server</code></pre>
+    <p>
+      ➜ Utilisé uniquement par le serveur SSR<br>
+      ➜ Ne remplace pas le build navigateur
     </p>
   </div>
 
   <div class="info-box">
-    <h3>📦 Étape 2 : Deux builds sont générés</h3>
-    <ul>
-      <li><strong>browser</strong> → JavaScript / CSS pour le navigateur</li>
-      <li><strong>server</strong> → code Node pour rendre le HTML</li>
-    </ul>
-  </div>
-
-  <div class="success-box">
-    <h3>🚀 Étape 3 : Lancer le serveur SSR</h3>
+    <h3>3️⃣ Lancer le serveur SSR</h3>
+    <p>
+      Démarre un serveur Node qui combine les deux builds.
+    </p>
     <pre><code>npm run serve:ssr</code></pre>
     <p>
-      Le serveur :
-      <ul>
-        <li>génère le HTML côté serveur</li>
-        <li>envoie une page déjà remplie</li>
-        <li>puis Angular s’hydrate côté client</li>
-      </ul>
+      ➜ Le serveur génère une page HTML complète<br>
+      ➜ Le navigateur hydrate ensuite l’application Angular
     </p>
   </div>
 
   <div class="warning-box">
-    <h3>⚠️ À retenir</h3>
-    <ul>
-      <li>SSR ≠ site statique</li>
-      <li>SSR nécessite un serveur Node</li>
-      <li>GitHub Pages ne supporte PAS le SSR</li>
-    </ul>
-  </div>
-</div>
-
-
-<div class="slide">
-  <h1>📄 Prerender Angular (SSG)</h1>
-
-  <div class="info-box">
-    <h3>🤔 Qu’est-ce que le Prerender ?</h3>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Le <strong>Prerender</strong> consiste à générer
-      <strong>des pages HTML complètes au moment du build</strong>,
-      avant le déploiement.
-    </p>
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      👉 Contrairement au SSR, il n’y a
-      <strong>aucun rendu à la demande côté serveur</strong>.
-    </p>
-  </div>
-
-  <div class="comparison">
-    <div class="comparison-before">
-      <h3>🧱 SPA classique</h3>
-      <ul>
-        <li>HTML presque vide</li>
-        <li>JS chargé puis rendu</li>
-        <li>SEO limité</li>
-      </ul>
-    </div>
-
-    <div class="comparison-after">
-      <h3>📄 SPA + Prerender</h3>
-      <ul>
-        <li>HTML déjà rempli</li>
-        <li>Chargement plus rapide</li>
-        <li>SEO et partage améliorés</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="success-box">
-    <h3>✅ Avantages</h3>
-    <ul>
-      <li>Compatible hébergement <strong>100 % statique</strong></li>
-      <li>Aucun serveur Node en production</li>
-      <li>Très bon pour pages publiques, marketing, docs</li>
-      <li>Coût et complexité faibles</li>
-    </ul>
-  </div>
-
-  <div class="warning-box">
-    <h3>⚠️ Limites</h3>
-    <ul>
-      <li>Contenu généré à l’avance</li>
-      <li>Pas adapté au contenu très dynamique</li>
-      <li>Pas de rendu personnalisé par utilisateur</li>
+    <h3>⚠️ Attention</h3>
+    <ul style="font-size: 1.15em; line-height: 1.8;">
+      <li>Le SSR nécessite <strong>un serveur Node.js</strong></li>
+      <li><strong>Impossible sur GitHub Pages</strong> (hébergement statique)</li>
+      <li>Adapté aux projets avec enjeux SEO ou performance initiale</li>
     </ul>
   </div>
 
   <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.25em; margin: 0;">
-      Prerender = <strong>meilleur HTML sans serveur</strong><br>
-      SSR = <strong>HTML dynamique avec serveur</strong>
+    <h3>📌 Résumé</h3>
+    <p style="font-size: 1.3em; line-height: 1.7; margin: 0;">
+      SPA classique → <strong>un seul build</strong><br>
+      Angular avec SSR → <strong>un build navigateur + un build serveur</strong>
     </p>
   </div>
 </div>
 
-<!-- PARTIE 3 — Slide suivant : SSR en théorie (comment on le met en place) -->
-<div class="slide">
-  <h1>🧪 SSR en théorie : comment ça se met en place ?</h1>
 
-  <div class="info-box">
-    
-    <p style="font-size: 1.2em; line-height: 1.8;">
-      Le SSR consiste à <strong>rendre une première version HTML côté serveur</strong>,
-      puis Angular reprend la main côté navigateur (<strong>hydration</strong>).
-    </p>
-  </div>
 
-  <div class="success-box">
-    <h3>🧩 Ce qu’il faut pour faire du SSR</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>✅ Un <strong>serveur Node</strong> (Express, Fastify…)</li>
-      <li>✅ Un build “browser” (JS pour le navigateur)</li>
-      <li>✅ Un build “server” (rendu côté serveur)</li>
-      <li>✅ Un hébergeur capable d’exécuter Node (VPS, Render, Fly.io, etc.)</li>
-    </ul>
-  </div>
 
-  <div class="warning-box">
-    <h3>⚠️ Ce que ça change dans le projet</h3>
-    <ul style="font-size: 1.15em; line-height: 1.9;">
-      <li>Le serveur <strong>répond à toutes les routes</strong> (pas seulement des fichiers)</li>
-      <li>On fait attention aux API navigateur (<code>window</code>, <code>document</code>) côté serveur</li>
-      <li>Déploiement plus complexe qu’une SPA statique</li>
-    </ul>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Message clé</h3>
-    <p style="font-size: 1.25em; margin: 0; line-height: 1.7;">
-      SSR = <strong>Angular côté serveur + Angular côté navigateur</strong>.<br>
-      Donc il faut un hébergement qui sait exécuter Node.
-    </p>
-  </div>
-</div>
 
 <!-- PARTIE 3 — Slide suivant : Les commandes (conceptuellement) -->
 <div class="slide">
@@ -2210,6 +2090,71 @@ node dist/nom-du-projet/server/server.mjs</code></pre>
     </p>
   </div>
 </div>
+
+<div class="slide">
+  <h1>📄 Prerender Angular (SSG)</h1>
+
+  <div class="info-box">
+    <h3>🤔 Qu’est-ce que le Prerender ?</h3>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      Le <strong>Prerender</strong> consiste à générer
+      <strong>des pages HTML complètes au moment du build</strong>,
+      avant le déploiement.
+    </p>
+    <p style="font-size: 1.2em; line-height: 1.8;">
+      👉 Contrairement au SSR, il n’y a
+      <strong>aucun rendu à la demande côté serveur</strong>.
+    </p>
+  </div>
+
+  <div class="comparison">
+    <div class="comparison-before">
+      <h3>🧱 SPA classique</h3>
+      <ul>
+        <li>HTML presque vide</li>
+        <li>JS chargé puis rendu</li>
+        <li>SEO limité</li>
+      </ul>
+    </div>
+
+    <div class="comparison-after">
+      <h3>📄 SPA + Prerender</h3>
+      <ul>
+        <li>HTML déjà rempli</li>
+        <li>Chargement plus rapide</li>
+        <li>SEO et partage améliorés</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <h3>✅ Avantages</h3>
+    <ul>
+      <li>Compatible hébergement <strong>100 % statique</strong></li>
+      <li>Aucun serveur Node en production</li>
+      <li>Très bon pour pages publiques, marketing, docs</li>
+      <li>Coût et complexité faibles</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <h3>⚠️ Limites</h3>
+    <ul>
+      <li>Contenu généré à l’avance</li>
+      <li>Pas adapté au contenu très dynamique</li>
+      <li>Pas de rendu personnalisé par utilisateur</li>
+    </ul>
+  </div>
+
+  <div class="highlight">
+    <h3>📌 Message clé</h3>
+    <p style="font-size: 1.25em; margin: 0;">
+      Prerender = <strong>meilleur HTML sans serveur</strong><br>
+      SSR = <strong>HTML dynamique avec serveur</strong>
+    </p>
+  </div>
+</div>
+
 
 <div class="slide">
   <h1>📄 Prerender : du HTML… sans serveur</h1>
