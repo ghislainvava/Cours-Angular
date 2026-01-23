@@ -1825,71 +1825,7 @@ styles-5INURTSO.css</code></pre>
 
 
 
-<!-- Slide : Mettre en place le SSR avec Angular -->
-<div class="slide">
-  <h1>🧩 Mettre en place le SSR avec Angular</h1>
 
-  <div class="info-box">
-    <h3>🎯 Idée clé à retenir</h3>
-    <p style="font-size: 1.25em; line-height: 1.8;">
-      <strong>Le SSR ne remplace pas le build de production.</strong><br>
-      Il <strong>ajoute une partie serveur</strong> à l’architecture Angular.
-    </p>
-  </div>
-
-  <div class="success-box">
-    <h3>1️⃣ Build navigateur (obligatoire)</h3>
-    <p>
-      Génère les fichiers optimisés pour le navigateur (JS, CSS, assets).
-    </p>
-    <pre><code>ng build --configuration production</code></pre>
-    <p>
-      ➜ Identique à une SPA classique<br>
-      ➜ Indispensable même avec SSR
-    </p>
-  </div>
-
-  <div class="success-box">
-    <h3>2️⃣ Build serveur (spécifique au SSR)</h3>
-    <p>
-      Génère le code Node.js capable de rendre le HTML côté serveur.
-    </p>
-    <pre><code>ng build server</code></pre>
-    <p>
-      ➜ Utilisé uniquement par le serveur SSR<br>
-      ➜ Ne remplace pas le build navigateur
-    </p>
-  </div>
-
-  <div class="info-box">
-    <h3>3️⃣ Lancer le serveur SSR</h3>
-    <p>
-      Démarre un serveur Node qui combine les deux builds.
-    </p>
-    <pre><code>npm run serve:ssr</code></pre>
-    <p>
-      ➜ Le serveur génère une page HTML complète<br>
-      ➜ Le navigateur hydrate ensuite l’application Angular
-    </p>
-  </div>
-
-  <div class="warning-box">
-    <h3>⚠️ Attention</h3>
-    <ul style="font-size: 1.15em; line-height: 1.8;">
-      <li>Le SSR nécessite <strong>un serveur Node.js</strong></li>
-      <li><strong>Impossible sur GitHub Pages</strong> (hébergement statique)</li>
-      <li>Adapté aux projets avec enjeux SEO ou performance initiale</li>
-    </ul>
-  </div>
-
-  <div class="highlight">
-    <h3>📌 Résumé</h3>
-    <p style="font-size: 1.3em; line-height: 1.7; margin: 0;">
-      SPA classique → <strong>un seul build</strong><br>
-      Angular avec SSR → <strong>un build navigateur + un build serveur</strong>
-    </p>
-  </div>
-</div>
 
 
 
